@@ -18,5 +18,19 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  // your solution goes here
+    if (typeof bytes !== 'number' || bytes < 0 || isNaN(bytes)) {
+        return false;
+    }
+
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    let i = 0;
+    let value = bytes;
+
+    while (value >= 1024 && i < sizes.length - 1) {
+        value /= 1024;
+        i++;
+    }
+
+    return parseFloat(value.toFixed(2)) + ' ' + sizes[i];
 }
