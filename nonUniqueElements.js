@@ -25,5 +25,14 @@ nonUniqueElements([10, 9, 10, 10, 9, 8]) == [10, 9, 10, 10, 9]
  */
 
 export default function nonUniqueElements(data) {
-  return data.filter((item, index, self) => self.indexOf(item) !== self.lastIndexOf(item))
+  const frequency = new Map();
+  data.forEach(num => {
+    if (frequency.has(num)) {
+      frequency.set(num, frequency.get(num) + 1);
+    } else {
+      frequency.set(num, 1);
+    }
+  });
+
+  return data.filter(num => frequency.get(num) > 1);
 }
