@@ -22,7 +22,7 @@ body {
     width: 100%;
     display: inline-block;
     border: 1px solid rgba(25, 25, 25, 0.32);
-    padding-bottom: 30px;
+    padding-bottom: 60px;
 }
 
 .messages {
@@ -38,17 +38,28 @@ body {
     padding: 4px;
 }
 
-.input-container {
+.message-input-container {
     width: 100%;
     position: fixed;
     bottom: 0;
+}
+
+.name-input-container {
+    width: 100%;
+    position: fixed;
+    bottom: 42px;
 }
 
 input[type=submit] {
     visibility: collapse;
 }
 
-input {
+.message-input {
     width: calc(100% - 2px);
     padding: 10px;
+}
+
+.name-input {
+    width: calc(100% - 2px);
+    padding: 5px;
 }

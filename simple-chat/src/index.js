@@ -1,5 +1,6 @@
 const form = document.querySelector('form');
-const input = document.querySelector('.form-input');
+const messageInput = document.querySelector('.message-input');
+const nameInput = document.querySelector('.name-input');
 const messagesContainer = document.querySelector('.messages');
 
 form.addEventListener('submit', handleSubmit);
@@ -9,11 +10,13 @@ loadMessages();
 
 function handleSubmit(event) {
     event.preventDefault();
-    const message = input.value.trim();
-    if (message) {
-        saveMessage(message);
+    const text = messageInput.value.trim();
+    const sender = nameInput.value.trim() || 'Anonymous';
+    if (text) {
+        saveMessage(text, sender);
         loadMessages();
-        input.value = '';
+        messageInput.value = '';
+        nameInput.value = '';
     }
 }
 
@@ -26,16 +29,17 @@ function handleKeyPress(event) {
 function loadMessages() {
     const messages = JSON.parse(localStorage.getItem('messages')) || [];
     messagesContainer.innerHTML = '';
-    messages.forEach(message => {
+    messages.forEach(({ text, sender, time }) => {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message');
-        messageDiv.innerText = message;
+        messageDiv.innerHTML = `<strong>${sender}</strong> <em>${time}</em><br>${text}`;
         messagesContainer.appendChild(messageDiv);
     });
 }
 
-function saveMessage(message) {
+function saveMessage(text, sender) {
     const messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push(message);
+    const time = new Date().toLocaleString();
+    messages.push({ text, sender, time });
     localStorage.setItem('messages', JSON.stringify(messages));
 }
