@@ -22,6 +22,12 @@ body {
     width: 100%;
     display: inline-block;
     border: 1px solid rgba(25, 25, 25, 0.32);
+    padding-bottom: 30px;
+}
+
+.messages {
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 .message {
@@ -32,12 +38,17 @@ body {
     padding: 4px;
 }
 
+.input-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
 input[type=submit] {
     visibility: collapse;
 }
 
 input {
-    border: 0;
-    outline: none;
     width: calc(100% - 2px);
+    padding: 10px;
 }
