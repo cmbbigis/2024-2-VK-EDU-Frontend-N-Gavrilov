@@ -1,0 +1,68 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background-color: #fff;
+    color: #333;
+    font-size: 15px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.form {
+    width: 100%;
+    min-height: 100vh;
+    display: inline-block;
+    padding-bottom: 60px;
+}
+
+.messages {
+    display: flex;
+    justify-content: right;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+
+.message {
+    color: red;
+    border: 1px solid;
+    border-radius: 4px;
+    margin: 4px 0;
+    padding: 4px;
+}
+
+.message-input-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.name-input-container {
+    width: 100%;
+    position: fixed;
+    bottom: 42px;
+}
+
+input[type=submit] {
+    visibility: collapse;
+}
+
+.message-input {
+    width: calc(100% - 2px);
+    padding: 10px;
+}
+
+.name-input {
+    width: calc(100% - 2px);
+    padding: 5px;
+}
+
