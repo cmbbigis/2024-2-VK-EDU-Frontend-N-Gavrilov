@@ -1,0 +1,46 @@
+.chat {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-info {
+    flex-grow: 1;
+}
+
+.chat-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.chat-last-message {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.chat-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.last-message-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.chat-status {
+    font-size: 16px;
+    color: green;
+}
