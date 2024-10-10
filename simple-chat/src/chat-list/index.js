@@ -1,4 +1,4 @@
-import { createChatListHeader } from '../components/chat-list/chatListHeader.js';
+import { createChatListHeader } from '../components/chat-list/header.js';
 import { createChatList } from '../components/chat-list/chatList.js';
 import { createChat } from '../components/chat-list/chat.js';
 import { createCreateChatButton } from '../components/chat-list/createChatButton.js';

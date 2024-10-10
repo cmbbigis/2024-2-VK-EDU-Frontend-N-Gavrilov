@@ -1,4 +1,4 @@
-import { createChatHeader } from '../components/chat/chatHeader.js';
+import { createChatHeader } from '../components/chat/header.js';
 import { createChatScreen } from '../components/chat/chatScreen.js';
 
 document.addEventListener('DOMContentLoaded', () => {
