@@ -1,0 +1,25 @@
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    background-color: purple;
+    color: white;
+    padding: 10px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.material-symbols-outlined {
+    margin-right: 10px;
+    margin-left: 10px;
+}
