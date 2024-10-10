@@ -1,4 +1,4 @@
-export function createChatScreen() {
+export function createChatScreen(chatId) {
     const chatScreen = document.createElement('div');
     chatScreen.className = 'chat-screen';
 

@@ -3,9 +3,11 @@ import { createChatScreen } from '../components/chat/chatScreen.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
+    const params = new URLSearchParams(window.location.search);
+    const chatId = +params.get('id');
 
-    const chatHeader = createChatHeader();
-    const chatScreen = createChatScreen();
+    const chatHeader = createChatHeader(chatId);
+    const chatScreen = createChatScreen(chatId);
 
     app.appendChild(chatHeader);
     app.appendChild(chatScreen);
