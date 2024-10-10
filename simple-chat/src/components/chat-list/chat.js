@@ -1,8 +1,8 @@
-export function createChat(interlocutor, avatarFile) {
+export function createChat(chatId, interlocutor, avatarFile) {
     const chat = document.createElement('div');
     chat.className = 'chat';
     chat.addEventListener('click', () => {
-        window.location.href = `../chat/index.html?id=${chat.id}`;
+        window.location.href = `../chat/index.html?id=${chatId}`;
     });
 
     const avatar = document.createElement('img');

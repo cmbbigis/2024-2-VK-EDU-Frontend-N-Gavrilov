@@ -79,7 +79,7 @@ export function loadChats(container) {
     const chats = JSON.parse(localStorage.getItem('chats')) || [];
     container.innerHTML = '';
     chats.forEach(({ id, interlocutor, avatar }) => {
-        const chat = createChat(interlocutor, avatar);
+        const chat = createChat(id, interlocutor, avatar);
         container.appendChild(chat);
     });
     container.scrollTop = container.scrollHeight;

@@ -23,7 +23,7 @@ export function createChatScreen(chatId) {
 
     form.addEventListener('submit', handleSubmit);
 
-    loadMessages(messagesContainer);
+    loadMessages(chatId, messagesContainer);
 
     chatScreen.appendChild(messagesContainer);
     chatScreen.appendChild(form);
@@ -35,16 +35,17 @@ export function createChatScreen(chatId) {
         const text = messageInput.value.trim();
         const sender = 'Я';
         if (text) {
-            saveMessage(text, sender);
-            loadMessages(messagesContainer);
+            saveMessage(chatId, text, sender);
+            loadMessages(chatId, messagesContainer);
             messageInput.value = '';
         }
     }
 
-    function loadMessages(container) {
+    function loadMessages(chatId, container) {
         const messages = JSON.parse(localStorage.getItem('messages')) || [];
+        const filteredMessages = messages.filter(message => message.chatId === chatId) || [];
         container.innerHTML = '';
-        messages.forEach(({ text, sender, time }) => {
+        filteredMessages.forEach(({ text, sender, time }) => {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
             messageDiv.innerHTML = `<strong>${sender}</strong> (<em>${time}</em>):<br>${text}`;
@@ -53,10 +54,10 @@ export function createChatScreen(chatId) {
         container.scrollTop = container.scrollHeight;
     }
 
-    function saveMessage(text, sender) {
+    function saveMessage(chatId, text, sender) {
         const messages = JSON.parse(localStorage.getItem('messages')) || [];
         const time = new Date().toLocaleString();
-        messages.push({ text, sender, time });
+        messages.push({ chatId, text, sender, time });
         localStorage.setItem('messages', JSON.stringify(messages));
     }
 }
