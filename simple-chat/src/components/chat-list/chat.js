@@ -10,6 +10,8 @@ export function createChat(chatId, interlocutor, avatarFile) {
     avatar.alt = 'Avatar';
     avatar.src = avatarFile
 
+    const lastMessage = gelLastMessage(chatId) || {text: '', time: ''};
+
     const chatInfo = document.createElement('div');
     chatInfo.className = 'chat-info';
     const chatTitle = document.createElement('h2');
@@ -17,13 +19,13 @@ export function createChat(chatId, interlocutor, avatarFile) {
     chatTitle.innerText = interlocutor;
     const chatLastMessage = document.createElement('p');
     chatLastMessage.className = 'chat-last-message';
-    chatLastMessage.innerText = 'Ты куда пропал?';
+    chatLastMessage.innerText = lastMessage.text;
 
     const chatMeta = document.createElement('div');
     chatMeta.className = 'chat-meta';
     const lastMessageTime = document.createElement('span');
     lastMessageTime.className = 'last-message-time';
-    lastMessageTime.innerText = '15:52';
+    lastMessageTime.innerText = lastMessage.time;
     const status = document.createElement('span');
     status.className = 'material-symbols-outlined';
     status.innerText = 'done_all';
@@ -39,4 +41,10 @@ export function createChat(chatId, interlocutor, avatarFile) {
     chat.appendChild(chatMeta);
 
     return chat;
+
+    function gelLastMessage(chatId) {
+        const messages = JSON.parse(localStorage.getItem('messages')) || [];
+        const filteredMessages = messages.filter(message => message.chatId === chatId) || [];
+        return  filteredMessages[filteredMessages.length - 1];
+    }
 }
