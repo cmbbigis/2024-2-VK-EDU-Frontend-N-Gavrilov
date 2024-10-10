@@ -12,11 +12,12 @@ const BUILD_PATH = path.resolve(__dirname, 'build');
 module.exports = {
     context: SRC_PATH,
     entry: {
-        index: './chat/index.js',
+        chat: './chat/index.js',
+        chatList: './chat-list/index.js',
     },
     output: {
         path: BUILD_PATH,
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     module: {
         strictExportPresence: true,
@@ -34,16 +35,7 @@ module.exports = {
                 ],
             },
             {
-                test: /shadow\.css$/,
-                include: SRC_PATH,
-                use: [
-                    {
-                        loader: 'css-loader'
-                    },
-                ],
-            },
-            {
-                test: /index\.css$/,
+                test: /\.css$/,
                 include: SRC_PATH,
                 use: [
                     {
@@ -54,15 +46,33 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(png|jpg|gif)$/,
+                include: SRC_PATH,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]',
+                        },
+                    },
+                ],
+            },
         ],
     },
     plugins: [
         new MiniCSSExtractPlugin({
-            filename: 'style.css',
+            filename: '[name].style.css',
         }),
         new HTMLWebpackPlugin({
-            filename: 'index.html',
-            template: './chat/index.html'
+            filename: 'chat.html',
+            template: './chat/index.html',
+            chunks: ['chat']
+        }),
+        new HTMLWebpackPlugin({
+            filename: 'chat-list.html',
+            template: './chat-list/index.html',
+            chunks: ['chatList']
         })
     ]
 };
