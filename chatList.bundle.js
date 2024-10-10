@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/chat-list/chatListHeader.js */ \"./components/chat-list/chatListHeader.js\");\n/* harmony import */ var _components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chat-list/chatList.js */ \"./components/chat-list/chatList.js\");\n/* harmony import */ var _components_chat_list_chat_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chat-list/chat.js */ \"./components/chat-list/chat.js\");\n\n\n\ndocument.addEventListener('DOMContentLoaded', function () {\n  var app = document.getElementById('app');\n  var chatListHeader = Object(_components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__[\"createChatListHeader\"])();\n  var chatList = Object(_components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_1__[\"createChatList\"])();\n  var chat = Object(_components_chat_list_chat_js__WEBPACK_IMPORTED_MODULE_2__[\"createChat\"])();\n  chatList.appendChild(chat);\n  app.appendChild(chatListHeader);\n  app.appendChild(chatList);\n});\n\n//# sourceURL=webpack:///./chat-list/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/chat-list/chatListHeader.js */ \"./components/chat-list/chatListHeader.js\");\n/* harmony import */ var _components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chat-list/chatList.js */ \"./components/chat-list/chatList.js\");\n/* harmony import */ var _components_chat_list_chat_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chat-list/chat.js */ \"./components/chat-list/chat.js\");\n/* harmony import */ var _components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/chat-list/createChatButton.js */ \"./components/chat-list/createChatButton.js\");\n\n\n\n\ndocument.addEventListener('DOMContentLoaded', function () {\n  var app = document.getElementById('app');\n  var chatListHeader = Object(_components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__[\"createChatListHeader\"])();\n  var chatList = Object(_components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_1__[\"createChatList\"])();\n  var chat = Object(_components_chat_list_chat_js__WEBPACK_IMPORTED_MODULE_2__[\"createChat\"])();\n  var createChatButton = Object(_components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_3__[\"createCreateChatButton\"])();\n  chatList.appendChild(chat);\n  app.appendChild(chatListHeader);\n  app.appendChild(chatList);\n  app.appendChild(createChatButton);\n});\n\n//# sourceURL=webpack:///./chat-list/index.js?");
 
 /***/ }),
 
@@ -131,6 +131,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createChatListHeader\", function() { return createChatListHeader; });\nfunction createChatListHeader() {\n  var chatListHeader = document.createElement('div');\n  chatListHeader.className = 'header';\n  var menu = document.createElement('span');\n  menu.className = 'material-symbols-outlined';\n  menu.textContent = 'menu';\n  var headerText = document.createElement('div');\n  headerText.className = 'header-text';\n  var name = document.createElement('span');\n  name.className = 'name';\n  name.textContent = 'Messenger';\n  var search = document.createElement('span');\n  search.className = 'material-symbols-outlined';\n  search.textContent = 'search';\n  headerText.appendChild(name);\n  chatListHeader.appendChild(menu);\n  chatListHeader.appendChild(headerText);\n  chatListHeader.appendChild(search);\n  return chatListHeader;\n}\n\n//# sourceURL=webpack:///./components/chat-list/chatListHeader.js?");
+
+/***/ }),
+
+/***/ "./components/chat-list/createChatButton.js":
+/*!**************************************************!*\
+  !*** ./components/chat-list/createChatButton.js ***!
+  \**************************************************/
+/*! exports provided: createCreateChatButton */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createCreateChatButton\", function() { return createCreateChatButton; });\nfunction createCreateChatButton() {\n  var createChatButton = document.createElement('button');\n  createChatButton.className = 'create-chat-button';\n  var addSymbol = document.createElement('span');\n  addSymbol.className = 'material-symbols-outlined';\n  addSymbol.innerText = 'edit';\n  createChatButton.appendChild(addSymbol);\n  return createChatButton;\n}\n\n//# sourceURL=webpack:///./components/chat-list/createChatButton.js?");
 
 /***/ })
 
