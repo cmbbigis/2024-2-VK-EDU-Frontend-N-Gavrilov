@@ -1,0 +1,21 @@
+.create-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #FFD54F;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.create-chat-button .material-symbols-outlined {
+    font-size: 24px;
+    color: #756124;
+}
