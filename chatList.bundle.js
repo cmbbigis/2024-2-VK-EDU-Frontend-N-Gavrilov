@@ -86,17 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./chat-list/index.css":
-/*!*****************************!*\
-  !*** ./chat-list/index.css ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./chat-list/index.css?");
-
-/***/ }),
-
 /***/ "./chat-list/index.js":
 /*!****************************!*\
   !*** ./chat-list/index.js ***!
@@ -105,7 +94,19 @@ eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./chat
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./chat-list/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n\n\n//# sourceURL=webpack:///./chat-list/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/chat-list/chatListHeader.js */ \"./components/chat-list/chatListHeader.js\");\n\ndocument.addEventListener('DOMContentLoaded', function () {\n  var app = document.getElementById('app');\n  var chatListHeader = Object(_components_chat_list_chatListHeader_js__WEBPACK_IMPORTED_MODULE_0__[\"createChatListHeader\"])();\n  app.appendChild(chatListHeader);\n});\n\n//# sourceURL=webpack:///./chat-list/index.js?");
+
+/***/ }),
+
+/***/ "./components/chat-list/chatListHeader.js":
+/*!************************************************!*\
+  !*** ./components/chat-list/chatListHeader.js ***!
+  \************************************************/
+/*! exports provided: createChatListHeader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createChatListHeader\", function() { return createChatListHeader; });\nfunction createChatListHeader() {\n  var chatListHeader = document.createElement('div');\n  chatListHeader.className = 'header';\n  var menu = document.createElement('span');\n  menu.className = 'material-symbols-outlined';\n  menu.textContent = 'menu';\n  var headerText = document.createElement('div');\n  headerText.className = 'header-text';\n  var name = document.createElement('span');\n  name.className = 'name';\n  name.textContent = 'Messenger';\n  var search = document.createElement('span');\n  search.className = 'material-symbols-outlined';\n  search.textContent = 'search';\n  headerText.appendChild(name);\n  chatListHeader.appendChild(menu);\n  chatListHeader.appendChild(headerText);\n  chatListHeader.appendChild(search);\n  return chatListHeader;\n}\n\n//# sourceURL=webpack:///./components/chat-list/chatListHeader.js?");
 
 /***/ })
 
