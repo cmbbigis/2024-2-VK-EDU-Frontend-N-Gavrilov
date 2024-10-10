@@ -63,15 +63,56 @@ export function createModal() {
 
     function createChat(event) {
         event.preventDefault();
+        const chatList = document.getElementsByClassName('chat-list')[0];
         const interlocutor = document.getElementById('interlocutor').value;
-        const avatar = document.getElementById('avatar').files;
+        const avatar = document.getElementById('avatar').files[0];
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const maxWidth = 100; // Максимальная ширина изображения
+                const maxHeight = 100; // Максимальная высота изображения
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+                const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
+                saveChat(interlocutor, resizedAvatarDataUrl);
+                document.getElementById('interlocutor').value = '';
+                document.getElementById('avatar').value = '';
+                modal.style.display = 'none';
+                loadChats(chatList);
+            };
+        };
+        reader.readAsDataURL(avatar);
+    }
+
+    function saveChat(interlocutor, avatar) {
         const chats = JSON.parse(localStorage.getItem('chats')) || [];
-        chats.push({id: IdGenerator.generateId(), interlocutor, avatar});
+        const newChat = {
+            id: IdGenerator.generateId(),
+            interlocutor,
+            avatar
+        };
+        chats.push(newChat);
         localStorage.setItem('chats', JSON.stringify(chats));
-        modal.style.display = 'none';
-        document.getElementById('interlocutor').placeholder = '';
-        document.getElementById('avatar').placeholder = '';
-        loadChats(document.getElementsByClassName('chat-list')[0]);
     }
 }
 
