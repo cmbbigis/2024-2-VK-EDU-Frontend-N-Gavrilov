@@ -38,6 +38,7 @@ export function createChatScreen(chatId) {
             saveMessage(chatId, text, sender);
             loadMessages(chatId, messagesContainer);
             messageInput.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
 
@@ -48,10 +49,10 @@ export function createChatScreen(chatId) {
         filteredMessages.forEach(({ text, sender, time }) => {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
+            messageDiv.classList.add(sender === 'Я' ? 'my-message' : 'interlocutor-message');
             messageDiv.innerHTML = `<strong>${sender}</strong> (<em>${time}</em>):<br>${text}`;
             container.appendChild(messageDiv);
         });
-        container.scrollTop = container.scrollHeight;
     }
 
     function saveMessage(chatId, text, sender) {

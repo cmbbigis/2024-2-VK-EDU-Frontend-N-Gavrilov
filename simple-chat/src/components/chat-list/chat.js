@@ -1,9 +1,10 @@
 export function createChat(chatId, interlocutor, avatarFile) {
+    const chatLink = document.createElement('a');
+    chatLink.className = 'chat-link';
+    chatLink.href = `./chat.html?id=${chatId}`;
+
     const chat = document.createElement('div');
     chat.className = 'chat';
-    chat.addEventListener('click', () => {
-        window.location.href = `../chat/index.html?id=${chatId}`;
-    });
 
     const avatar = document.createElement('img');
     avatar.className = 'avatar';
@@ -40,7 +41,9 @@ export function createChat(chatId, interlocutor, avatarFile) {
     chat.appendChild(chatInfo);
     chat.appendChild(chatMeta);
 
-    return chat;
+    chatLink.appendChild(chat);
+
+    return chatLink;
 
     function gelLastMessage(chatId) {
         const messages = JSON.parse(localStorage.getItem('messages')) || [];

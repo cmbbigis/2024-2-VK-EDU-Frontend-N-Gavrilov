@@ -35,3 +35,8 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+.back-to-chat-list-link {
+    text-decoration: none;
+    color: inherit;
+}

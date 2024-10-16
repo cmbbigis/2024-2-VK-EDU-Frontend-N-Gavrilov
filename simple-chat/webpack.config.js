@@ -66,12 +66,12 @@ module.exports = {
         }),
         new HTMLWebpackPlugin({
             filename: 'chat.html',
-            template: './chat/index.html',
+            template: './chat.html',
             chunks: ['chat']
         }),
         new HTMLWebpackPlugin({
-            filename: 'chat-list.html',
-            template: './chat-list/index.html',
+            filename: 'index.html',
+            template: './index.html',
             chunks: ['chatList']
         })
     ]

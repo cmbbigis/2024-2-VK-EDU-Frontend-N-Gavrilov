@@ -10,7 +10,7 @@ export function createModal() {
     modalContent.className = 'modal-content';
     const close = document.createElement('span');
     close.className = 'close';
-    close.innerText = 'Close';
+    close.innerText = 'Х';
     close.onclick = function() {
         modal.style.display = 'none';
     }
@@ -74,8 +74,8 @@ export function createModal() {
             img.onload = function() {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                const maxWidth = 100; // Максимальная ширина изображения
-                const maxHeight = 100; // Максимальная высота изображения
+                const maxWidth = 100;
+                const maxHeight = 100;
                 let width = img.width;
                 let height = img.height;
 
@@ -106,13 +106,19 @@ export function createModal() {
 
     function saveChat(interlocutor, avatar) {
         const chats = JSON.parse(localStorage.getItem('chats')) || [];
+        const chatId = Number(Math.random() * 100000)
         const newChat = {
-            id: IdGenerator.generateId(),
+            id: chatId,
             interlocutor,
             avatar
         };
         chats.push(newChat);
         localStorage.setItem('chats', JSON.stringify(chats));
+        const messages = JSON.parse(localStorage.getItem('messages'));
+        const text = 'Привет!';
+        const time = new Date().toLocaleString();
+        messages.push({ chatId, text, sender: interlocutor, time});
+        localStorage.setItem('messages', JSON.stringify(messages));
     }
 }
 
@@ -124,12 +130,4 @@ export function loadChats(container) {
         container.appendChild(chat);
     });
     container.scrollTop = container.scrollHeight;
-}
-
-class IdGenerator {
-    static currentId = 0;
-
-    static generateId() {
-        return this.currentId++;
-    }
 }

@@ -11,6 +11,11 @@ export function createChatHeader(chatId) {
     const arrowBack = document.createElement('span');
     arrowBack.className = 'material-symbols-outlined';
     arrowBack.textContent = 'arrow_back';
+
+    const backToChatListLink = document.createElement('a');
+    backToChatListLink.className = 'back-to-chat-list-link';
+    backToChatListLink.href = './index.html';
+
     const avatar = document.createElement('img');
     avatar.className = 'avatar';
     avatar.alt = 'Avatar';
@@ -35,7 +40,9 @@ export function createChatHeader(chatId) {
     headerText.appendChild(name);
     headerText.appendChild(status);
 
-    chatHeader.appendChild(arrowBack);
+    backToChatListLink.appendChild(arrowBack);
+
+    chatHeader.appendChild(backToChatListLink);
     chatHeader.appendChild(avatar);
     chatHeader.appendChild(headerText);
     chatHeader.appendChild(search);
