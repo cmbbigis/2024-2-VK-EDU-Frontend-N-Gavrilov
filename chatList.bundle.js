@@ -105,7 +105,18 @@ eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./chat
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./chat-list/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _components_chat_list_header_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chat-list/header.js */ \"./components/chat-list/header.js\");\n/* harmony import */ var _components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chat-list/chatList.js */ \"./components/chat-list/chatList.js\");\n/* harmony import */ var _components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/chat-list/createChatButton.js */ \"./components/chat-list/createChatButton.js\");\n/* harmony import */ var _components_chat_list_createChatModal_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/chat-list/createChatModal.js */ \"./components/chat-list/createChatModal.js\");\n\n\n\n\n\n\n\n\n\ndocument.addEventListener('DOMContentLoaded', function () {\n  var app = document.getElementById('app');\n  var chatListHeader = Object(_components_chat_list_header_js__WEBPACK_IMPORTED_MODULE_1__[\"createChatListHeader\"])();\n  var chatList = Object(_components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_2__[\"createChatList\"])();\n  var createChatButton = Object(_components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_3__[\"createCreateChatButton\"])();\n  var createChatModal = Object(_components_chat_list_createChatModal_js__WEBPACK_IMPORTED_MODULE_4__[\"createModal\"])();\n  app.appendChild(chatListHeader);\n  app.appendChild(chatList);\n  app.appendChild(createChatButton);\n  app.appendChild(createChatModal);\n});\n\n//# sourceURL=webpack:///./chat-list/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./chat-list/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _components_chat_list_header_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chat-list/header.css */ \"./components/chat-list/header.css\");\n/* harmony import */ var _components_chat_list_header_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_chat_list_header_css__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _components_chat_list_chat_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chat-list/chat.css */ \"./components/chat-list/chat.css\");\n/* harmony import */ var _components_chat_list_chat_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_chat_list_chat_css__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _components_chat_list_chatList_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/chat-list/chatList.css */ \"./components/chat-list/chatList.css\");\n/* harmony import */ var _components_chat_list_chatList_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_chat_list_chatList_css__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _components_chat_list_createChatButton_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/chat-list/createChatButton.css */ \"./components/chat-list/createChatButton.css\");\n/* harmony import */ var _components_chat_list_createChatButton_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_chat_list_createChatButton_css__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _components_chat_list_createChatModal_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/chat-list/createChatModal.css */ \"./components/chat-list/createChatModal.css\");\n/* harmony import */ var _components_chat_list_createChatModal_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_chat_list_createChatModal_css__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _components_chat_list_header_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/chat-list/header.js */ \"./components/chat-list/header.js\");\n/* harmony import */ var _components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/chat-list/chatList.js */ \"./components/chat-list/chatList.js\");\n/* harmony import */ var _components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/chat-list/createChatButton.js */ \"./components/chat-list/createChatButton.js\");\n/* harmony import */ var _components_chat_list_createChatModal_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/chat-list/createChatModal.js */ \"./components/chat-list/createChatModal.js\");\n\n\n\n\n\n\n\n\n\n\ndocument.addEventListener('DOMContentLoaded', function () {\n  var app = document.getElementById('app');\n  var chatListHeader = Object(_components_chat_list_header_js__WEBPACK_IMPORTED_MODULE_6__[\"createChatListHeader\"])();\n  var chatList = Object(_components_chat_list_chatList_js__WEBPACK_IMPORTED_MODULE_7__[\"createChatList\"])();\n  var createChatButton = Object(_components_chat_list_createChatButton_js__WEBPACK_IMPORTED_MODULE_8__[\"createCreateChatButton\"])();\n  var createChatModal = Object(_components_chat_list_createChatModal_js__WEBPACK_IMPORTED_MODULE_9__[\"createModal\"])();\n  app.appendChild(chatListHeader);\n  app.appendChild(chatList);\n  app.appendChild(createChatButton);\n  app.appendChild(createChatModal);\n});\n\n//# sourceURL=webpack:///./chat-list/index.js?");
+
+/***/ }),
+
+/***/ "./components/chat-list/chat.css":
+/*!***************************************!*\
+  !*** ./components/chat-list/chat.css ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./components/chat-list/chat.css?");
 
 /***/ }),
 
@@ -121,6 +132,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./components/chat-list/chatList.css":
+/*!*******************************************!*\
+  !*** ./components/chat-list/chatList.css ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./components/chat-list/chatList.css?");
+
+/***/ }),
+
 /***/ "./components/chat-list/chatList.js":
 /*!******************************************!*\
   !*** ./components/chat-list/chatList.js ***!
@@ -130,6 +152,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createChatList\", function() { return createChatList; });\n/* harmony import */ var _createChatModal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createChatModal.js */ \"./components/chat-list/createChatModal.js\");\n\nfunction createChatList() {\n  var chatList = document.createElement('div');\n  chatList.className = 'chat-list';\n  Object(_createChatModal_js__WEBPACK_IMPORTED_MODULE_0__[\"loadChats\"])(chatList);\n  return chatList;\n}\n\n//# sourceURL=webpack:///./components/chat-list/chatList.js?");
+
+/***/ }),
+
+/***/ "./components/chat-list/createChatButton.css":
+/*!***************************************************!*\
+  !*** ./components/chat-list/createChatButton.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./components/chat-list/createChatButton.css?");
 
 /***/ }),
 
@@ -145,6 +178,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./components/chat-list/createChatModal.css":
+/*!**************************************************!*\
+  !*** ./components/chat-list/createChatModal.css ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./components/chat-list/createChatModal.css?");
+
+/***/ }),
+
 /***/ "./components/chat-list/createChatModal.js":
 /*!*************************************************!*\
   !*** ./components/chat-list/createChatModal.js ***!
@@ -154,6 +198,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createModal\", function() { return createModal; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"loadChats\", function() { return loadChats; });\n/* harmony import */ var _chat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chat.js */ \"./components/chat-list/chat.js\");\n\nfunction createModal() {\n  var modal = document.createElement('div');\n  modal.className = 'modal';\n  modal.id = 'create-chat-modal';\n  modal.style.display = 'none';\n  var modalContent = document.createElement('div');\n  modalContent.className = 'modal-content';\n  var close = document.createElement('span');\n  close.className = 'close';\n  close.innerText = 'Х';\n  close.onclick = function () {\n    modal.style.display = 'none';\n  };\n  window.onclick = function (event) {\n    if (event.target === modal) {\n      modal.style.display = 'none';\n    }\n  };\n  var createChatText = document.createElement('h2');\n  createChatText.className = 'create-chat-text';\n  createChatText.innerText = 'Создание чата';\n  var chatForm = document.createElement('form');\n  chatForm.id = 'chat-form';\n  chatForm.onsubmit = createChat;\n  var interlocutorLabel = document.createElement('label');\n  interlocutorLabel.textContent = 'Имя собеседника:';\n  interlocutorLabel.htmlFor = 'interlocutor';\n  var interlocutorInput = document.createElement('input');\n  interlocutorInput.id = 'interlocutor';\n  interlocutorInput.type = 'text';\n  interlocutorInput.name = 'interlocutor';\n  interlocutorInput.required = true;\n  var avatarLabel = document.createElement('label');\n  avatarLabel.textContent = 'Аватар собеседника:';\n  avatarLabel.htmlFor = 'avatar';\n  var avatarInput = document.createElement('input');\n  avatarInput.id = 'avatar';\n  avatarInput.type = 'file';\n  avatarInput.name = 'avatar';\n  avatarInput.accept = 'image/*';\n  avatarInput.required = false;\n  var create = document.createElement('button');\n  create.type = 'submit';\n  create.textContent = 'Create';\n  chatForm.appendChild(interlocutorLabel);\n  chatForm.appendChild(interlocutorInput);\n  chatForm.appendChild(avatarLabel);\n  chatForm.appendChild(avatarInput);\n  chatForm.appendChild(create);\n  modalContent.appendChild(close);\n  modalContent.appendChild(createChatText);\n  modalContent.appendChild(chatForm);\n  modal.appendChild(modalContent);\n  return modal;\n  function createChat(event) {\n    event.preventDefault();\n    var chatList = document.getElementsByClassName('chat-list')[0];\n    var interlocutor = document.getElementById('interlocutor').value;\n    var avatar = document.getElementById('avatar').files[0];\n    var reader = new FileReader();\n    reader.onload = function (e) {\n      var img = new Image();\n      img.src = e.target.result;\n      img.onload = function () {\n        var canvas = document.createElement('canvas');\n        var ctx = canvas.getContext('2d');\n        var maxWidth = 100;\n        var maxHeight = 100;\n        var width = img.width;\n        var height = img.height;\n        if (width > height) {\n          if (width > maxWidth) {\n            height *= maxWidth / width;\n            width = maxWidth;\n          }\n        } else {\n          if (height > maxHeight) {\n            width *= maxHeight / height;\n            height = maxHeight;\n          }\n        }\n        canvas.width = width;\n        canvas.height = height;\n        ctx.drawImage(img, 0, 0, width, height);\n        var resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');\n        saveChat(interlocutor, resizedAvatarDataUrl);\n        document.getElementById('interlocutor').value = '';\n        document.getElementById('avatar').value = '';\n        modal.style.display = 'none';\n        loadChats(chatList);\n      };\n    };\n    reader.readAsDataURL(avatar);\n  }\n  function saveChat(interlocutor, avatar) {\n    var chats = JSON.parse(localStorage.getItem('chats')) || [];\n    var chatId = Number(Math.random() * 100000);\n    var newChat = {\n      id: chatId,\n      interlocutor: interlocutor,\n      avatar: avatar\n    };\n    chats.push(newChat);\n    localStorage.setItem('chats', JSON.stringify(chats));\n    var messages = JSON.parse(localStorage.getItem('messages'));\n    var text = 'Привет!';\n    var time = new Date().toLocaleString();\n    messages.push({\n      chatId: chatId,\n      text: text,\n      sender: interlocutor,\n      time: time\n    });\n    localStorage.setItem('messages', JSON.stringify(messages));\n  }\n}\nfunction loadChats(container) {\n  var chats = JSON.parse(localStorage.getItem('chats')) || [];\n  container.innerHTML = '';\n  chats.forEach(function (_ref) {\n    var id = _ref.id,\n      interlocutor = _ref.interlocutor,\n      avatar = _ref.avatar;\n    var chat = Object(_chat_js__WEBPACK_IMPORTED_MODULE_0__[\"createChat\"])(id, interlocutor, avatar);\n    container.appendChild(chat);\n  });\n  container.scrollTop = container.scrollHeight;\n}\n\n//# sourceURL=webpack:///./components/chat-list/createChatModal.js?");
+
+/***/ }),
+
+/***/ "./components/chat-list/header.css":
+/*!*****************************************!*\
+  !*** ./components/chat-list/header.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./components/chat-list/header.css?");
 
 /***/ }),
 
