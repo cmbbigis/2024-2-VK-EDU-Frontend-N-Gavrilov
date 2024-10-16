@@ -22,7 +22,6 @@
 }
 
 .message {
-    background-color: #F3E5F5;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 4px 0;
@@ -34,7 +33,7 @@
 
 .my-message {
     align-self: flex-end;
-    background-color: #E1F5FE;
+    background-color: #F3E5F5;
 }
 
 .interlocutor-message {
