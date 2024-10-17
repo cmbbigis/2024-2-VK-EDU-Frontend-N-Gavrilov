@@ -74,6 +74,12 @@
     margin-left: 10px;
 }
 
+.send-button {
+    color: purple;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 @keyframes slideInRight {
     from {
         transform: translateX(100%);
