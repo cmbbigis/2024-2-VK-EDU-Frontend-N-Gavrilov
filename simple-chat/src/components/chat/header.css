@@ -16,6 +16,11 @@
     margin-right: 10px;
 }
 
+.avatar:hover {
+    box-shadow: #56076a 0 0 0 5px;
+    transition: box-shadow 0.5s;
+}
+
 .header-text {
     display: flex;
     flex-direction: column;
@@ -37,6 +42,18 @@
 }
 
 .back-to-chat-list-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
     text-decoration: none;
     color: inherit;
+}
+
+.back-to-chat-list-link:hover {
+    transition: background-color 0.5s;
+    background-color: #56076a;
 }
