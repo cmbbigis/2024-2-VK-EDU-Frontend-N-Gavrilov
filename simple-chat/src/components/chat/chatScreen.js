@@ -17,7 +17,12 @@ export function createChatScreen(chatId) {
     messageInput.placeholder = 'Сообщение';
     messageInput.type = 'text';
 
+    const attachFile = document.createElement('span');
+    attachFile.className = 'material-symbols-outlined';
+    attachFile.textContent = 'attach_file';
+
     messageInputContainer.appendChild(messageInput);
+    messageInputContainer.appendChild(attachFile);
     form.appendChild(messagesContainer);
     form.appendChild(messageInputContainer);
 
