@@ -36,6 +36,11 @@ body {
     margin-right: 10px;
 }
 
+.avatar:hover {
+    box-shadow: #56076a 0 0 0 5px;
+    transition: box-shadow 0.5s;
+}
+
 .header-text {
     display: flex;
     flex-direction: column;
@@ -57,8 +62,20 @@ body {
 }
 
 .back-to-chat-list-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
     text-decoration: none;
     color: inherit;
+}
+
+.back-to-chat-list-link:hover {
+    transition: background-color 0.5s;
+    background-color: #56076a;
 }
 .chat-screen {
     padding-top: 60px;
@@ -77,7 +94,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: end;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-bottom: 10px;
     margin-right: 5px;
     margin-left: 5px;
@@ -103,6 +121,16 @@ body {
     background-color: #EBEBEB;
 }
 
+.my-message.new-message {
+    opacity: 0;
+    animation: slideInRight 0.5s forwards;
+}
+
+.interlocutor-message.new-message {
+    opacity: 0;
+    animation: slideInLeft 0.5s forwards;
+}
+
 .message-input-container {
     display: flex;
     align-items: center;
@@ -124,3 +152,26 @@ body {
     margin-right: 10px;
     margin-left: 10px;
 }
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
