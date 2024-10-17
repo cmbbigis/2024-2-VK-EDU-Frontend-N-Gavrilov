@@ -21,12 +21,21 @@ export function createChatScreen(chatId) {
     attachFile.className = 'material-symbols-outlined';
     attachFile.textContent = 'attach_file';
 
+    const sendButton = document.createElement('span');
+    sendButton.className = 'material-symbols-outlined send-button';
+    sendButton.type = 'submit';
+    sendButton.style.display = 'none';
+    sendButton.textContent = 'send';
+    sendButton.onclick = () => { form.requestSubmit(); };
+
     messageInputContainer.appendChild(messageInput);
     messageInputContainer.appendChild(attachFile);
+    messageInputContainer.appendChild(sendButton);
     form.appendChild(messagesContainer);
     form.appendChild(messageInputContainer);
 
     form.addEventListener('submit', handleSubmit);
+    messageInput.addEventListener('input', handleInput);
 
     loadMessages(chatId, messagesContainer, true);
 
@@ -34,6 +43,14 @@ export function createChatScreen(chatId) {
     chatScreen.appendChild(form);
 
     return chatScreen;
+
+    function handleInput() {
+        if (messageInput.value.trim()) {
+            sendButton.style.display = 'block';
+        } else {
+            sendButton.style.display = 'none';
+        }
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -43,6 +60,7 @@ export function createChatScreen(chatId) {
             saveMessage(chatId, text, sender);
             loadMessages(chatId, messagesContainer, false);
             messageInput.value = '';
+            sendButton.style.display = 'none';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
