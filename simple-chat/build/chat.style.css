@@ -51,13 +51,25 @@ body {
     color: #ccc;
 }
 
-.form {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+.material-symbols-outlined {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.back-to-chat-list-link {
+    text-decoration: none;
+    color: inherit;
+}
+.chat-screen {
     padding-top: 60px;
     padding-bottom: 50px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
 }
 
 .messages {
@@ -67,19 +79,28 @@ body {
     justify-content: end;
     overflow: auto;
     margin-bottom: 10px;
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .message {
-    background-color: #F3E5F5;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 4px 0;
     padding: 10px;
     max-width: 40%;
-    align-self: flex-end;
     word-wrap: break-word;
     overflow-wrap: break-word;
+}
+
+.my-message {
+    align-self: flex-end;
+    background-color: #F3E5F5;
+}
+
+.interlocutor-message {
+    align-self: flex-start;
+    background-color: #EBEBEB;
 }
 
 .message-input-container {
