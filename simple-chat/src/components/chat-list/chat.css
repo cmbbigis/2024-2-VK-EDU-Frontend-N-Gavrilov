@@ -62,3 +62,7 @@
     font-size: 16px;
     color: green;
 }
+
+.chat .material-symbols-outlined {
+    padding: 0;
+}

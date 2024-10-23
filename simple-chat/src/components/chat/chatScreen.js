@@ -17,19 +17,28 @@ export function createChatScreen(chatId) {
     messageInput.placeholder = 'Сообщение';
     messageInput.type = 'text';
 
+    const attachFileButton = document.createElement('button');
+    attachFileButton.className = 'footer-button attach-file-button';
+
     const attachFile = document.createElement('span');
     attachFile.className = 'material-symbols-outlined';
     attachFile.textContent = 'attach_file';
 
-    const sendButton = document.createElement('span');
-    sendButton.className = 'material-symbols-outlined send-button';
+    const sendButton = document.createElement('button');
+    sendButton.className = 'footer-button send-button';
     sendButton.type = 'submit';
     sendButton.style.display = 'none';
-    sendButton.textContent = 'send';
     sendButton.onclick = () => { form.requestSubmit(); };
 
+    const send = document.createElement('span');
+    send.className = 'material-symbols-outlined';
+    send.textContent = 'send';
+
+    attachFileButton.appendChild(attachFile);
+    sendButton.appendChild(send);
+
     messageInputContainer.appendChild(messageInput);
-    messageInputContainer.appendChild(attachFile);
+    messageInputContainer.appendChild(attachFileButton);
     messageInputContainer.appendChild(sendButton);
     form.appendChild(messagesContainer);
     form.appendChild(messageInputContainer);
@@ -78,7 +87,22 @@ export function createChatScreen(chatId) {
             } else if (index === filteredMessages.length - 1) {
                 messageDiv.classList.add('new-message');
             }
-            messageDiv.innerHTML = `<strong>${sender}</strong> (<em>${time}</em>):<br>${text}`;
+            let messageSender = document.createElement('span');
+            messageSender.className = 'message-sender';
+            messageSender.textContent = sender;
+
+            let messageText = document.createElement('span');
+            messageText.className = 'message-text';
+            messageText.textContent = text;
+
+            let messageTime = document.createElement('span');
+            messageTime.className = 'message-time';
+            messageTime.textContent = time;
+
+            messageDiv.appendChild(messageSender);
+            messageDiv.appendChild(messageText);
+            messageDiv.appendChild(messageTime);
+
             container.appendChild(messageDiv);
         });
     }

@@ -13,7 +13,7 @@ export function createChatHeader(chatId) {
     arrowBack.textContent = 'arrow_back';
 
     const backToChatListLink = document.createElement('a');
-    backToChatListLink.className = 'back-to-chat-list-link';
+    backToChatListLink.className = 'header-button back-to-chat-list-link';
     backToChatListLink.href = './index.html';
 
     const avatar = document.createElement('img');
@@ -30,23 +30,32 @@ export function createChatHeader(chatId) {
     status.className = 'status';
     status.textContent = 'была 2 часа назад';
 
+    const searchButton = document.createElement('button');
+    searchButton.className = 'header-button search-button';
     const search = document.createElement('span');
     search.className = 'material-symbols-outlined';
     search.textContent = 'search';
+
+    const optionsButton = document.createElement('button');
+    optionsButton.className = 'header-button options-button';
     const moreVert = document.createElement('span');
     moreVert.className = 'material-symbols-outlined';
     moreVert.textContent = 'more_vert';
 
+    backToChatListLink.appendChild(arrowBack);
+
     headerText.appendChild(name);
     headerText.appendChild(status);
 
-    backToChatListLink.appendChild(arrowBack);
+    searchButton.appendChild(search);
+
+    optionsButton.appendChild(moreVert);
 
     chatHeader.appendChild(backToChatListLink);
     chatHeader.appendChild(avatar);
     chatHeader.appendChild(headerText);
-    chatHeader.appendChild(search);
-    chatHeader.appendChild(moreVert);
+    chatHeader.appendChild(searchButton);
+    chatHeader.appendChild(optionsButton);
 
     return chatHeader;
 }
