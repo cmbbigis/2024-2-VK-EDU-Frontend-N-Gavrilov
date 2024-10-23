@@ -20,16 +20,41 @@
     max-width: 500px;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+.chat-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-button {
+    margin-top: 5px;
+    width: min-content;
+}
+
+.close-button {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: none;
+    border: none;
     cursor: pointer;
+}
+
+.close-button .material-symbols-outlined {
+    color: #aaa;
+}
+
+.close-button:hover,
+.close-button:focus {
+    transition: background-color 0.5s;
+    background-color: #EBEBEB;
 }
