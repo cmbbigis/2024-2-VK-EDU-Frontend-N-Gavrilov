@@ -8,10 +8,12 @@ export function createModal() {
 
     const modalContent = document.createElement('div');
     modalContent.className = 'modal-content';
-    const close = document.createElement('span');
-    close.className = 'close';
-    close.innerText = 'Х';
-    close.onclick = function() {
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'close-button';
+    closeButton.onclick = function() {
         modal.style.display = 'none';
     }
     window.onclick = function(event) {
@@ -19,11 +21,18 @@ export function createModal() {
             modal.style.display = 'none';
         }
     }
+
+    const close = document.createElement('span');
+    close.className = 'material-symbols-outlined';
+    close.textContent = 'Close';
+
+
     const createChatText = document.createElement('h2');
     createChatText.className = 'create-chat-text';
     createChatText.innerText = 'Создание чата';
 
     const chatForm = document.createElement('form');
+    chatForm.className = 'chat-form';
     chatForm.id = 'chat-form';
     chatForm.onsubmit = createChat;
     const interlocutorLabel = document.createElement('label');
@@ -43,18 +52,23 @@ export function createModal() {
     avatarInput.name = 'avatar';
     avatarInput.accept = 'image/*';
     avatarInput.required = false;
-    const create = document.createElement('button');
-    create.type = 'submit';
-    create.textContent = 'Create';
+    const createButton = document.createElement('button');
+    createButton.className = 'create-button';
+    createButton.type = 'submit';
+    createButton.textContent = 'Создать';
+
+    closeButton.appendChild(close);
 
     chatForm.appendChild(interlocutorLabel);
     chatForm.appendChild(interlocutorInput);
     chatForm.appendChild(avatarLabel);
     chatForm.appendChild(avatarInput);
-    chatForm.appendChild(create);
+    chatForm.appendChild(createButton);
 
-    modalContent.appendChild(close);
-    modalContent.appendChild(createChatText);
+    modalHeader.appendChild(createChatText);
+    modalHeader.appendChild(closeButton);
+
+    modalContent.appendChild(modalHeader);
     modalContent.appendChild(chatForm);
 
     modal.appendChild(modalContent);
@@ -114,7 +128,7 @@ export function createModal() {
         };
         chats.push(newChat);
         localStorage.setItem('chats', JSON.stringify(chats));
-        const messages = JSON.parse(localStorage.getItem('messages'));
+        const messages = JSON.parse(localStorage.getItem('messages')) || [];
         const text = 'Привет!';
         const time = new Date().toLocaleString();
         messages.push({ chatId, text, sender: interlocutor, time});
