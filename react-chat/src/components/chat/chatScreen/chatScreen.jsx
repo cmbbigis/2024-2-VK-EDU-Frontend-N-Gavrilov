@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import SendIcon from '@mui/icons-material/Send';
 
 import './chatScreen.scss';
 
@@ -61,14 +63,14 @@ export const ChatScreen = (chatId) => {
                         onChange={handleInput}
                     />
                     <button className="footer-button attach-file-button" type="button">
-                        <span className="material-symbols-outlined">attach_file</span>
+                        <AttachFileIcon />
                     </button>
                     <button
                         className="footer-button send-button"
                         type="submit"
                         style={{ display: messageText.trim() ? 'block' : 'none' }}
                     >
-                        <span className="material-symbols-outlined">send</span>
+                        <SendIcon />
                     </button>
                 </label>
             </form>

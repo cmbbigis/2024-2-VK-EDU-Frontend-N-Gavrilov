@@ -1,4 +1,5 @@
 import React from 'react';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import './chat.scss';
 
@@ -15,7 +16,7 @@ export const Chat = (chatId, interlocutor, avatarFile) => {
                 </div>
                 <div className="chat-meta">
                     <span className="last-message-time">{lastMessage.time}</span>
-                    <span className="material-symbols-outlined">done_all</span>
+                    <DoneAllIcon />
                 </div>
             </div>
         </a>

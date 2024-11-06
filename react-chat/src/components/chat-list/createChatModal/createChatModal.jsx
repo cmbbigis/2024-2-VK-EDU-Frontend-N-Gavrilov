@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
 import { Chat } from '../chat';
@@ -72,7 +73,7 @@ export const CreateChatModal = () => {
                         <div className="modal-header">
                             <h2 className="create-chat-text">Создание чата</h2>
                             <button className="close-button" onClick={handleClose}>
-                                <span className="material-symbols-outlined">Close</span>
+                                <CloseIcon />
                             </button>
                         </div>
                         <form className="chat-form" id="chat-form" onSubmit={handleSubmit}>
