@@ -1,0 +1,135 @@
+.chat-screen {
+    padding-top: 60px;
+    padding-bottom: 50px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 5px 10px;
+}
+
+.message {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 4px 0;
+    padding: 10px;
+    max-width: 60%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-sender {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-time {
+    align-self: flex-end;
+    font-size: 12px;
+}
+
+.my-message {
+    align-self: flex-end;
+    background-color: #F3E5F5;
+}
+
+.interlocutor-message {
+    align-self: flex-start;
+    background-color: #EBEBEB;
+}
+
+.my-message.new-message {
+    opacity: 0;
+    animation: slideInRight 0.5s forwards;
+}
+
+.interlocutor-message.new-message {
+    opacity: 0;
+    animation: slideInLeft 0.5s forwards;
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.message-input {
+    width: calc(100% - 40px);
+    padding: 10px;
+    border: 0;
+}
+
+.material-symbols-outlined {
+    padding: 8px;
+}
+
+.send-button .material-symbols-outlined {
+    color: purple;
+    font-size: 24px;
+    padding: 0;
+}
+
+.footer-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    text-decoration: none;
+    color: inherit;
+    margin-left: 3px;
+}
+
+.footer-button:hover {
+    transition: background-color 0.5s;
+    background-color: #EBEBEB;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

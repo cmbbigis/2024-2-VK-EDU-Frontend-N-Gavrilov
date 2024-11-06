@@ -1,0 +1,48 @@
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    background-color: purple;
+    color: white;
+    padding: 10px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.material-symbols-outlined {
+    padding: 8px;
+}
+
+.search-button {
+    border-radius: 50%;
+}
+
+.header-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-button:hover {
+    transition: background-color 0.5s;
+    background-color: #56076a;
+}
