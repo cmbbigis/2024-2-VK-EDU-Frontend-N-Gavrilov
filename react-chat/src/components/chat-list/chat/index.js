@@ -1,5 +1,5 @@
 import * as f from './chat';
 
-export const Chat = () => {
-    return f.Chat()
+export const Chat = ({ id, interlocutor, avatar }) => {
+    return f.Chat({ id, interlocutor, avatar })
 };

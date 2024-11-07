@@ -1,5 +1,5 @@
 import * as f from './chatList';
 
-export const ChatList = () => {
-    return f.ChatList()
+export const ChatList = ({ reload }) => {
+    return f.ChatList({ reload })
 };

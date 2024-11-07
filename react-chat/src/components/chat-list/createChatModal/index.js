@@ -1,9 +1,5 @@
 import * as f from './createChatModal';
 
-export const CreateChatModal = () => {
-    return f.CreateChatModal()
+export const CreateChatModal = ({ onClose, onChatCreated }) => {
+    return f.CreateChatModal({ onClose, onChatCreated })
 };
-
-export function loadChats() {
-    return f.loadChats()
-}

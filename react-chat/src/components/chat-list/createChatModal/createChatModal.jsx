@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
-import { Chat } from '../chat';
 
-export const CreateChatModal = () => {
-    const [isOpen, setIsOpen] = useState(false);
+export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [interlocutor, setInterlocutor] = useState('');
     const [avatar, setAvatar] = useState(null);
-
-    const handleClose = () => setIsOpen(false);
-    const handleOpen = () => setIsOpen(true);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -44,8 +39,8 @@ export const CreateChatModal = () => {
                 saveChat(interlocutor, resizedAvatarDataUrl);
                 setInterlocutor('');
                 setAvatar(null);
-                handleClose();
-                loadChats();
+                onClose();
+                onChatCreated();
             };
         };
         reader.readAsDataURL(avatar);
@@ -65,51 +60,36 @@ export const CreateChatModal = () => {
     };
 
     return (
-        <>
-            <button onClick={handleOpen}>Создать чат</button>
-            {isOpen && (
-                <div className="modal" id="create-chat-modal" style={{ display: 'block' }}>
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h2 className="create-chat-text">Создание чата</h2>
-                            <button className="close-button" onClick={handleClose}>
-                                <CloseIcon />
-                            </button>
-                        </div>
-                        <form className="chat-form" id="chat-form" onSubmit={handleSubmit}>
-                            <label htmlFor="interlocutor">Имя собеседника:</label>
-                            <input
-                                id="interlocutor"
-                                type="text"
-                                name="interlocutor"
-                                value={interlocutor}
-                                onChange={(e) => setInterlocutor(e.target.value)}
-                                required
-                            />
-                            <label htmlFor="avatar">Аватар собеседника:</label>
-                            <input
-                                id="avatar"
-                                type="file"
-                                name="avatar"
-                                accept="image/*"
-                                onChange={(e) => setAvatar(e.target.files[0])}
-                            />
-                            <button className="create-button" type="submit">Создать</button>
-                        </form>
-                    </div>
+        <div className="modal" id="create-chat-modal" style={{ display: 'block' }}>
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h2 className="create-chat-text">Создание чата</h2>
+                    <button className="close-button" onClick={onClose}>
+                        <CloseIcon />
+                    </button>
                 </div>
-            )}
-        </>
+                <form className="chat-form" id="chat-form" onSubmit={handleSubmit}>
+                    <label htmlFor="interlocutor">Имя собеседника:</label>
+                    <input
+                        id="interlocutor"
+                        type="text"
+                        name="interlocutor"
+                        value={interlocutor}
+                        onChange={(e) => setInterlocutor(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="avatar">Аватар собеседника:</label>
+                    <input
+                        id="avatar"
+                        type="file"
+                        name="avatar"
+                        accept="image/*"
+                        onChange={(e) => setAvatar(e.target.files[0])}
+                    />
+                    <button className="create-button" type="submit">Создать</button>
+                </form>
+            </div>
+        </div>
     );
 }
 
-export function loadChats() {
-    const chats = JSON.parse(localStorage.getItem('chats')) || [];
-    const chatList = document.getElementsByClassName('chat-list')[0];
-    chatList.innerHTML = '';
-    chats.forEach(({ id, interlocutor, avatar }) => {
-        const chat = Chat(id, interlocutor, avatar);
-        chatList.appendChild(chat);
-    });
-    chatList.scrollTop = chatList.scrollHeight;
-}

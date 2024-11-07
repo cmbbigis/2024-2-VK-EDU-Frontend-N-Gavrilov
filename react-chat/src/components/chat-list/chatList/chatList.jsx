@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './chatList.scss';
-import { loadChats } from '../createChatModal';
+import { Chat } from "../chat";
 
-export function ChatList() {
+export const ChatList = ({ reload }) => {
+    const [chats, setChats] = useState([]);
+
     useEffect(() => {
-        const chatList = document.getElementById('chat-list');
-        loadChats(chatList);
-    }, []);
+        setChats(loadChats());
+    }, [reload]);
 
-    return <div id="chat-list" className="chat-list"></div>;
+    function loadChats() {
+        return JSON.parse(localStorage.getItem('chats')) || [];
+    }
+
+    return (
+        <div id="chat-list" className="chat-list">
+            {chats.map(({id, interlocutor, avatar}) =>
+                <Chat key={id} id={id} interlocutor={interlocutor} avatar={avatar} />)}
+        </div>
+    );
 }
