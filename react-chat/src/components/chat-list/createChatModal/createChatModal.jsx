@@ -64,8 +64,14 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
         onChatCreated();
     };
 
+    const handleModalClick = (event) => {
+        if (event.target.className === 'modal') {
+            onClose();
+        }
+    };
+
     return (
-        <div className="modal" id="create-chat-modal" style={{ display: 'block' }}>
+        <div className="modal" id="create-chat-modal" style={{ display: 'block' }} onClick={handleModalClick}>
             <div className="modal-content">
                 <div className="modal-header">
                     <h2 className="create-chat-text">Создание чата</h2>
