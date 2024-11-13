@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.6aa77974.css",
+    "main.js": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.850a1c7a.js",
+    "static/js/453.6a81d3e2.chunk.js": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/453.6a81d3e2.chunk.js",
+    "index.html": "/2024-2-VK-EDU-Frontend-N-Gavrilov/index.html",
+    "main.6aa77974.css.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.6aa77974.css.map",
+    "main.850a1c7a.js.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.850a1c7a.js.map",
+    "453.6a81d3e2.chunk.js.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/453.6a81d3e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6aa77974.css",
+    "static/js/main.850a1c7a.js"
+  ]
+}
