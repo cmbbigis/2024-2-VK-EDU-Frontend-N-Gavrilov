@@ -10,53 +10,58 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const maxWidth = 100;
-                const maxHeight = 100;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height *= maxWidth / width;
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width *= maxHeight / height;
-                        height = maxHeight;
-                    }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-                const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
-                saveChat(interlocutor, resizedAvatarDataUrl);
-                setInterlocutor('');
-                setAvatar(null);
-                onClose();
-                onChatCreated();
-            };
-        };
+        reader.onload = handleImageLoad;
         reader.readAsDataURL(avatar);
+    };
+
+    const handleImageLoad = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => resizeImage(img);
+    };
+
+    const resizeImage = (img) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const maxWidth = 100;
+        const maxHeight = 100;
+        let { width, height } = img;
+
+        if (width > height && width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+        } else if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
+        saveChat(interlocutor, resizedAvatarDataUrl);
+        resetForm();
     };
 
     const saveChat = (interlocutor, avatar) => {
         const chats = JSON.parse(localStorage.getItem('chats')) || [];
-        const chatId = Number(Math.random() * 100000);
+        const chatId = Math.floor(Math.random() * 100000);
         const newChat = { id: chatId, interlocutor, avatar };
         chats.push(newChat);
         localStorage.setItem('chats', JSON.stringify(chats));
+
         const messages = JSON.parse(localStorage.getItem('messages')) || [];
         const text = 'Привет!';
         const time = new Date().toLocaleString();
         messages.push({ chatId, text, sender: interlocutor, time });
         localStorage.setItem('messages', JSON.stringify(messages));
+    };
+
+    const resetForm = () => {
+        setInterlocutor('');
+        setAvatar(null);
+        onClose();
+        onChatCreated();
     };
 
     return (
