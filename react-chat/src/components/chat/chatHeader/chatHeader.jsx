@@ -1,8 +1,11 @@
 import React from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchIcon from '@mui/icons-material/Search';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import './chatHeader.scss';
 
-export const ChatHeader = (chatId) => {
+export const ChatHeader = ({ chatId, onBack }) => {
     const chats = JSON.parse(localStorage.getItem('chats')) || [];
     if (!chats) {
         return null;
@@ -15,8 +18,8 @@ export const ChatHeader = (chatId) => {
 
     return (
         <div className="header">
-            <a className="header-button back-to-chat-list-link" href="./index.html">
-                <span className="material-symbols-outlined">arrow_back</span>
+            <a className="header-button back-to-chat-list-link" onClick={onBack}>
+                <ArrowBackIcon />
             </a>
             <img className="avatar" alt="Avatar" src={chat.avatar} />
             <div className="header-text">
@@ -24,10 +27,10 @@ export const ChatHeader = (chatId) => {
                 <span className="status">была 2 часа назад</span>
             </div>
             <button className="header-button search-button">
-                <span className="material-symbols-outlined">search</span>
+                <SearchIcon />
             </button>
             <button className="header-button options-button">
-                <span className="material-symbols-outlined">more_vert</span>
+                <MoreVertIcon />
             </button>
         </div>
     );

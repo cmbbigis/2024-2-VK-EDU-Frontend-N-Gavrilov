@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './chatList.scss';
 import { Chat } from "../chat";
 
-export const ChatList = ({ reload }) => {
+export const ChatList = ({ reload, onSelectChat }) => {
     const [chats, setChats] = useState([]);
 
     useEffect(() => {
@@ -16,8 +16,11 @@ export const ChatList = ({ reload }) => {
 
     return (
         <div id="chat-list" className="chat-list">
-            {chats.map(({id, interlocutor, avatar}) =>
-                <Chat key={id} id={id} interlocutor={interlocutor} avatar={avatar} />)}
+            {chats.map(({id, interlocutor, avatar}) => (
+                <div key={id} onClick={() => onSelectChat(id)}>
+                    <Chat id={id} interlocutor={interlocutor} avatar={avatar}/>
+                </div>
+            ))}
         </div>
     );
 }

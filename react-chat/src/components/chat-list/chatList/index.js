@@ -1,5 +1,5 @@
 import * as f from './chatList';
 
-export const ChatList = ({ reload }) => {
-    return f.ChatList({ reload })
+export const ChatList = ({ reload, onSelectChat }) => {
+    return f.ChatList({ reload, onSelectChat })
 };

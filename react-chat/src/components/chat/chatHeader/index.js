@@ -1,5 +1,5 @@
 import * as f from './chatHeader';
 
-export const ChatHeader = () => {
-    return f.ChatHeader()
+export const ChatHeader = ({ chatId, onBack }) => {
+    return f.ChatHeader({ chatId, onBack })
 };

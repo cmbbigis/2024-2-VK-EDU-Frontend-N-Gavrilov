@@ -1,5 +1,5 @@
 import * as f from './chatScreen';
 
-export const ChatScreen = () => {
-    return f.ChatScreen()
+export const ChatScreen = ({ chatId }) => {
+    return f.ChatScreen({ chatId })
 };

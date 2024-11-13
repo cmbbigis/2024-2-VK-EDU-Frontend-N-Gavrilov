@@ -6,19 +6,17 @@ import './chat.scss';
 export const Chat = ({ id, interlocutor, avatar }) => {
     const lastMessage = getLastMessage(id);
     return (
-        <a className="chat-link" href={`./chat.html?id=${id}`}>
-            <div className="chat">
-                <img className="avatar" alt="Avatar" src={avatar} />
-                <div className="chat-info">
-                    <h2 className="chat-title">{interlocutor}</h2>
-                    <p className="chat-last-message">{lastMessage.text}</p>
-                </div>
-                <div className="chat-meta">
-                    <span className="last-message-time">{lastMessage.time}</span>
-                    <DoneAllIcon />
-                </div>
+        <div className="chat">
+            <img className="avatar" alt="Avatar" src={avatar} />
+            <div className="chat-info">
+                <h2 className="chat-title">{interlocutor}</h2>
+                <p className="chat-last-message">{lastMessage.text}</p>
             </div>
-        </a>
+            <div className="chat-meta">
+                <span className="last-message-time">{lastMessage.time}</span>
+                <DoneAllIcon />
+            </div>
+        </div>
     );
 }
 

@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 import './chatScreen.scss';
 
-export const ChatScreen = (chatId) => {
+export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
 
