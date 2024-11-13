@@ -70,7 +70,7 @@ export const ChatScreen = ({ chatId }) => {
                         type="submit"
                         style={{ display: messageText.trim() ? 'block' : 'none' }}
                     >
-                        <SendIcon />
+                        <SendIcon className="sendIcon"/>
                     </button>
                 </label>
             </form>

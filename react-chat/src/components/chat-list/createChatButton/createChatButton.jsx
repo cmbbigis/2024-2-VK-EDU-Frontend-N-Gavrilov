@@ -6,7 +6,7 @@ import './createChatButton.scss';
 export const CreateChatButton = ({ onClick }) => {
     return (
         <button className="create-chat-button" onClick={onClick}>
-            <EditIcon />
+            <EditIcon className="editIcon"/>
         </button>
     );
 }

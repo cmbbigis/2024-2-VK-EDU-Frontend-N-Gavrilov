@@ -15,7 +15,7 @@ export const ChatListPage = ({ onSelectChat }) => {
     };
 
     return (
-        <div id="app">
+        <div id="chatListPage">
             <ChatListHeader />
             <ChatList reload={reload} onSelectChat={onSelectChat}/>
             <CreateChatButton onClick={handleOpenModal} />
