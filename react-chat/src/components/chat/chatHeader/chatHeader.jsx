@@ -18,9 +18,9 @@ export const ChatHeader = ({ chatId, onBack }) => {
 
     return (
         <div className="header">
-            <a className="header-button back-to-chat-list-link" onClick={onBack}>
+            <button className="header-button back-to-chat-list-link" onClick={onBack}>
                 <ArrowBackIcon />
-            </a>
+            </button>
             <img className="avatar" alt="Avatar" src={chat.avatar} />
             <div className="header-text">
                 <span className="name">{chat.interlocutor}</span>
