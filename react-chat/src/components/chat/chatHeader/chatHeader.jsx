@@ -12,11 +12,9 @@ export const ChatHeader = ({ chatId }) => {
 
     return (
         <div className="header">
-            <button className="header-button back-to-chat-list-link">
-                <Link to={"/"}>
-                    <ArrowBackIcon />
-                </Link>
-            </button>
+            <Link to={"/"} className="header-button back-to-chat-list-link">
+                <ArrowBackIcon />
+            </Link>
             <img className="avatar" alt="Avatar" src={chat.avatar} />
             <div className="header-text">
                 <span className="name">{chat.interlocutor}</span>
