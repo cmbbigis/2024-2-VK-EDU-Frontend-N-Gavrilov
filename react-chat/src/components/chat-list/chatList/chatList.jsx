@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 import './chatList.scss';
 import { Chat } from "../chat";
 
-export const ChatList = ({ reload, onSelectChat }) => {
+export const ChatList = ({ reload }) => {
     const [chats, setChats] = useState([]);
 
     useEffect(() => {
@@ -17,9 +18,9 @@ export const ChatList = ({ reload, onSelectChat }) => {
     return (
         <div id="chat-list" className="chat-list">
             {chats.map(({id, interlocutor, avatar}) => (
-                <div key={id} onClick={() => onSelectChat(id)}>
+                <Link to={`chat/${id}`} key={id}>
                     <Chat id={id} interlocutor={interlocutor} avatar={avatar}/>
-                </div>
+                </Link>
             ))}
         </div>
     );
