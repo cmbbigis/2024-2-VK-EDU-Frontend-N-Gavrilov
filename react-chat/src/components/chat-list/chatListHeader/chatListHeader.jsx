@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -7,9 +8,9 @@ import './chatListHeader.scss';
 export const ChatListHeader = () => {
     return (
         <div className="header">
-            <button className="header-button menu-button">
+            <Link to={"profile/"} className="header-button menu-button">
                 <MenuIcon />
-            </button>
+            </Link>
             <div className="header-text">
                 <span className="name">Messenger</span>
             </div>

@@ -1,0 +1,66 @@
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.edit-profile-info {
+    display: flex;
+    margin-top: 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+    min-height: 45vh;
+}
+
+.profile-avatar-input-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.profile-avatar-input {
+    display: block;
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+    box-shadow: #666666 0 0 10px 2px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(128, 128, 128, 0.5);
+    color: white;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.profile-full-name-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-username-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.profile-bio-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
