@@ -11,19 +11,18 @@ export const ProfileInfo = () => {
     return (
         <div className="profile-info">
             <img className="profile-avatar" alt="Avatar" src={profileAvatar}/>
-            <div className="profile-full-name-container">
-                <label>Имя</label>
+            <div className="container profile-full-name">
+                <label className="info-label profile-full-name-label">Имя</label>
                 <span className="profile-full-name">{profileFullName}</span>
             </div>
-            <div className="profile-username-container">
-                <label>Имя пользователя</label>
+            <div className="container profile-username">
+                <label className="info-label profile-username-label">Имя пользователя</label>
                 <span className="profile-username">{profileUsername}</span>
             </div>
-            <div className="profile-bio-container">
-                <label>Описание профиля</label>
+            <div className="container profile-bio">
+                <label className="info-label profile-bio-label">Описание профиля</label>
                 <span className="profile-bio">{profileBio}</span>
             </div>
-
         </div>
     );
 

@@ -17,34 +17,34 @@
   box-shadow: #666666 0 0 10px 2px;
 }
 
-.profile-full-name-container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 250px;
+  background-color: #ededed;
+  padding: 5px;
+  border-radius: 5px;
+  border-bottom: 1px solid #9e9e9e;
 }
 
-.profile-username-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.profile-bio-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+.info-label {
+  color: #9a9a9a;
+  font-size: 14px;
 }
 
 .profile-full-name {
-  background-color: #cccccc;
+  font-size: 18px;
 }
 
 .profile-username {
-  background-color: #cccccc;
+  font-size: 18px;
 }
 
 .profile-bio {
-  background-color: #cccccc;
+  font-size: 18px;
+}
+
+.profile-username-about {
+  background-color: #ffffff;
 }

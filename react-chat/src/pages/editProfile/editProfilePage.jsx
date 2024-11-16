@@ -88,35 +88,41 @@ export const EditProfilePage = () => {
                         onChange={handleFileChange}
                     />
                 </div>
-                <div className="profile-full-name-input-container">
-                    <label htmlFor="profile-full-name">Имя</label>
-                    <input className="profile-full-name-input"
+                <div className="container profile-full-name-input">
+                    <label className="info-label" htmlFor="profile-full-name">Имя</label>
+                    <input className="info-input profile-full-name-input"
                            name="profile-full-name"
                            type="text"
                            placeholder={profileFullName}
                            onChange={(e) => setProfileFullName(e.target.value)}
                     />
                 </div>
-                <div className="profile-username-input-container">
-                    <label htmlFor="profile-username">Имя пользователя</label>
-                    <input className="profile-username-input"
-                           name="profile-username"
-                           type="text"
-                           placeholder={profileUsername}
-                           onChange={(e) => setProfileUsername(e.target.value)}
-                    />
+                <div className="profile-username-input-container-with-about">
+                    <div className="container profile-username-input">
+                        <label className="info-label" htmlFor="profile-username">Имя пользователя</label>
+                        <input className="info-input profile-username-input"
+                               name="profile-username"
+                               type="text"
+                               placeholder={profileUsername}
+                               onChange={(e) => setProfileUsername(e.target.value)}
+                        />
+                    </div>
+                    <span className="about">Минимум 5 символов</span>
                 </div>
-                <div className="profile-bio-input-container">
-                    <label htmlFor="profile-bio">Описание профиля</label>
-                    <input className="profile-bio-input"
-                           name="profile-bio"
-                           type="text"
-                           placeholder={profileBio}
-                           onChange={(e) => {
-                               setProfileBio(e.target.value)
-                               setIsBioChanged(true);
-                           }}
-                    />
+                <div className="profile-bio-input-container-with-about">
+                    <div className="container profile-bio-input">
+                        <label className="info-label" htmlFor="profile-bio">Описание профиля</label>
+                        <input className="info-input profile-bio-input"
+                               name="profile-bio"
+                               type="text"
+                               placeholder={profileBio}
+                               onChange={(e) => {
+                                   setProfileBio(e.target.value)
+                                   setIsBioChanged(true);
+                               }}
+                        />
+                    </div>
+                    <span className="about">Какие-нибудь подробности о вас</span>
                 </div>
             </div>
         </div>
