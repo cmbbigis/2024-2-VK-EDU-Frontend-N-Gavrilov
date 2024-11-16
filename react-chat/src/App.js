@@ -1,7 +1,7 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import './App.scss';
-import { ChatListPage, ChatPage, NotFoundPage } from './pages';
+import { ChatListPage, ChatPage } from './pages';
 
 function App() {
   return (
