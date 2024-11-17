@@ -3,6 +3,7 @@
   margin-top: 100px;
   flex-direction: column;
   align-items: center;
+  gap: 30px;
   justify-content: space-between;
   color: black;
   min-height: 45vh;
@@ -22,6 +23,7 @@
   flex-direction: column;
   align-items: flex-start;
   min-width: 250px;
+  max-width: 250px;
   background-color: #ededed;
   padding: 5px;
   border-radius: 5px;
@@ -35,14 +37,24 @@
 
 .profile-full-name {
   font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 245px;
 }
 
 .profile-username {
   font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 245px;
 }
 
 .profile-bio {
   font-size: 18px;
+  word-wrap: anywhere;
+  overflow-wrap: anywhere;
 }
 
 .profile-username-about {

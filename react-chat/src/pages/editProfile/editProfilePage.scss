@@ -10,6 +10,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    gap: 30px;
     color: black;
     min-height: 45vh;
 }
@@ -61,16 +62,14 @@
     font-size: 14px;
 }
 
-.info-input{
+.info-input {
     border: none;
     background-color: #ededed;
     font-size: 18px;
     color: #2a2a2a;
     padding: 0;
-}
-
-.info-input::placeholder{
-    color: #2a2a2a;
+    font-family: Helvetica, Arial, sans-serif;
+    min-width: 240px;
 }
 
 .about {

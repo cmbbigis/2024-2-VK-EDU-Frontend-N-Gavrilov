@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
@@ -11,9 +11,22 @@ export const EditProfilePage = () => {
     const [profileUsername, setProfileUsername] = useState(localStorage.getItem('profileUsername'));
     const [profileBio, setProfileBio] = useState(localStorage.getItem('profileBio'));
     const [isBioChanged, setIsBioChanged] = useState(false);
+    const [value, setValue] = useState('');
 
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
+
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }, [value]);
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
 
     const handleImageClick = () => {
         fileInputRef.current.click();
@@ -55,11 +68,15 @@ export const EditProfilePage = () => {
     };
 
     const handleSave = () => {
+        if (profileUsername.length < 6 || !profileUsername.startsWith('@')){
+            alert('Имя пользователя должно быть не меньше 5 символов длиной и начинаться с символа @');
+            return;
+        }
         localStorage.setItem('profileAvatar', profileAvatar);
         if (profileFullName !== null && profileFullName !== '' && profileFullName.trim().length > 0) {
             localStorage.setItem('profileFullName', profileFullName);
         }
-        if (profileUsername !== null && profileUsername !== '' ) {
+        if (profileUsername !== '') {
             localStorage.setItem('profileUsername', profileUsername);
         }
         if (isBioChanged) {
@@ -93,7 +110,7 @@ export const EditProfilePage = () => {
                     <input className="info-input profile-full-name-input"
                            name="profile-full-name"
                            type="text"
-                           placeholder={profileFullName}
+                           value={profileFullName}
                            onChange={(e) => setProfileFullName(e.target.value)}
                     />
                 </div>
@@ -103,7 +120,7 @@ export const EditProfilePage = () => {
                         <input className="info-input profile-username-input"
                                name="profile-username"
                                type="text"
-                               placeholder={profileUsername}
+                               value={profileUsername}
                                onChange={(e) => setProfileUsername(e.target.value)}
                         />
                     </div>
@@ -112,14 +129,16 @@ export const EditProfilePage = () => {
                 <div className="profile-bio-input-container-with-about">
                     <div className="container profile-bio-input">
                         <label className="info-label" htmlFor="profile-bio">Описание профиля</label>
-                        <input className="info-input profile-bio-input"
+                        <textarea className="info-input profile-bio-input"
                                name="profile-bio"
-                               type="text"
-                               placeholder={profileBio}
+                               ref={textareaRef}
+                               value={profileBio}
                                onChange={(e) => {
+                                   handleChange(e)
                                    setProfileBio(e.target.value)
                                    setIsBioChanged(true);
                                }}
+                               style={{ overflow: 'hidden' }}
                         />
                     </div>
                     <span className="about">Какие-нибудь подробности о вас</span>
