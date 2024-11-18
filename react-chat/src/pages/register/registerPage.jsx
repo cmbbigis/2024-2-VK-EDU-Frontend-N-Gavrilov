@@ -19,7 +19,7 @@ export const RegisterPage = () => {
     return (
         <div className="registerPage">
             <button className="back-to-auth" onClick={() => navigate("/auth/")}>Назад к авторизации</button>
-            <form id="registerForm" action="/api/register/">
+            <form id="registerForm" action="api/register/">
                 <label htmlFor="login">Логин</label>
                 <input
                     type="text"

@@ -17,7 +17,7 @@ export const AuthPage = () => {
     const navigate = useNavigate();
     return (
         <div className="authPage">
-            <form id="authForm" action="/api/auth/" method="post" encType="multipart/form-data">
+            <form id="authForm" action="api/auth/" method="post" encType="multipart/form-data">
                 <label htmlFor="loginInput">Логин</label>
                 <input
                     type="text"

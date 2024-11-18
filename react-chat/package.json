@@ -1,6 +1,6 @@
 {
   "homepage": "https://cmbbigis.github.io/2024-2-VK-EDU-Frontend-N-Gavrilov/",
-  "proxy": "http://localhost:8080",
+  "proxy": "https://vkedu-fullstack-div2.ru/",
   "name": "react-chat",
   "version": "0.1.0",
   "private": true,
