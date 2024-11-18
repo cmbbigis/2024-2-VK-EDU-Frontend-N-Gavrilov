@@ -8,9 +8,6 @@ export const RegisterPage = () => {
     async function onSubmit() {
         BackendHttpClient.register(document.getElementById("registerForm"))
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Error occurred!');
-                }
                 navigate("/auth/");
                 return response.json();
             })

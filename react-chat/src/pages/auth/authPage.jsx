@@ -6,9 +6,6 @@ export const AuthPage = () => {
     async function onSubmit() {
         BackendHttpClient.auth(document.getElementById("authForm"))
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Error occurred!');
-                }
                 navigate("/");
                 return response.json();
             })
