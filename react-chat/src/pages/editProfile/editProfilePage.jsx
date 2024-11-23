@@ -4,12 +4,14 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 import './editProfilePage.scss';
 import { EditProfileHeader } from "../../components/editProfile";
+import {BackendHttpClient} from "../../utils/backendHttpClient";
 
 export const EditProfilePage = () => {
-    const [profileAvatar, setProfileAvatar] = useState(localStorage.getItem('profileAvatar'));
-    const [profileFullName, setProfileFullName] = useState(localStorage.getItem('profileFullName'));
-    const [profileUsername, setProfileUsername] = useState(localStorage.getItem('profileUsername'));
-    const [profileBio, setProfileBio] = useState(localStorage.getItem('profileBio'));
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
+    const [profileAvatar, setProfileAvatar] = useState(currentUser['avatar']);
+    const [profileFullName, setProfileFullName] = useState(`${currentUser['first_name']} ${currentUser['last_name']}`);
+    const [profileUsername, setProfileUsername] = useState(currentUser['username']);
+    const [profileBio, setProfileBio] = useState(currentUser['bio']);
     const [isBioChanged, setIsBioChanged] = useState(false);
     const [value, setValue] = useState('');
 
@@ -67,28 +69,44 @@ export const EditProfilePage = () => {
         setProfileAvatar(resizedAvatarDataUrl);
     };
 
-    const handleSave = () => {
-        if (profileUsername.length < 6 || !profileUsername.startsWith('@')){
-            alert('Имя пользователя должно быть не меньше 5 символов длиной и начинаться с символа @');
+    const handleSave = async () => {
+        let formData = new FormData(document.getElementById("edit-profile-form"));
+        if (profileUsername.length < 5 ) {
+            alert('Имя пользователя должно быть не меньше 5 символов длиной');
             return;
         }
-        localStorage.setItem('profileAvatar', profileAvatar);
+        if (profileAvatar !== null) {
+            formData.set('avatar', profileAvatar);
+            currentUser['avatar'] = profileAvatar;
+        }
         if (profileFullName !== null && profileFullName !== '' && profileFullName.trim().length > 0) {
-            localStorage.setItem('profileFullName', profileFullName);
+            const temp = profileFullName.split(' ');
+            formData.set('first_name', temp[0]);
+            currentUser['first_name'] = temp[0];
+            if (temp.length > 1) {
+                formData.set('last_name', temp[1]);
+                currentUser['last_name'] = temp[1];
+            }
         }
         if (profileUsername !== '') {
-            localStorage.setItem('profileUsername', profileUsername);
+            formData.set('username', profileUsername);
+            currentUser['username'] = profileUsername;
         }
         if (isBioChanged) {
-            localStorage.setItem('profileBio', profileBio);
+            formData.set('bio', profileBio);
+            currentUser['bio'] = profileBio;
         }
+        await BackendHttpClient.editProfile(currentUser['id'], formData);
+        setCurrentUser(currentUser);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
         navigate('/profile/');
     };
 
     return (
         <div className="editProfilePage">
             <EditProfileHeader onSave={handleSave}/>
-            <div className="edit-profile-info">
+            <form className="edit-profile-info" id="edit-profile-form" encType="multipart/form-data">
                 <div className="profile-avatar-input-container" onClick={handleImageClick}>
                     <img className="profile-avatar-input"
                          alt="Avatar"
@@ -102,6 +120,7 @@ export const EditProfilePage = () => {
                         accept="image/*"
                         ref={fileInputRef}
                         style={{display: 'none'}}
+                        name="avatar"
                         onChange={handleFileChange}
                     />
                 </div>
@@ -116,9 +135,9 @@ export const EditProfilePage = () => {
                 </div>
                 <div className="profile-username-input-container-with-about">
                     <div className="container profile-username-input">
-                        <label className="info-label" htmlFor="profile-username">Имя пользователя</label>
+                        <label className="info-label" htmlFor="username">Имя пользователя</label>
                         <input className="info-input profile-username-input"
-                               name="profile-username"
+                               name="username"
                                type="text"
                                value={profileUsername}
                                onChange={(e) => setProfileUsername(e.target.value)}
@@ -128,9 +147,9 @@ export const EditProfilePage = () => {
                 </div>
                 <div className="profile-bio-input-container-with-about">
                     <div className="container profile-bio-input">
-                        <label className="info-label" htmlFor="profile-bio">Описание профиля</label>
+                        <label className="info-label" htmlFor="bio">Описание профиля</label>
                         <textarea className="info-input profile-bio-input"
-                               name="profile-bio"
+                               name="bio"
                                ref={textareaRef}
                                value={profileBio}
                                onChange={(e) => {
@@ -143,7 +162,7 @@ export const EditProfilePage = () => {
                     </div>
                     <span className="about">Какие-нибудь подробности о вас</span>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

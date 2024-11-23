@@ -175,4 +175,21 @@ export class BackendHttpClient {
             return res.json();
         });
     }
+
+    static async editProfile(id, formData) {
+        return await fetch(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("access")}`
+            },
+            body: formData
+        }).then(res => {
+            if (!res.ok) {
+                const err = new Error('Error occurred!');
+                alert(err);
+                return;
+            }
+            return res.json();
+        });
+    }
 }
