@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 import './chatPage.scss';
 import { ChatHeader, ChatScreen } from '../../components/chat';
-import { NotFoundPage } from "../error";
 
 export const ChatPage = () => {
     const { chatId } = useParams();
