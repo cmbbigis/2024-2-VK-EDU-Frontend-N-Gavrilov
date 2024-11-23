@@ -2,64 +2,37 @@ import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
+import { BackendHttpClient } from "../../../utils/backendHttpClient";
 
 export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [interlocutor, setInterlocutor] = useState('');
-    const [avatar, setAvatar] = useState(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const reader = new FileReader();
-        reader.onload = handleImageLoad;
-        reader.readAsDataURL(avatar);
-    };
-
-    const handleImageLoad = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = () => resizeImage(img);
-    };
-
-    const resizeImage = (img) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const maxWidth = 100;
-        const maxHeight = 100;
-        let { width, height } = img;
-
-        if (width > height && width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-        } else if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
-        const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
-        saveChat(interlocutor, resizedAvatarDataUrl);
+        await saveChat(interlocutor);
         resetForm();
     };
 
-    const saveChat = (interlocutor, avatar) => {
-        const chats = JSON.parse(localStorage.getItem('chats')) || [];
-        const chatId = Math.floor(Math.random() * 100000);
-        const newChat = { id: chatId, interlocutor, avatar };
-        chats.push(newChat);
-        localStorage.setItem('chats', JSON.stringify(chats));
-
-        const messages = JSON.parse(localStorage.getItem('messages')) || [];
-        const text = 'Привет!';
-        const time = new Date().toLocaleString();
-        messages.push({ chatId, text, sender: interlocutor, time });
-        localStorage.setItem('messages', JSON.stringify(messages));
+    const saveChat = async (interlocutorUsername) => {
+        let chatFormData = new FormData(document.getElementById("chat-form"));
+        const possibleInterlocutors = await BackendHttpClient
+            .getUsers(null, null, interlocutorUsername);
+        const interlocutor = possibleInterlocutors["results"].find(user => user.username === interlocutorUsername);
+        chatFormData.append('members', interlocutor['id']);
+        const creator = await BackendHttpClient.getUser('current');
+        chatFormData.append('creator', JSON.stringify({
+            "username": creator["username"],
+            "first_name": creator["first_name"],
+            "last_name": creator["last_name"],
+            "bio": creator["bio"],
+            "avatar": creator["avatar"]
+        }))
+        chatFormData.append('is_private', true);
+        await BackendHttpClient.createChat(chatFormData);
     };
 
     const resetForm = () => {
         setInterlocutor('');
-        setAvatar(null);
         onClose();
         onChatCreated();
     };
@@ -79,8 +52,8 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
                         <CloseIcon />
                     </button>
                 </div>
-                <form className="chat-form" id="chat-form" onSubmit={handleSubmit}>
-                    <label htmlFor="interlocutor">Имя собеседника:</label>
+                <form className="chat-form" id="chat-form" encType="multipart/form-data">
+                    <label htmlFor="interlocutor">Юзернейм собеседника:</label>
                     <input
                         id="interlocutor"
                         type="text"
@@ -89,15 +62,7 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
                         onChange={(e) => setInterlocutor(e.target.value)}
                         required
                     />
-                    <label htmlFor="avatar">Аватар собеседника:</label>
-                    <input
-                        id="avatar"
-                        type="file"
-                        name="avatar"
-                        accept="image/*"
-                        onChange={(e) => setAvatar(e.target.files[0])}
-                    />
-                    <button className="create-button" type="submit">Создать</button>
+                    <button className="create-button" type="button" onClick={handleSubmit}>Создать</button>
                 </form>
             </div>
         </div>
