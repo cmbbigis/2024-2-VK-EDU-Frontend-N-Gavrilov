@@ -3,21 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { BackendHttpClient } from "../../utils/backendHttpClient";
 
 export const AuthPage = () => {
+    const navigate = useNavigate();
     async function onSubmit() {
-        BackendHttpClient.auth(document.getElementById("authForm"))
-            .then((response) => {
-                navigate("/");
-                return response.json();
-            })
-            .catch((err) => {
-                alert(err);
-            })
+        const response = await BackendHttpClient.auth(new FormData(document.getElementById("authForm")));
+        localStorage.setItem("access", response["access"]);
+        localStorage.setItem("refresh", response["refresh"]);
+        navigate("/");
     }
 
-    const navigate = useNavigate();
     return (
         <div className="authPage">
-            <form id="authForm" action="https://vkedu-fullstack-div2.ru/api/auth/" method="post" encType="multipart/form-data">
+            <form id="authForm" encType="multipart/form-data">
                 <label htmlFor="loginInput">Логин</label>
                 <input
                     type="text"

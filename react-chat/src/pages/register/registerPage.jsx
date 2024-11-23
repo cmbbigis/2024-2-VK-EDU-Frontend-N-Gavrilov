@@ -6,20 +6,14 @@ export const RegisterPage = () => {
     const navigate = useNavigate();
 
     async function onSubmit() {
-        BackendHttpClient.register(document.getElementById("registerForm"))
-            .then((response) => {
-                navigate("/auth/");
-                return response.json();
-            })
-            .catch((err) => {
-                alert(err);
-            })
+        await BackendHttpClient.register(new FormData(document.getElementById("registerForm")));
+        navigate("/auth/");
     }
 
     return (
         <div className="registerPage">
             <button className="back-to-auth" onClick={() => navigate("/auth/")}>Назад к авторизации</button>
-            <form id="registerForm" action="https://vkedu-fullstack-div2.ru/api/register/">
+            <form id="registerForm" encType="multipart/form-data">
                 <label htmlFor="login">Логин</label>
                 <input
                     type="text"
