@@ -70,6 +70,37 @@ export class BackendHttpClient {
         });
     }
 
+    static async getChatMessages(chat, page, page_size, search) {
+        let query = new URLSearchParams();
+        if (chat != null) {
+            query.append('chat', chat);
+        } else {
+            return;
+        }
+        if (page != null) {
+            query.append('page', page);
+        }
+        if (page_size != null) {
+            query.append('page_size', page_size);
+        }
+        if (search != null) {
+            query.append('search', search);
+        }
+        return await fetch('https://vkedu-fullstack-div2.ru/api/messages/?' + query.toString(), {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("access")}`
+            }
+        }).then(res => {
+            if (!res.ok) {
+                const err = new Error('Error occurred!');
+                alert(err);
+                return;
+            }
+            return res.json();
+        });
+    }
+
     static async getMessage(id) {
         return await fetch(`https://vkedu-fullstack-div2.ru/api/message/${id}/`, {
             method: 'GET',

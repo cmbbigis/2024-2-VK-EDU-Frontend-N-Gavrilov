@@ -3,11 +3,13 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 
 import './chatScreen.scss';
+import {BackendHttpClient} from "../../../utils/backendHttpClient";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
     const messagesEndRef = useRef();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     useEffect(() => {
         loadMessages(chatId);
@@ -21,26 +23,24 @@ export const ChatScreen = ({ chatId }) => {
         setMessageText(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (messageText.trim()) {
-            saveMessage(chatId, messageText.trim(), 'Я');
-            loadMessages(chatId);
+            await saveMessage(chatId, messageText.trim(), 'Я');
+            await loadMessages(chatId);
             setMessageText('');
         }
     };
 
-    const loadMessages = (chatId) => {
-        const messages = JSON.parse(localStorage.getItem('messages')) || [];
-        const filteredMessages = messages.filter(message => message.chatId === chatId) || [];
-        setMessages(filteredMessages);
+    const loadMessages = async (chatId) => {
+        const messages = (await BackendHttpClient.getChatMessages(chatId))["results"].reverse();
+        setMessages(messages);
     };
 
-    const saveMessage = (chatId, text, sender) => {
-        const messages = JSON.parse(localStorage.getItem('messages')) || [];
-        const time = new Date().toLocaleString();
-        messages.push({ chatId, text, sender, time });
-        localStorage.setItem('messages', JSON.stringify(messages));
+    const saveMessage = async (chatId) => {
+        let formData = new FormData(document.getElementById("message-form"));
+        formData.append("chat", chatId);
+        await BackendHttpClient.sendMessage(formData);
     };
 
     const scrollToBottom = () => {
@@ -50,23 +50,29 @@ export const ChatScreen = ({ chatId }) => {
     return (
         <div className="chat-screen">
             <div className="messages">
-                {messages.map(({text, sender, time}, index) => (
-                    <div
-                        key={index}
-                        className={`message ${sender === 'Я' ? 'my-message' : 'interlocutor-message'} new-message`}
-                    >
-                        <span className="message-sender">{sender}</span>
-                        <span className="message-text">{text}</span>
-                        <span className="message-time">{time}</span>
-                    </div>
-                ))}
+                {messages.map((message, index) => {
+                            const senderUsername = message['sender']['username'];
+                            const senderFirstName = message['sender']['first_name'];
+                            return (
+                                <div
+                                    key={index}
+                                    className={`message ${senderUsername === currentUser['username'] ? 'my-message' : 'interlocutor-message'} new-message`}
+                                >
+                                    <span className="message-sender">{senderFirstName}</span>
+                                    <span className="message-text">{message['text']}</span>
+                                    <span className="message-time">{message['created_at']}</span>
+                                </div>
+                            )
+                        }
+                    )
+                }
                 <div ref={messagesEndRef}/>
             </div>
-            <form className="form" onSubmit={handleSubmit}>
-                <label className="message-input-container">
+            <form className="form" id="message-form" encType="multipart/form-data" onSubmit={handleSubmit}>
+                <div className="message-input-container">
                     <input
                         className="message-input"
-                        name="message-text"
+                        name="text"
                         placeholder="Сообщение"
                         type="text"
                         value={messageText}
@@ -82,7 +88,7 @@ export const ChatScreen = ({ chatId }) => {
                     >
                         <SendIcon className="sendIcon"/>
                     </button>
-                </label>
+                </div>
             </form>
         </div>
     );

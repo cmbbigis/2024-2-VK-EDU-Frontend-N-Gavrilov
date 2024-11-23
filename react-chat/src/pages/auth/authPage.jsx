@@ -8,6 +8,8 @@ export const AuthPage = () => {
         const response = await BackendHttpClient.auth(new FormData(document.getElementById("authForm")));
         localStorage.setItem("access", response["access"]);
         localStorage.setItem("refresh", response["refresh"]);
+        const currentUser = await BackendHttpClient.getUser('current');
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         navigate("/");
     }
 
