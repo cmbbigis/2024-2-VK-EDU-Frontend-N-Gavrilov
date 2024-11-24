@@ -3,16 +3,20 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 
 import './chatScreen.scss';
-import {BackendHttpClient} from "../../../utils/backendHttpClient";
+import { BackendHttpClient } from "../../../utils/backendHttpClient";
+import { Centrifugo } from "../../../utils/Centrifugo";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
     const messagesEndRef = useRef();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const centrifugoRef = useRef(null);
 
     useEffect(() => {
         loadMessages(chatId);
+        centrifugoRef.current = Centrifugo(setMessages);
+        return () => centrifugoRef.current;
     }, [chatId]);
 
     useEffect(() => {
@@ -33,7 +37,14 @@ export const ChatScreen = ({ chatId }) => {
     };
 
     const loadMessages = async (chatId) => {
-        const messages = (await BackendHttpClient.getChatMessages(chatId))["results"].reverse();
+        let pageNumber = 1;
+        let pageSize = 30;
+        let messages = [];
+        let response = { 'next': '' };
+        while (response['next'] !== null) {
+            response = await BackendHttpClient.getChatMessages(chatId, pageNumber++, pageSize)
+            messages = messages.concat(response['results']);
+        }
         setMessages(messages);
     };
 
@@ -50,7 +61,7 @@ export const ChatScreen = ({ chatId }) => {
     return (
         <div className="chat-screen">
             <div className="messages">
-                {messages.map((message, index) => {
+                {messages.slice().reverse().map((message, index) => {
                             const senderUsername = message['sender']['username'];
                             const senderFirstName = message['sender']['first_name'];
                             return (
