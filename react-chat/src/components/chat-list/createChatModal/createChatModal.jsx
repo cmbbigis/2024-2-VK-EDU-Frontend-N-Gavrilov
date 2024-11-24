@@ -18,6 +18,10 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
         const possibleInterlocutors = await BackendClient
             .getUsers(null, null, interlocutorUsername);
         const interlocutor = possibleInterlocutors["results"].find(user => user.username === interlocutorUsername);
+        if (!interlocutor) {
+            alert(`Error: Cannot found user ${interlocutorUsername}`);
+            return;
+        }
         chatFormData.append('members', interlocutor['id']);
         const creator = await BackendClient.getUser('current');
         chatFormData.append('creator', JSON.stringify({

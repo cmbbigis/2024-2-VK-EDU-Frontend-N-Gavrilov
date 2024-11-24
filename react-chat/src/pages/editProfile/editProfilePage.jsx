@@ -69,29 +69,31 @@ export const EditProfilePage = () => {
         setProfileAvatar(resizedAvatarDataUrl);
     };
 
-    const handleSave = async () => {
-        let formData = new FormData(document.getElementById("edit-profile-form"));
-        if (profileUsername.length < 5 ) {
-            alert('Имя пользователя должно быть не меньше 5 символов длиной');
+    async function handleSave() {
+        const form = document.getElementById("edit-profile-form");
+        if (!form.checkValidity()) {
+            form.reportValidity();
             return;
         }
+
+        let formData = new FormData(form);
+
         if (profileAvatar !== null) {
             formData.set('avatar', profileAvatar);
             currentUser['avatar'] = profileAvatar;
         }
-        if (profileFullName !== null && profileFullName !== '' && profileFullName.trim().length > 0) {
-            const temp = profileFullName.split(' ');
-            formData.set('first_name', temp[0]);
-            currentUser['first_name'] = temp[0];
-            if (temp.length > 1) {
-                formData.set('last_name', temp[1]);
-                currentUser['last_name'] = temp[1];
-            }
+
+        const temp = profileFullName.split(' ');
+        formData.set('first_name', temp[0]);
+        currentUser['first_name'] = temp[0];
+        if (temp.length > 1) {
+            formData.set('last_name', temp[1]);
+            currentUser['last_name'] = temp[1];
         }
-        if (profileUsername !== '') {
-            formData.set('username', profileUsername);
-            currentUser['username'] = profileUsername;
-        }
+
+        formData.set('username', profileUsername);
+        currentUser['username'] = profileUsername;
+
         if (isBioChanged) {
             formData.set('bio', profileBio);
             currentUser['bio'] = profileBio;
@@ -131,6 +133,7 @@ export const EditProfilePage = () => {
                            type="text"
                            value={profileFullName}
                            onChange={(e) => setProfileFullName(e.target.value)}
+                           required
                     />
                 </div>
                 <div className="profile-username-input-container-with-about">
@@ -141,6 +144,8 @@ export const EditProfilePage = () => {
                                type="text"
                                value={profileUsername}
                                onChange={(e) => setProfileUsername(e.target.value)}
+                               required
+                               minLength={5}
                         />
                     </div>
                     <span className="about">Минимум 5 символов</span>
