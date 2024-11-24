@@ -1,4 +1,51 @@
 export class BackendClient {
+    static async refreshToken() {
+        const refresh = localStorage.getItem("refresh");
+        if (!refresh) {
+            throw new Error("No refresh token available");
+        }
+
+        return await fetch("https://vkedu-fullstack-div2.ru/api/auth/refresh/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ refresh })
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error('Failed to refresh token');
+            }
+            return res.json();
+        }).then(data => {
+            localStorage.setItem("access", data.access);
+            localStorage.setItem("refresh", data.refresh);
+            return data.access;
+        });
+    }
+
+    static async fetchWithAuth(url, options = {}, retryCount = 1) {
+        let access = localStorage.getItem("access");
+        if (!access) {
+            throw new Error("No access token available");
+        }
+
+        options.headers = {
+            ...options.headers,
+            "Authorization": `Bearer ${access}`
+        };
+
+        return await fetch(url, options).then(async res => {
+            if (res.status === 401 && retryCount > 0) {
+                access = await this.refreshToken();
+                options.headers["Authorization"] = `Bearer ${access}`;
+                return await this.fetchWithAuth(url, options, retryCount - 1);
+            } else if (res.status === 401 && retryCount <= 0) {
+                throw new Error('Maximum retry attempts exceeded');
+            }
+            return res;
+        });
+    }
+
     static async auth(formData) {
         return await fetch(`https://vkedu-fullstack-div2.ru/api/auth/`, {
             method: 'POST',
@@ -27,7 +74,7 @@ export class BackendClient {
         });
     }
 
-    static async getChats(page, page_size, search){
+    static async getChats(page, page_size, search) {
         let query = new URLSearchParams();
         if (page != null) {
             query.append('page', page);
@@ -38,11 +85,8 @@ export class BackendClient {
         if (search != null) {
             query.append('search', search);
         }
-        return await fetch("https://vkedu-fullstack-div2.ru/api/chats/?" + query.toString(), {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+        return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/chats/?" + query.toString(), {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -53,12 +97,9 @@ export class BackendClient {
         });
     }
 
-    static async getChat(id){
-        return await fetch(`https://vkedu-fullstack-div2.ru/api/chat/${id}/`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+    static async getChat(id) {
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/chat/${id}/`, {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -70,11 +111,8 @@ export class BackendClient {
     }
 
     static async createChat(formData) {
-        return await fetch("https://vkedu-fullstack-div2.ru/api/chats/", {
+        return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/chats/", {
             method: 'POST',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            },
             body: formData
         }).then(res => {
             if (!res.ok) {
@@ -102,11 +140,8 @@ export class BackendClient {
         if (search != null) {
             query.append('search', search);
         }
-        return await fetch('https://vkedu-fullstack-div2.ru/api/messages/?' + query.toString(), {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+        return await this.fetchWithAuth('https://vkedu-fullstack-div2.ru/api/messages/?' + query.toString(), {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -118,11 +153,8 @@ export class BackendClient {
     }
 
     static async getMessage(id) {
-        return await fetch(`https://vkedu-fullstack-div2.ru/api/message/${id}/`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/message/${id}/`, {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -134,11 +166,8 @@ export class BackendClient {
     }
 
     static async sendMessage(formData) {
-        return await fetch("https://vkedu-fullstack-div2.ru/api/messages/", {
+        return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/messages/", {
             method: 'POST',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            },
             body: formData
         }).then(res => {
             if (!res.ok) {
@@ -161,11 +190,8 @@ export class BackendClient {
         if (search != null) {
             query.append('search', search);
         }
-        return await fetch("https://vkedu-fullstack-div2.ru/api/users/?" + query.toString(), {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+        return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/users/?" + query.toString(), {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -177,11 +203,8 @@ export class BackendClient {
     }
 
     static async getUser(id) {
-        return await fetch(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            }
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
+            method: 'GET'
         }).then(res => {
             if (!res.ok) {
                 const err = new Error('Error occurred!');
@@ -193,11 +216,8 @@ export class BackendClient {
     }
 
     static async editProfile(id, formData) {
-        return await fetch(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
             method: 'PATCH',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("access")}`
-            },
             body: formData
         }).then(res => {
             if (!res.ok) {
