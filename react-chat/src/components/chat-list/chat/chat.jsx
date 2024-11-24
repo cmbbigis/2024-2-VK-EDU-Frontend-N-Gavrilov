@@ -21,7 +21,7 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
                     <p className="chat-last-message">{latestMessage['text']}</p>
                 </div>
                 <div className="chat-meta">
-                    <span className="last-message-time">{latestMessage['created_at']}</span>
+                    <span className="last-message-time">{new Date(latestMessage['created_at']).toLocaleString()}</span>
                     <DoneAllIcon />
                 </div>
             </div>

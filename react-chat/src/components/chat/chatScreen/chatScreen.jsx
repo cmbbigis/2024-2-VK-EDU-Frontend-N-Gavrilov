@@ -71,7 +71,7 @@ export const ChatScreen = ({ chatId }) => {
                                 >
                                     <span className="message-sender">{senderFirstName}</span>
                                     <span className="message-text">{message['text']}</span>
-                                    <span className="message-time">{message['created_at']}</span>
+                                    <span className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
                                 </div>
                             )
                         }
