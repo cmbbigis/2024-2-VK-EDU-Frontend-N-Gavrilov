@@ -20,12 +20,12 @@ export const RegisterPage = () => {
         if (!response) {
             return;
         }
-        navigate("/auth/");
+        navigate("/");
     }
 
     return (
         <div className="registerPage">
-            <button className="back-to-auth" onClick={() => navigate("/auth/")}>Назад к авторизации</button>
+            <button className="back-to-auth" onClick={() => navigate("/")}>Назад к авторизации</button>
             <form className="registerForm" id="registerForm" encType="multipart/form-data" onSubmit={onSubmit}>
                 <div className="formInput">
                     <label htmlFor="login">Логин</label>

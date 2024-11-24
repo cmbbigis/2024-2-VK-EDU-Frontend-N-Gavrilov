@@ -23,7 +23,7 @@ export const AuthPage = () => {
         localStorage.setItem("refresh", response["refresh"]);
         const currentUser = await BackendClient.getUser('current');
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        navigate("/");
+        navigate("/chats/");
     }
 
     return (
