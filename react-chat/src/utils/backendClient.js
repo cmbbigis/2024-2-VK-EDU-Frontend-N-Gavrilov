@@ -1,4 +1,4 @@
-export class BackendHttpClient {
+export class BackendClient {
     static async auth(formData) {
         return await fetch(`https://vkedu-fullstack-div2.ru/api/auth/`, {
             method: 'POST',

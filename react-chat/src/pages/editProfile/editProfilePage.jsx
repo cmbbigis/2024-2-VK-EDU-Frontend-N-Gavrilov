@@ -4,7 +4,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 import './editProfilePage.scss';
 import { EditProfileHeader } from "../../components/editProfile";
-import {BackendHttpClient} from "../../utils/backendHttpClient";
+import {BackendClient} from "../../utils/backendClient";
 
 export const EditProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
@@ -96,7 +96,7 @@ export const EditProfilePage = () => {
             formData.set('bio', profileBio);
             currentUser['bio'] = profileBio;
         }
-        await BackendHttpClient.editProfile(currentUser['id'], formData);
+        await BackendClient.editProfile(currentUser['id'], formData);
         setCurrentUser(currentUser);
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { BackendHttpClient } from "../../utils/backendHttpClient";
+import { BackendClient } from "../../utils/backendClient";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
     async function onSubmit() {
-        const response = await BackendHttpClient.auth(new FormData(document.getElementById("authForm")));
+        const response = await BackendClient.auth(new FormData(document.getElementById("authForm")));
         localStorage.setItem("access", response["access"]);
         localStorage.setItem("refresh", response["refresh"]);
-        const currentUser = await BackendHttpClient.getUser('current');
+        const currentUser = await BackendClient.getUser('current');
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
         navigate("/");
     }

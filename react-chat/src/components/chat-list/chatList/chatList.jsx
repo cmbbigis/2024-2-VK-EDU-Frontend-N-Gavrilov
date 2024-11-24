@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import './chatList.scss';
 import { Chat } from "../chat";
-import { BackendHttpClient } from "../../../utils/backendHttpClient";
+import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 
 export const ChatList = ({ reload }) => {
@@ -21,7 +21,7 @@ export const ChatList = ({ reload }) => {
         let chats = [];
         let response = { 'next': '' };
         while (response['next'] !== null) {
-            response = await BackendHttpClient.getChats(pageNumber++, pageSize)
+            response = await BackendClient.getChats(pageNumber++, pageSize)
             chats = chats.concat(response['results']);
         }
         setChats(chats);

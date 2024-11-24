@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import './chatHeader.scss';
-import {BackendHttpClient} from "../../../utils/backendHttpClient";
+import {BackendClient} from "../../../utils/backendClient";
 
 export const ChatHeader = ({chatId}) => {
     const [chat, setChat] = useState([]);
@@ -15,7 +15,7 @@ export const ChatHeader = ({chatId}) => {
     }, [chatId]);
 
     const getChat = async (chatId) => {
-        setChat((await BackendHttpClient.getChats())['results'].find(chat => chat['id'] === chatId));
+        setChat((await BackendClient.getChats())['results'].find(chat => chat['id'] === chatId));
     };
 
     return (

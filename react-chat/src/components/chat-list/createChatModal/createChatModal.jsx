@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
-import { BackendHttpClient } from "../../../utils/backendHttpClient";
+import { BackendClient } from "../../../utils/backendClient";
 
 export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [interlocutor, setInterlocutor] = useState('');
@@ -15,11 +15,11 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
 
     const saveChat = async (interlocutorUsername) => {
         let chatFormData = new FormData(document.getElementById("chat-form"));
-        const possibleInterlocutors = await BackendHttpClient
+        const possibleInterlocutors = await BackendClient
             .getUsers(null, null, interlocutorUsername);
         const interlocutor = possibleInterlocutors["results"].find(user => user.username === interlocutorUsername);
         chatFormData.append('members', interlocutor['id']);
-        const creator = await BackendHttpClient.getUser('current');
+        const creator = await BackendClient.getUser('current');
         chatFormData.append('creator', JSON.stringify({
             "username": creator["username"],
             "first_name": creator["first_name"],
@@ -28,7 +28,7 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
             "avatar": creator["avatar"]
         }))
         chatFormData.append('is_private', true);
-        await BackendHttpClient.createChat(chatFormData);
+        await BackendClient.createChat(chatFormData);
     };
 
     const resetForm = () => {

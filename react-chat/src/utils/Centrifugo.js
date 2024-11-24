@@ -1,5 +1,5 @@
 import { Centrifuge } from 'centrifuge';
-import { BackendHttpClient } from "./backendHttpClient";
+import { BackendClient } from "./backendClient";
 
 export function Centrifugo(chatId, setMessages, setLatestMessage, setChats) {
     const access = localStorage.getItem('access');
@@ -64,7 +64,7 @@ export function Centrifugo(chatId, setMessages, setLatestMessage, setChats) {
             }
 
             if (setChats) {
-                const newChat = await BackendHttpClient.getChat(message.chat);
+                const newChat = await BackendClient.getChat(message.chat);
                 setChats((prevChats) => {
                     if (!prevChats.some((chat) => chat.id === message.chat)) {
                         if (newChat.members.some((user) => user.id === currentUser['id'])) {

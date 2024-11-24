@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { BackendHttpClient } from "../../utils/backendHttpClient";
+import { BackendClient } from "../../utils/backendClient";
 
 export const RegisterPage = () => {
     const navigate = useNavigate();
 
     async function onSubmit() {
-        await BackendHttpClient.register(new FormData(document.getElementById("registerForm")));
+        await BackendClient.register(new FormData(document.getElementById("registerForm")));
         navigate("/auth/");
     }
 

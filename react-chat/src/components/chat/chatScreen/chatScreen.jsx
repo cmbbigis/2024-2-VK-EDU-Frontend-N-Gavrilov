@@ -3,7 +3,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 
 import './chatScreen.scss';
-import { BackendHttpClient } from "../../../utils/backendHttpClient";
+import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 
 export const ChatScreen = ({ chatId }) => {
@@ -42,7 +42,7 @@ export const ChatScreen = ({ chatId }) => {
         let messages = [];
         let response = { 'next': '' };
         while (response['next'] !== null) {
-            response = await BackendHttpClient.getChatMessages(chatId, pageNumber++, pageSize)
+            response = await BackendClient.getChatMessages(chatId, pageNumber++, pageSize)
             messages = messages.concat(response['results']);
         }
         setMessages(messages);
@@ -51,7 +51,7 @@ export const ChatScreen = ({ chatId }) => {
     const saveMessage = async (chatId) => {
         let formData = new FormData(document.getElementById("message-form"));
         formData.append("chat", chatId);
-        await BackendHttpClient.sendMessage(formData);
+        await BackendClient.sendMessage(formData);
     };
 
     const scrollToBottom = () => {
