@@ -1,6 +1,6 @@
 import { Centrifuge } from 'centrifuge';
 
-export function Centrifugo(setMessages) {
+export function Centrifugo(chatId, setMessages, setLatestMessage) {
     const access = localStorage.getItem('access');
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -44,12 +44,23 @@ export function Centrifugo(setMessages) {
         const { event, message } = ctx.data;
 
         if (event === 'create') {
-            setMessages((prevMessages) => {
-                if (prevMessages.some((msg) => msg.id === message.id)) {
-                    return prevMessages;
-                }
-                return [message, ...prevMessages];
-            });
+            if (setMessages) {
+                setMessages((prevMessages) => {
+                    if (prevMessages.some((msg) => msg.id === message.id || message.chat !== chatId)) {
+                        return prevMessages;
+                    }
+                    return [message, ...prevMessages];
+                });
+            }
+
+            if (setLatestMessage) {
+                setLatestMessage((prevLatestMessage) => {
+                    if (prevLatestMessage.id !== message.id && message.chat === chatId) {
+                        return message;
+                    }
+                    return prevLatestMessage;
+                });
+            }
         }
     });
 

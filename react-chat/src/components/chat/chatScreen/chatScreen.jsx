@@ -15,7 +15,7 @@ export const ChatScreen = ({ chatId }) => {
 
     useEffect(() => {
         loadMessages(chatId);
-        centrifugoRef.current = Centrifugo(setMessages);
+        centrifugoRef.current = Centrifugo(chatId, setMessages);
         return () => centrifugoRef.current;
     }, [chatId]);
 

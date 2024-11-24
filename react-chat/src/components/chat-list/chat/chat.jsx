@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { Centrifugo } from "../../../utils/Centrifugo";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import './chat.scss';
-import {BackendHttpClient} from "../../../utils/backendHttpClient";
 
-export const Chat = ({ id, interlocutor, avatar }) => {
-    const [lastMessage, setLastMessage] = useState([]);
+export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
+    const [latestMessage, setLatestMessage] = useState(lastMessage);
 
     useEffect(() => {
-        getLastMessage(id);
-    }, [id]);
+        return () => Centrifugo(id, null, setLatestMessage);
+    }, [id, lastMessage]);
 
     return (
         <Link to={`chat/${id}`} key={id} className={"chat-link"}>
@@ -18,18 +18,13 @@ export const Chat = ({ id, interlocutor, avatar }) => {
                 <img className="avatar" alt="Avatar" src={avatar} />
                 <div className="chat-info">
                     <h2 className="chat-title">{interlocutor}</h2>
-                    <p className="chat-last-message">{lastMessage['text']}</p>
+                    <p className="chat-last-message">{latestMessage['text']}</p>
                 </div>
                 <div className="chat-meta">
-                    <span className="last-message-time">{lastMessage['created_at']}</span>
+                    <span className="last-message-time">{latestMessage['created_at']}</span>
                     <DoneAllIcon />
                 </div>
             </div>
         </Link>
     );
-
-    async function getLastMessage(chatId) {
-        const lastMessage = (await BackendHttpClient.getChatMessages(chatId))["results"][0];
-        setLastMessage(lastMessage);
-    }
 }

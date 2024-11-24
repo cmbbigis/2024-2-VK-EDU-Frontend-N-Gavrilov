@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import './chatList.scss';
 import { Chat } from "../chat";
-import {BackendHttpClient} from "../../../utils/backendHttpClient";
+import { BackendHttpClient } from "../../../utils/backendHttpClient";
 
 export const ChatList = ({ reload }) => {
     const [chats, setChats] = useState([]);
 
     useEffect(() => {
-        loadChats().then(r => {
-            return r;
-        });
+        loadChats();
     }, [reload]);
 
     async function loadChats() {
