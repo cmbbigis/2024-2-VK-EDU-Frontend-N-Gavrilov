@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BackendClient } from "../../utils/backendClient";
 
+import './authPage.scss';
+
 export const AuthPage = () => {
     const navigate = useNavigate();
     async function onSubmit(event) {
@@ -26,21 +28,27 @@ export const AuthPage = () => {
 
     return (
         <div className="authPage">
-            <form id="authForm" encType="multipart/form-data" onSubmit={onSubmit}>
-                <label htmlFor="loginInput">Логин</label>
-                <input
-                    type="text"
-                    className="usernameInput"
-                    name="username"
-                    required
-                />
-                <label htmlFor="passwordInput">Пароль</label>
-                <input
-                    type="text"
-                    className="passwordInput"
-                    name="password"
-                    required
-                />
+            <form className="authForm" id="authForm" encType="multipart/form-data" onSubmit={onSubmit}>
+                <div className="formInput">
+                    <label htmlFor="loginInput">Логин</label>
+                    <input
+                        type="text"
+                        className="usernameInput"
+                        name="username"
+                        required
+                    />
+                </div>
+
+                <div className="formInput">
+                    <label htmlFor="passwordInput">Пароль</label>
+                    <input
+                        type="text"
+                        className="passwordInput"
+                        name="password"
+                        required
+                    />
+                </div>
+
                 <button type='submit' className="loginButton">Войти</button>
             </form>
             <button onClick={() => navigate("/register/")}>Нет аккаунта? Зарегистрироваться</button>
