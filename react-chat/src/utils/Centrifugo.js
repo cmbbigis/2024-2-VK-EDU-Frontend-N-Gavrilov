@@ -1,6 +1,7 @@
 import { Centrifuge } from 'centrifuge';
+import { BackendHttpClient } from "./backendHttpClient";
 
-export function Centrifugo(chatId, setMessages, setLatestMessage) {
+export function Centrifugo(chatId, setMessages, setLatestMessage, setChats) {
     const access = localStorage.getItem('access');
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -40,7 +41,7 @@ export function Centrifugo(chatId, setMessages, setLatestMessage) {
         getToken: getSubscriptionToken()
     });
 
-    subscription.on('publication', function(ctx) {
+    subscription.on('publication', async function (ctx) {
         const { event, message } = ctx.data;
 
         if (event === 'create') {
@@ -59,6 +60,18 @@ export function Centrifugo(chatId, setMessages, setLatestMessage) {
                         return message;
                     }
                     return prevLatestMessage;
+                });
+            }
+
+            if (setChats) {
+                const newChat = await BackendHttpClient.getChat(message.chat);
+                setChats((prevChats) => {
+                    if (!prevChats.some((chat) => chat.id === message.chat)) {
+                        if (newChat.members.some((user) => user.id === currentUser['id'])) {
+                            return [newChat, ...prevChats];
+                        }
+                    }
+                    return prevChats;
                 });
             }
         }

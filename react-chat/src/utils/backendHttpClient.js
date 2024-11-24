@@ -53,6 +53,22 @@ export class BackendHttpClient {
         });
     }
 
+    static async getChat(id){
+        return await fetch(`https://vkedu-fullstack-div2.ru/api/chat/${id}/`, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("access")}`
+            }
+        }).then(res => {
+            if (!res.ok) {
+                const err = new Error('Error occurred!');
+                alert(err);
+                return;
+            }
+            return res.json();
+        });
+    }
+
     static async createChat(formData) {
         return await fetch("https://vkedu-fullstack-div2.ru/api/chats/", {
             method: 'POST',
