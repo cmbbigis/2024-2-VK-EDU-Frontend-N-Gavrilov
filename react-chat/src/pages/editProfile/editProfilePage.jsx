@@ -8,12 +8,31 @@ import {BackendClient} from "../../utils/backendClient";
 
 export const EditProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
-    const [profileAvatar, setProfileAvatar] = useState(currentUser['avatar']);
-    const [profileFirstName, setProfileFirstName] = useState(`${currentUser['first_name']}`);
-    const [profileLastName, setProfileLastName] = useState(`${currentUser['last_name']}`);
-    const [profileUsername, setProfileUsername] = useState(currentUser['username']);
-    const [profileBio, setProfileBio] = useState(currentUser['bio']);
     const [isBioChanged, setIsBioChanged] = useState(false);
+
+    const [data, setData] = useState({
+        "profile-first-name": currentUser?.first_name || '',
+        "profile-last-name": currentUser?.last_name || '',
+        "username": currentUser?.username || '',
+        "bio": currentUser?.bio || '',
+        "avatar": currentUser?.avatar || null
+    });
+
+    const handleInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setValue(value);
+        setData((prev) => ({ ...prev, [name]: value }));
+    }
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        const fileURL = URL.createObjectURL(file);
+        setData((prev) => ({ ...prev, avatar: file }));
+        setData((prev) => ({ ...prev, avatarURL: fileURL }));
+    }
+
     const [value, setValue] = useState('');
 
     const fileInputRef = useRef(null);
@@ -27,47 +46,8 @@ export const EditProfilePage = () => {
         textarea.style.height = `${textarea.scrollHeight}px`;
     }, [value]);
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
     const handleImageClick = () => {
         fileInputRef.current.click();
-    };
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = handleImageLoad;
-        reader.readAsDataURL(file);
-    };
-
-    const handleImageLoad = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = () => resizeImage(img);
-    };
-
-    const resizeImage = (img) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const maxWidth = 100;
-        const maxHeight = 100;
-        let { width, height } = img;
-
-        if (width > height && width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-        } else if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
-        const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
-        setProfileAvatar(resizedAvatarDataUrl);
     };
 
     async function handleSave() {
@@ -79,22 +59,22 @@ export const EditProfilePage = () => {
 
         let formData = new FormData(form);
 
-        if (profileAvatar !== null) {
-            formData.set('avatar', profileAvatar);
-            currentUser['avatar'] = profileAvatar;
+        if (data["avatar"] !== null && data["avatar"] !== undefined) {
+            formData.set('avatar', data["avatar"]);
+            currentUser['avatar'] = data["avatarURL"];
         }
 
-        formData.set('first_name', profileFirstName);
-        currentUser['first_name'] = profileFirstName;
-        formData.set('last_name', profileLastName);
-        currentUser['last_name'] = profileLastName;
+        formData.set('first_name', data["profile-first-name"]);
+        currentUser['first_name'] = data["profile-first-name"];
+        formData.set('last_name', data["profile-last-name"]);
+        currentUser['last_name'] = data["profile-last-name"];
 
-        formData.set('username', profileUsername);
-        currentUser['username'] = profileUsername;
+        formData.set('username', data["username"]);
+        currentUser['username'] = data["username"];
 
         if (isBioChanged) {
-            formData.set('bio', profileBio);
-            currentUser['bio'] = profileBio;
+            formData.set('bio', data["bio"]);
+            currentUser['bio'] = data["bio"];
         }
         await BackendClient.editProfile(currentUser['id'], formData);
         setCurrentUser(currentUser);
@@ -110,7 +90,7 @@ export const EditProfilePage = () => {
                 <div className="profile-avatar-input-container" onClick={handleImageClick}>
                     <img className="profile-avatar-input"
                          alt="Avatar"
-                         src={profileAvatar}
+                         src={typeof(data["avatar"]) === 'object' ? data["avatarURL"] : data["avatar"]}
                     />
                     <span className="overlay">
                     <PhotoCameraIcon/>
@@ -129,8 +109,8 @@ export const EditProfilePage = () => {
                     <input className="info-input profile-first-name-input"
                            name="profile-first-name"
                            type="text"
-                           value={profileFirstName}
-                           onChange={(e) => setProfileFirstName(e.target.value)}
+                           value={data["profile-first-name"]}
+                           onChange={handleInputChange}
                            required
                     />
                 </div>
@@ -139,8 +119,8 @@ export const EditProfilePage = () => {
                     <input className="info-input profile-last-name-input"
                            name="profile-last-name"
                            type="text"
-                           value={profileLastName}
-                           onChange={(e) => setProfileLastName(e.target.value)}
+                           value={data["profile-last-name"]}
+                           onChange={handleInputChange}
                            required
                     />
                 </div>
@@ -150,8 +130,8 @@ export const EditProfilePage = () => {
                         <input className="info-input profile-username-input"
                                name="username"
                                type="text"
-                               value={profileUsername}
-                               onChange={(e) => setProfileUsername(e.target.value)}
+                               value={data["username"]}
+                               onChange={handleInputChange}
                                required
                                minLength={5}
                         />
@@ -164,10 +144,9 @@ export const EditProfilePage = () => {
                         <textarea className="info-input profile-bio-input"
                                   name="bio"
                                   ref={textareaRef}
-                                  value={profileBio}
+                                  value={data["bio"]}
                                   onChange={(e) => {
-                                      handleChange(e)
-                                      setProfileBio(e.target.value)
+                                      handleInputChange(e)
                                       setIsBioChanged(true);
                                   }}
                                   style={{overflow: 'hidden'}}
