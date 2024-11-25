@@ -1,22 +1,24 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from '@mui/icons-material/Edit';
 
 import './profileHeader.scss';
 
 export const ProfileHeader = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="header">
-            <Link to={"/"} className="header-button back-to-chat-list-link">
+            <button onClick={() => navigate("/chats/")} className="header-button back-to-chat-list-link">
                 <ArrowBackIcon/>
-            </Link>
+            </button>
             <div className="header-text">
                 <span className="name">Profile</span>
             </div>
-            <Link to={"/editProfile/"} className="header-button edit-button">
+            <button onClick={() => navigate("/editProfile/")} className="header-button edit-button">
                 <EditIcon/>
-            </Link>
+            </button>
         </div>
     );
 }

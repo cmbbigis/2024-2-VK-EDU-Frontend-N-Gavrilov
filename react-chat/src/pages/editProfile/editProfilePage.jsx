@@ -103,7 +103,7 @@ export const EditProfilePage = () => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         navigate('/profile/');
-    };
+    }
 
     return (
         <div className="editProfilePage">
