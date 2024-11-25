@@ -9,7 +9,8 @@ import {BackendClient} from "../../utils/backendClient";
 export const EditProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
     const [profileAvatar, setProfileAvatar] = useState(currentUser['avatar']);
-    const [profileFullName, setProfileFullName] = useState(`${currentUser['first_name']} ${currentUser['last_name']}`);
+    const [profileFirstName, setProfileFirstName] = useState(`${currentUser['first_name']}`);
+    const [profileLastName, setProfileLastName] = useState(`${currentUser['last_name']}`);
     const [profileUsername, setProfileUsername] = useState(currentUser['username']);
     const [profileBio, setProfileBio] = useState(currentUser['bio']);
     const [isBioChanged, setIsBioChanged] = useState(false);
@@ -83,13 +84,10 @@ export const EditProfilePage = () => {
             currentUser['avatar'] = profileAvatar;
         }
 
-        const temp = profileFullName.split(' ');
-        formData.set('first_name', temp[0]);
-        currentUser['first_name'] = temp[0];
-        if (temp.length > 1) {
-            formData.set('last_name', temp[1]);
-            currentUser['last_name'] = temp[1];
-        }
+        formData.set('first_name', profileFirstName);
+        currentUser['first_name'] = profileFirstName;
+        formData.set('last_name', profileLastName);
+        currentUser['last_name'] = profileLastName;
 
         formData.set('username', profileUsername);
         currentUser['username'] = profileUsername;
@@ -126,13 +124,23 @@ export const EditProfilePage = () => {
                         onChange={handleFileChange}
                     />
                 </div>
-                <div className="container profile-full-name-input">
-                    <label className="info-label" htmlFor="profile-full-name">Имя</label>
-                    <input className="info-input profile-full-name-input"
-                           name="profile-full-name"
+                <div className="container profile-first-name-input">
+                    <label className="info-label" htmlFor="profile-first-name">Имя</label>
+                    <input className="info-input profile-first-name-input"
+                           name="profile-first-name"
                            type="text"
-                           value={profileFullName}
-                           onChange={(e) => setProfileFullName(e.target.value)}
+                           value={profileFirstName}
+                           onChange={(e) => setProfileFirstName(e.target.value)}
+                           required
+                    />
+                </div>
+                <div className="container profile-last-name-input">
+                    <label className="info-label" htmlFor="profile-last-name">Фамилия</label>
+                    <input className="info-input profile-last-name-input"
+                           name="profile-last-name"
+                           type="text"
+                           value={profileLastName}
+                           onChange={(e) => setProfileLastName(e.target.value)}
                            required
                     />
                 </div>
@@ -154,15 +162,15 @@ export const EditProfilePage = () => {
                     <div className="container profile-bio-input">
                         <label className="info-label" htmlFor="bio">Описание профиля</label>
                         <textarea className="info-input profile-bio-input"
-                               name="bio"
-                               ref={textareaRef}
-                               value={profileBio}
-                               onChange={(e) => {
-                                   handleChange(e)
-                                   setProfileBio(e.target.value)
-                                   setIsBioChanged(true);
-                               }}
-                               style={{ overflow: 'hidden' }}
+                                  name="bio"
+                                  ref={textareaRef}
+                                  value={profileBio}
+                                  onChange={(e) => {
+                                      handleChange(e)
+                                      setProfileBio(e.target.value)
+                                      setIsBioChanged(true);
+                                  }}
+                                  style={{overflow: 'hidden'}}
                         />
                     </div>
                     <span className="about">Какие-нибудь подробности о вас</span>

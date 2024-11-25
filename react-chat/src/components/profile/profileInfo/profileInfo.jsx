@@ -8,9 +8,13 @@ export const ProfileInfo = () => {
     return (
         <div className="profile-info">
             <img className="profile-avatar" alt="Avatar" src={currentUser['avatar']}/>
-            <div className="container profile-full-name">
-                <label className="info-label profile-full-name-label">Имя</label>
-                <span className="profile-full-name">{`${currentUser['first_name']} ${currentUser['last_name']}`}</span>
+            <div className="container profile-first-name">
+                <label className="info-label profile-first-name-label">Имя</label>
+                <span className="profile-first-name">{`${currentUser['first_name']}`}</span>
+            </div>
+            <div className="container profile-last-name">
+                <label className="info-label profile-last-name-label">Фамилия</label>
+                <span className="profile-last-name">{`${currentUser['last_name']}`}</span>
             </div>
             <div className="container profile-username">
                 <label className="info-label profile-username-label">Имя пользователя</label>
