@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -7,10 +7,15 @@ import './chatScreen.scss';
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
+    const messagesEndRef = useRef();
 
     useEffect(() => {
         loadMessages(chatId);
     }, [chatId]);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const handleInput = (event) => {
         setMessageText(event.target.value);
@@ -38,10 +43,14 @@ export const ChatScreen = ({ chatId }) => {
         localStorage.setItem('messages', JSON.stringify(messages));
     };
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
         <div className="chat-screen">
             <div className="messages">
-                {messages.map(({ text, sender, time }, index) => (
+                {messages.map(({text, sender, time}, index) => (
                     <div
                         key={index}
                         className={`message ${sender === 'Я' ? 'my-message' : 'interlocutor-message'} new-message`}
@@ -51,6 +60,7 @@ export const ChatScreen = ({ chatId }) => {
                         <span className="message-time">{time}</span>
                     </div>
                 ))}
+                <div ref={messagesEndRef}/>
             </div>
             <form className="form" onSubmit={handleSubmit}>
                 <label className="message-input-container">

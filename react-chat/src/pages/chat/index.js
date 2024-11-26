@@ -1,5 +1,5 @@
 import * as f from './chatPage';
 
-export const ChatPage = ({ chatId, onBack }) => {
-    return f.ChatPage({ chatId, onBack })
+export const ChatPage = () => {
+    return f.ChatPage()
 };

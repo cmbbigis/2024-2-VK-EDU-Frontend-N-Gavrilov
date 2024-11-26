@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './chatListPage.scss';
 import { ChatListHeader, ChatList, CreateChatButton, CreateChatModal } from '../../components/chat-list';
 
-export const ChatListPage = ({ onSelectChat }) => {
+export const ChatListPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reload, setReload] = useState(false);
 
@@ -17,7 +17,7 @@ export const ChatListPage = ({ onSelectChat }) => {
     return (
         <div id="chatListPage">
             <ChatListHeader />
-            <ChatList reload={reload} onSelectChat={onSelectChat}/>
+            <ChatList reload={reload} />
             <CreateChatButton onClick={handleOpenModal} />
             {isModalOpen && <CreateChatModal onClose={handleCloseModal} onChatCreated={handleChatCreated}/>}
         </div>
