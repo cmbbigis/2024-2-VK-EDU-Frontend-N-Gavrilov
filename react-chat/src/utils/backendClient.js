@@ -1,8 +1,11 @@
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 export class BackendClient {
     static async refreshToken() {
         const refresh = localStorage.getItem("refresh");
         if (!refresh) {
-            throw new Error("No refresh token available");
+            toast.error("No refresh token available");
         }
 
         return await fetch("https://vkedu-fullstack-div2.ru/api/auth/refresh/", {
@@ -22,7 +25,7 @@ export class BackendClient {
     static async fetchWithAuth(url, options = {}, retryCount = 1) {
         let access = localStorage.getItem("access");
         if (!access) {
-            throw new Error("No access token available");
+            toast.error("No access token available");
         }
 
         options.headers = {
@@ -36,7 +39,7 @@ export class BackendClient {
                 options.headers["Authorization"] = `Bearer ${access}`;
                 return await this.fetchWithAuth(url, options, retryCount - 1);
             } else if (res.status === 401 && retryCount <= 0) {
-                throw new Error('Maximum retry attempts exceeded');
+                toast.error('Maximum retry attempts exceeded');
             } else if (!res.ok) {
                 throw await res.json();
             }
@@ -152,7 +155,18 @@ export class BackendClient {
 
     static async aggregateResponse(res) {
         if (!res.ok) {
-            throw await res.json();
+            const err = await res.json()
+            if (Math.floor(res.status / 100) === 5) {
+                toast.error("Server error occurred. Please try again later.");
+                return;
+            } else if (err["__all__"] || err.detail || err["non_field_errors"]) {
+                toast.error((err["__all__"] || err.detail || err["non_field_errors"]));
+                return;
+            } else if (!err["__all__"] && !err.detail && !err["non_field_errors"]) {
+                toast.error(`${res.status} ${res.statusText}`);
+                return;
+            }
+            throw err;
         }
         return res.json();
     }
