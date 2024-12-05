@@ -20,7 +20,7 @@ export const ChatHeader = ({chatId}) => {
 
     return (
         <div className="header">
-            <Link to={"/"} className="header-button back-to-chat-list-link">
+            <Link to={"/chats/"} className="header-button back-to-chat-list-link">
                 <ArrowBackIcon/>
             </Link>
             <img className="avatar" alt="Avatar" src={chat['avatar']}/>
