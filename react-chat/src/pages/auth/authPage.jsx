@@ -42,7 +42,7 @@ export const AuthPage = () => {
                 <div className="formInput">
                     <label htmlFor="passwordInput">Пароль</label>
                     <input
-                        type="text"
+                        type="password"
                         className="passwordInput"
                         name="password"
                         required

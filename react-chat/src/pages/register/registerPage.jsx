@@ -40,7 +40,7 @@ export const RegisterPage = () => {
                 <div className="formInput">
                     <label htmlFor="password">Пароль</label>
                     <input
-                        type="text"
+                        type="password"
                         className="passwordInput"
                         name="password"
                         required
