@@ -13,7 +13,7 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     }, [id, lastMessage]);
 
     return (
-        <Link to={`chat/${id}`} key={id} className={"chat-link"}>
+        <Link to={`/chat/${id}`} key={id} className={"chat-link"}>
             <div className="chat">
                 <img className="avatar" alt="Avatar" src={avatar} />
                 <div className="chat-info">
