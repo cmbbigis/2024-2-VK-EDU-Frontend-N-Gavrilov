@@ -30,7 +30,7 @@ export const ChatList = ({ reload }) => {
     return (
         <div id="chat-list" className="chat-list">
             {
-                console.log(chats) || chats.map((chat) => (
+                chats.map((chat) => (
                         <Chat key={chat["id"]} id={chat["id"]} interlocutor={chat["title"]} avatar={chat["avatar"]} lastMessage={chat["last_message"]}/>
                     )
                 )
