@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
@@ -10,20 +10,18 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [selectedInterlocutors, setSelectedInterlocutors] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(() => {
-        loadPossibleInterlocutors();
+    const loadPossibleInterlocutors = useCallback(async () => {
+        const response = await BackendClient.getUsers(1, 100, filter);
+        const possibleInterlocutors = response.results.map(interlocutor => ({
+            value: interlocutor.id,
+            label: `${interlocutor.first_name} ${interlocutor.last_name} (@${interlocutor.username})`
+        }));
+        setComboboxOptions(possibleInterlocutors);
     }, [filter]);
 
-    async function loadPossibleInterlocutors() {
-        const response = await BackendClient.getUsers(1, 100, filter);
-        const possibleInterlocutors = response.results
-            .map(interlocutor => (
-                {
-                    value : interlocutor.id,
-                    label: `${interlocutor.first_name} ${interlocutor.last_name} (@${interlocutor.username})`
-                }));
-        setComboboxOptions(possibleInterlocutors);
-    }
+    useEffect(() => {
+        loadPossibleInterlocutors();
+    }, [filter, loadPossibleInterlocutors]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
