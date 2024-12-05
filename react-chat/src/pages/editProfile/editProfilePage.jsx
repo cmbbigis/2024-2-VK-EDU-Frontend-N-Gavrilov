@@ -9,10 +9,11 @@ import {BackendClient} from "../../utils/backendClient";
 export const EditProfilePage = () => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
     const [isBioChanged, setIsBioChanged] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const [data, setData] = useState({
-        "profile-first-name": currentUser?.first_name || '',
-        "profile-last-name": currentUser?.last_name || '',
+        "first_name": currentUser?.first_name || '',
+        "last_name": currentUser?.last_name || '',
         "username": currentUser?.username || '',
         "bio": currentUser?.bio || '',
         "avatar": currentUser?.avatar || null
@@ -24,6 +25,7 @@ export const EditProfilePage = () => {
 
         setValue(value);
         setData((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({ ...prev, [name]: '' }));
     }
 
     const handleFileChange = (event) => {
@@ -65,9 +67,9 @@ export const EditProfilePage = () => {
             formData.delete("avatar");
         }
 
-        formData.set('first_name', data["profile-first-name"]);
+        formData.set('first_name', data["first_name"]);
 
-        formData.set('last_name', data["profile-last-name"]);
+        formData.set('last_name', data["last_name"]);
 
         formData.set('username', data["username"]);
 
@@ -75,60 +77,74 @@ export const EditProfilePage = () => {
             formData.set('bio', data["bio"]);
         }
 
-        const currentUserInfo = await BackendClient.editProfile(currentUser['id'], formData);
-        currentUser['avatar'] = currentUserInfo["avatar"];
-        currentUser['first_name'] = currentUserInfo["first_name"];
-        currentUser['last_name'] = currentUserInfo["last_name"];
-        currentUser['username'] = currentUserInfo["username"];
-        currentUser['bio'] = currentUserInfo["bio"];
-        setCurrentUser(currentUser);
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        try {
+            const currentUserInfo = await BackendClient.editProfile(currentUser['id'], formData);
+            currentUser['avatar'] = currentUserInfo["avatar"];
+            currentUser['first_name'] = currentUserInfo["first_name"];
+            currentUser['last_name'] = currentUserInfo["last_name"];
+            currentUser['username'] = currentUserInfo["username"];
+            currentUser['bio'] = currentUserInfo["bio"];
+            setCurrentUser(currentUser);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-        navigate('/profile/');
+            navigate('/profile/');
+        } catch (error) {
+            setErrors(error);
+        }
     }
 
     return (
         <div className="editProfilePage">
             <EditProfileHeader onSave={handleSave}/>
             <form className="edit-profile-info" id="edit-profile-form" encType="multipart/form-data">
-                <div className="profile-avatar-input-container" onClick={handleImageClick}>
-                    <img className="profile-avatar-input"
-                         alt="Avatar"
-                         src={data["avatarURL"] || currentUser['avatar']}
-                    />
-                    <span className="overlay">
-                    <PhotoCameraIcon/>
-                </span>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        style={{display: 'none'}}
-                        name="avatar"
-                        onChange={handleFileChange}
-                    />
+                <div>
+                    <div className="profile-avatar-input-container" onClick={handleImageClick}>
+                        <img className="profile-avatar-input"
+                             alt="Avatar"
+                             src={data["avatarURL"] || currentUser['avatar']}
+                        />
+                        <span className="overlay"><PhotoCameraIcon/></span>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            style={{display: 'none'}}
+                            name="avatar"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    {errors["avatar"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["avatar"]}</div>}
                 </div>
-                <div className="container profile-first-name-input">
-                    <label className="info-label" htmlFor="profile-first-name">Имя</label>
-                    <input className="info-input profile-first-name-input"
-                           name="profile-first-name"
-                           type="text"
-                           value={data["profile-first-name"]}
-                           onChange={handleInputChange}
-                           required
-                    />
+
+                <div>
+                    <div className="container profile-first-name-input">
+                        <label className="info-label" htmlFor="profile-first-name">Имя</label>
+                        <input className="info-input profile-first-name-input"
+                               name="first_name"
+                               type="text"
+                               value={data["first_name"]}
+                               onChange={handleInputChange}
+                               required
+                        />
+                    </div>
+                    {errors["first_name"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["first_name"]}</div>}
                 </div>
-                <div className="container profile-last-name-input">
-                    <label className="info-label" htmlFor="profile-last-name">Фамилия</label>
-                    <input className="info-input profile-last-name-input"
-                           name="profile-last-name"
-                           type="text"
-                           value={data["profile-last-name"]}
-                           onChange={handleInputChange}
-                           required
-                    />
+
+                <div>
+                    <div className="container profile-last-name-input">
+                        <label className="info-label" htmlFor="profile-last-name">Фамилия</label>
+                        <input className="info-input profile-last-name-input"
+                               name="last_name"
+                               type="text"
+                               value={data["last_name"]}
+                               onChange={handleInputChange}
+                               required
+                        />
+                    </div>
+                    {errors["last_name"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["last_name"]}</div>}
                 </div>
-                <div className="profile-username-input-container-with-about">
+
+                <div>
                     <div className="container profile-username-input">
                         <label className="info-label" htmlFor="username">Имя пользователя</label>
                         <input className="info-input profile-username-input"
@@ -141,8 +157,9 @@ export const EditProfilePage = () => {
                         />
                     </div>
                     <span className="about">Минимум 5 символов</span>
+                    {errors["username"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["username"]}</div>}
                 </div>
-                <div className="profile-bio-input-container-with-about">
+                <div>
                     <div className="container profile-bio-input">
                         <label className="info-label" htmlFor="bio">Описание профиля</label>
                         <textarea className="info-input profile-bio-input"
@@ -157,6 +174,7 @@ export const EditProfilePage = () => {
                         />
                     </div>
                     <span className="about">Какие-нибудь подробности о вас</span>
+                    {errors["bio"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["bio"]}</div>}
                 </div>
             </form>
         </div>

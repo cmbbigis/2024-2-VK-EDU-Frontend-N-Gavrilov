@@ -6,27 +6,42 @@ import { BackendClient } from "../../../utils/backendClient";
 
 export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [comboboxOptions, setComboboxOptions] = useState([]);
-    const [filter, setFilter] = useState('');
     const [selectedInterlocutors, setSelectedInterlocutors] = useState([]);
-    const [inputValue, setInputValue] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const [data, setData] = useState({
+        "filter": ''
+    });
+
+    const handleInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setData((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({ ...prev, [name]: '' }));
+    };
 
     const loadPossibleInterlocutors = useCallback(async () => {
-        const response = await BackendClient.getUsers(1, 100, filter);
+        const response = await BackendClient.getUsers(1, 100, data["filter"]);
         const possibleInterlocutors = response.results.map(interlocutor => ({
             value: interlocutor.id,
             label: `${interlocutor.first_name} ${interlocutor.last_name} (@${interlocutor.username})`
         }));
         setComboboxOptions(possibleInterlocutors);
-    }, [filter]);
+    }, [data["filter"]]);
 
     useEffect(() => {
         loadPossibleInterlocutors();
-    }, [filter, loadPossibleInterlocutors]);
+    }, [data["filter"], loadPossibleInterlocutors]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await saveChat();
-        resetForm();
+        try {
+            await saveChat();
+            resetForm();
+        } catch (error) {
+            setErrors(error);
+        }
     };
 
     const saveChat = async () => {
@@ -55,17 +70,10 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
         }
     };
 
-    const handleInputChange = (event) => {
-        const value = event.target.value;
-        setInputValue(value);
-        setFilter(value);
-    };
-
     const handleSelectChange = (event) => {
         const value = Array.from(event.target.selectedOptions, option => option.value);
         setSelectedInterlocutors(value);
     };
-
 
     return (
         <div className="modal" id="create-chat-modal" style={{ display: 'block' }} onClick={handleModalClick}>
@@ -77,34 +85,44 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
                     </button>
                 </div>
                 <form className="chat-form" id="chat-form" encType="multipart/form-data">
-                    {selectedInterlocutors.length > 1 && <div className="title-input-container">
-                        <label htmlFor="title">Название</label>
-                        <input name="title"></input>
-                    </div>}
-                    <label htmlFor="members">Собеседники</label>
-                    <div className="interlocutors-combobox">
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            placeholder="Начните вводить имя или юзернейм"
-                        />
+                    {selectedInterlocutors.length > 1 &&
+                        <div>
+                            <div className="title-input-container">
+                                <label htmlFor="title">Название</label>
+                                <input name="title" onChange={handleInputChange}></input>
+                            </div>
+                            {errors["title"] && <div className="error">{errors["title"]}</div>}
+                        </div>
 
-                        <select
-                            className="interlocutors-select"
-                            name="members"
-                            multiple
-                            onChange={handleSelectChange}
-                            required
-                        >
-                            {
-                                comboboxOptions.map(option => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))
-                            }
-                        </select>
+                    }
+                    <div>
+                        <label htmlFor="members">Собеседники</label>
+                        <div className="interlocutors-combobox">
+                            <input
+                                type="text"
+                                name="filter"
+                                value={data["filter"]}
+                                onChange={handleInputChange}
+                                placeholder="Начните вводить имя или юзернейм"
+                            />
+
+                            <select
+                                className="interlocutors-select"
+                                name="members"
+                                multiple
+                                onChange={handleSelectChange}
+                                required
+                            >
+                                {
+                                    comboboxOptions.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        {errors["members"] && <div className="error">{errors["members"]}</div>}
                     </div>
 
                     <button className="create-button" type="button" onClick={handleSubmit}>Создать</button>

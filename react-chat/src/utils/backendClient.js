@@ -2,7 +2,6 @@ export class BackendClient {
     static async refreshToken() {
         const refresh = localStorage.getItem("refresh");
         if (!refresh) {
-            alert("No refresh token available");
             throw new Error("No refresh token available");
         }
 
@@ -23,8 +22,7 @@ export class BackendClient {
     static async fetchWithAuth(url, options = {}, retryCount = 1) {
         let access = localStorage.getItem("access");
         if (!access) {
-            alert("No access token available");
-            return;
+            throw new Error("No access token available");
         }
 
         options.headers = {
@@ -38,12 +36,9 @@ export class BackendClient {
                 options.headers["Authorization"] = `Bearer ${access}`;
                 return await this.fetchWithAuth(url, options, retryCount - 1);
             } else if (res.status === 401 && retryCount <= 0) {
-                alert('Maximum retry attempts exceeded');
-                return;
+                throw new Error('Maximum retry attempts exceeded');
             } else if (!res.ok) {
-                const err = await res.json();
-                alert(`Error: ${err.detail || res.statusText}`);
-                return;
+                throw await res.json();
             }
             return res;
         });
@@ -157,9 +152,7 @@ export class BackendClient {
 
     static async aggregateResponse(res) {
         if (!res.ok) {
-            const err = await res.json();
-            alert(`Error: ${err.detail || res.statusText}`);
-            return;
+            throw await res.json();
         }
         return res.json();
     }
