@@ -18,10 +18,10 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
                 <img className="avatar" alt="Avatar" src={avatar} />
                 <div className="chat-info">
                     <h2 className="chat-title">{interlocutor}</h2>
-                    <p className="chat-last-message">{latestMessage['text']}</p>
+                    <p className="chat-last-message">{latestMessage && latestMessage['text']}</p>
                 </div>
                 <div className="chat-meta">
-                    <span className="last-message-time">{latestMessage['created_at'] ? new Date(latestMessage['created_at']).toLocaleString() : ''}</span>
+                    <span className="last-message-time">{latestMessage && new Date(latestMessage['created_at']).toLocaleString()}</span>
                     <DoneAllIcon />
                 </div>
             </div>
