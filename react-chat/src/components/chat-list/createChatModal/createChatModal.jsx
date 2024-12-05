@@ -12,6 +12,7 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [data, setData] = useState({
         "filter": ''
     });
+    const filter = data["filter"];
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -22,17 +23,17 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     };
 
     const loadPossibleInterlocutors = useCallback(async () => {
-        const response = await BackendClient.getUsers(1, 100, data["filter"]);
+        const response = await BackendClient.getUsers(1, 100, filter);
         const possibleInterlocutors = response.results.map(interlocutor => ({
             value: interlocutor.id,
             label: `${interlocutor.first_name} ${interlocutor.last_name} (@${interlocutor.username})`
         }));
         setComboboxOptions(possibleInterlocutors);
-    }, [data["filter"]]);
+    }, [filter]);
 
     useEffect(() => {
         loadPossibleInterlocutors();
-    }, [data["filter"], loadPossibleInterlocutors]);
+    }, [filter, loadPossibleInterlocutors]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
