@@ -59,24 +59,28 @@ export const EditProfilePage = () => {
 
         let formData = new FormData(form);
 
-        if (data["avatar"] !== null && data["avatar"] !== undefined) {
+        if (typeof(data["avatar"]) === "object" && data["avatar"] !== null && data["avatar"] !== undefined) {
             formData.set('avatar', data["avatar"]);
-            currentUser['avatar'] = data["avatarURL"];
+        } else {
+            formData.delete("avatar");
         }
 
         formData.set('first_name', data["profile-first-name"]);
-        currentUser['first_name'] = data["profile-first-name"];
+
         formData.set('last_name', data["profile-last-name"]);
-        currentUser['last_name'] = data["profile-last-name"];
 
         formData.set('username', data["username"]);
-        currentUser['username'] = data["username"];
 
         if (isBioChanged) {
             formData.set('bio', data["bio"]);
-            currentUser['bio'] = data["bio"];
         }
-        await BackendClient.editProfile(currentUser['id'], formData);
+
+        const currentUserInfo = await BackendClient.editProfile(currentUser['id'], formData);
+        currentUser['avatar'] = currentUserInfo["avatar"];
+        currentUser['first_name'] = currentUserInfo["first_name"];
+        currentUser['last_name'] = currentUserInfo["last_name"];
+        currentUser['username'] = currentUserInfo["username"];
+        currentUser['bio'] = currentUserInfo["bio"];
         setCurrentUser(currentUser);
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
@@ -90,7 +94,7 @@ export const EditProfilePage = () => {
                 <div className="profile-avatar-input-container" onClick={handleImageClick}>
                     <img className="profile-avatar-input"
                          alt="Avatar"
-                         src={typeof(data["avatar"]) === 'object' ? data["avatarURL"] : data["avatar"]}
+                         src={data["avatarURL"] || currentUser['avatar']}
                     />
                     <span className="overlay">
                     <PhotoCameraIcon/>
