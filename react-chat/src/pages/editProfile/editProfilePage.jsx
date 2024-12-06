@@ -4,13 +4,37 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 import './editProfilePage.scss';
 import { EditProfileHeader } from "../../components/editProfile";
+import {BackendClient} from "../../utils/backendClient";
 
 export const EditProfilePage = () => {
-    const [profileAvatar, setProfileAvatar] = useState(localStorage.getItem('profileAvatar'));
-    const [profileFullName, setProfileFullName] = useState(localStorage.getItem('profileFullName'));
-    const [profileUsername, setProfileUsername] = useState(localStorage.getItem('profileUsername'));
-    const [profileBio, setProfileBio] = useState(localStorage.getItem('profileBio'));
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
     const [isBioChanged, setIsBioChanged] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const [data, setData] = useState({
+        "first_name": currentUser?.first_name || '',
+        "last_name": currentUser?.last_name || '',
+        "username": currentUser?.username || '',
+        "bio": currentUser?.bio || '',
+        "avatar": currentUser?.avatar || null
+    });
+
+    const handleInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        setValue(value);
+        setData((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        const fileURL = URL.createObjectURL(file);
+        setData((prev) => ({ ...prev, avatar: file }));
+        setData((prev) => ({ ...prev, avatarURL: fileURL }));
+    }
+
     const [value, setValue] = useState('');
 
     const fileInputRef = useRef(null);
@@ -24,126 +48,135 @@ export const EditProfilePage = () => {
         textarea.style.height = `${textarea.scrollHeight}px`;
     }, [value]);
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = handleImageLoad;
-        reader.readAsDataURL(file);
-    };
-
-    const handleImageLoad = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = () => resizeImage(img);
-    };
-
-    const resizeImage = (img) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const maxWidth = 100;
-        const maxHeight = 100;
-        let { width, height } = img;
-
-        if (width > height && width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-        } else if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
-        const resizedAvatarDataUrl = canvas.toDataURL('image/jpeg');
-        setProfileAvatar(resizedAvatarDataUrl);
-    };
-
-    const handleSave = () => {
-        if (profileUsername.length < 6 || !profileUsername.startsWith('@')){
-            alert('Имя пользователя должно быть не меньше 5 символов длиной и начинаться с символа @');
+    async function handleSave() {
+        const form = document.getElementById("edit-profile-form");
+        if (!form.checkValidity()) {
+            form.reportValidity();
             return;
         }
-        localStorage.setItem('profileAvatar', profileAvatar);
-        if (profileFullName !== null && profileFullName !== '' && profileFullName.trim().length > 0) {
-            localStorage.setItem('profileFullName', profileFullName);
+
+        let formData = new FormData(form);
+
+        if (typeof(data["avatar"]) === "object" && data["avatar"] !== null && data["avatar"] !== undefined) {
+            formData.set('avatar', data["avatar"]);
+        } else {
+            formData.delete("avatar");
         }
-        if (profileUsername !== '') {
-            localStorage.setItem('profileUsername', profileUsername);
-        }
+
+        formData.set('first_name', data["first_name"]);
+
+        formData.set('last_name', data["last_name"]);
+
+        formData.set('username', data["username"]);
+
         if (isBioChanged) {
-            localStorage.setItem('profileBio', profileBio);
+            formData.set('bio', data["bio"]);
         }
-        navigate('/profile/');
-    };
+
+        try {
+            const currentUserInfo = await BackendClient.editProfile(currentUser['id'], formData);
+            currentUser['avatar'] = currentUserInfo["avatar"];
+            currentUser['first_name'] = currentUserInfo["first_name"];
+            currentUser['last_name'] = currentUserInfo["last_name"];
+            currentUser['username'] = currentUserInfo["username"];
+            currentUser['bio'] = currentUserInfo["bio"];
+            setCurrentUser(currentUser);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            navigate('/profile/');
+        } catch (error) {
+            setErrors(error);
+        }
+    }
 
     return (
         <div className="editProfilePage">
             <EditProfileHeader onSave={handleSave}/>
-            <div className="edit-profile-info">
-                <div className="profile-avatar-input-container" onClick={handleImageClick}>
-                    <img className="profile-avatar-input"
-                         alt="Avatar"
-                         src={profileAvatar}
-                    />
-                    <span className="overlay">
-                    <PhotoCameraIcon/>
-                </span>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        style={{display: 'none'}}
-                        onChange={handleFileChange}
-                    />
+            <form className="edit-profile-info" id="edit-profile-form" encType="multipart/form-data">
+                <div>
+                    <div className="profile-avatar-input-container" onClick={handleImageClick}>
+                        <img className="profile-avatar-input"
+                             alt="Avatar"
+                             src={data["avatarURL"] || currentUser['avatar']}
+                        />
+                        <span className="overlay"><PhotoCameraIcon/></span>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            style={{display: 'none'}}
+                            name="avatar"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    {errors["avatar"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["avatar"]}</div>}
                 </div>
-                <div className="container profile-full-name-input">
-                    <label className="info-label" htmlFor="profile-full-name">Имя</label>
-                    <input className="info-input profile-full-name-input"
-                           name="profile-full-name"
-                           type="text"
-                           value={profileFullName}
-                           onChange={(e) => setProfileFullName(e.target.value)}
-                    />
-                </div>
-                <div className="profile-username-input-container-with-about">
-                    <div className="container profile-username-input">
-                        <label className="info-label" htmlFor="profile-username">Имя пользователя</label>
-                        <input className="info-input profile-username-input"
-                               name="profile-username"
+
+                <div>
+                    <div className="container profile-first-name-input">
+                        <label className="info-label" htmlFor="profile-first-name">Имя</label>
+                        <input className="info-input profile-first-name-input"
+                               name="first_name"
                                type="text"
-                               value={profileUsername}
-                               onChange={(e) => setProfileUsername(e.target.value)}
+                               value={data["first_name"]}
+                               onChange={handleInputChange}
+                               required
+                        />
+                    </div>
+                    {errors["first_name"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["first_name"]}</div>}
+                </div>
+
+                <div>
+                    <div className="container profile-last-name-input">
+                        <label className="info-label" htmlFor="profile-last-name">Фамилия</label>
+                        <input className="info-input profile-last-name-input"
+                               name="last_name"
+                               type="text"
+                               value={data["last_name"]}
+                               onChange={handleInputChange}
+                               required
+                        />
+                    </div>
+                    {errors["last_name"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["last_name"]}</div>}
+                </div>
+
+                <div>
+                    <div className="container profile-username-input">
+                        <label className="info-label" htmlFor="username">Имя пользователя</label>
+                        <input className="info-input profile-username-input"
+                               name="username"
+                               type="text"
+                               value={data["username"]}
+                               onChange={handleInputChange}
+                               required
+                               minLength={5}
                         />
                     </div>
                     <span className="about">Минимум 5 символов</span>
+                    {errors["username"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["username"]}</div>}
                 </div>
-                <div className="profile-bio-input-container-with-about">
+                <div>
                     <div className="container profile-bio-input">
-                        <label className="info-label" htmlFor="profile-bio">Описание профиля</label>
+                        <label className="info-label" htmlFor="bio">Описание профиля</label>
                         <textarea className="info-input profile-bio-input"
-                               name="profile-bio"
-                               ref={textareaRef}
-                               value={profileBio}
-                               onChange={(e) => {
-                                   handleChange(e)
-                                   setProfileBio(e.target.value)
-                                   setIsBioChanged(true);
-                               }}
-                               style={{ overflow: 'hidden' }}
+                                  name="bio"
+                                  ref={textareaRef}
+                                  value={data["bio"]}
+                                  onChange={(e) => {
+                                      handleInputChange(e)
+                                      setIsBioChanged(true);
+                                  }}
+                                  style={{overflow: 'hidden'}}
                         />
                     </div>
                     <span className="about">Какие-нибудь подробности о вас</span>
+                    {errors["bio"] && <div className="error" style={{ maxWidth: "250px" }}>{errors["bio"]}</div>}
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

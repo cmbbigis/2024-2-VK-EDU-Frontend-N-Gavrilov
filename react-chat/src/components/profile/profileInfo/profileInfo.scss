@@ -35,7 +35,15 @@
   font-size: 14px;
 }
 
-.profile-full-name {
+.profile-first-name {
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 245px;
+}
+
+.profile-last-name {
   font-size: 18px;
   white-space: nowrap;
   overflow: hidden;

@@ -1,24 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import './chatList.scss';
 import { Chat } from "../chat";
+import { BackendClient } from "../../../utils/backendClient";
+import { Centrifugo } from "../../../utils/Centrifugo";
 
 export const ChatList = ({ reload }) => {
     const [chats, setChats] = useState([]);
+    const centrifugoRef = useRef(null);
 
     useEffect(() => {
-        setChats(loadChats());
+        loadChats();
+        centrifugoRef.current = Centrifugo(null, null, null, setChats);
+        return () => centrifugoRef.current;
     }, [reload]);
 
-    function loadChats() {
-        return JSON.parse(localStorage.getItem('chats')) || [];
+    async function loadChats() {
+        let pageNumber = 1;
+        let pageSize = 30;
+        let chats = [];
+        let response = { 'next': '' };
+        while (response['next'] !== null) {
+            response = await BackendClient.getChats(pageNumber++, pageSize)
+            chats = chats.concat(response['results']);
+        }
+        setChats(chats);
     }
 
     return (
         <div id="chat-list" className="chat-list">
-            {chats.map(({id, interlocutor, avatar}) => (
-                <Chat id={id} interlocutor={interlocutor} avatar={avatar}/>
-            ))}
+            {
+                chats.map((chat) => (
+                        <Chat key={chat["id"]} id={chat["id"]} interlocutor={chat["title"]} avatar={chat["avatar"]} lastMessage={chat["last_message"]}/>
+                    )
+                )
+            }
         </div>
     );
 }

@@ -20,6 +20,7 @@
     "webpack": "^5.95.0"
   },
   "dependencies": {
+    "centrifuge": "^5.2.2",
     "material-design-icons": "^3.0.1"
   }
 }

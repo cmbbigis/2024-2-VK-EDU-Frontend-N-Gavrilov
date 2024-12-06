@@ -1,0 +1,23 @@
+.registerPage {
+  display: flex;
+  margin-top: 100px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerForm {
+  display: flex;
+  margin-top: 100px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: min(15px, var(--gap-size, 15px));
+  color: black;
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

@@ -58,3 +58,17 @@
     transition: background-color 0.5s;
     background-color: #EBEBEB;
 }
+
+.title-input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.interlocutors-combobox {
+    display: flex;
+    flex-direction: column;
+}
+
+.interlocutors-select {
+    min-height: 200px;
+}
