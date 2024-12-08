@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
+import MicIcon from '@mui/icons-material/Mic';
+import StopCircleIcon from "@mui/icons-material/StopCircle";
 
 import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
@@ -9,6 +11,7 @@ import { Centrifugo } from "../../../utils/Centrifugo";
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
+    const [isRecording, setIsRecording] = useState(false);
     const messagesEndRef = useRef();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const centrifugoRef = useRef(null);
@@ -34,6 +37,10 @@ export const ChatScreen = ({ chatId }) => {
             await loadMessages(chatId);
             setMessageText('');
         }
+    };
+
+    const handleMicClick = () => {
+        setIsRecording(!isRecording);
     };
 
     const loadMessages = async (chatId) => {
@@ -81,7 +88,10 @@ export const ChatScreen = ({ chatId }) => {
             </div>
             <form className="form" id="message-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="message-input-container">
-                    <input
+                    <button className="footer-button attach-file-button" type="button">
+                        <AttachFileIcon/>
+                    </button>
+                    {isRecording ? <div className="recording-div">Идёт запись...</div> : <input
                         className="message-input"
                         name="text"
                         placeholder="Сообщение"
@@ -89,16 +99,21 @@ export const ChatScreen = ({ chatId }) => {
                         value={messageText}
                         onChange={handleInput}
                     />
-                    <button className="footer-button attach-file-button" type="button">
-                        <AttachFileIcon />
-                    </button>
-                    <button
+                    }
+                    {!(messageText.trim()) && <button
+                        className="footer-button voice-button"
+                        type="button"
+                        onClick={handleMicClick}
+                    >
+                        {!isRecording && <MicIcon className="micIcon"/>}
+                        {isRecording && <StopCircleIcon className="stopCircleIcon"/>}
+                    </button>}
+                    {messageText.trim() && <button
                         className="footer-button send-button"
                         type="submit"
-                        style={{ display: messageText.trim() ? 'block' : 'none' }}
                     >
                         <SendIcon className="sendIcon"/>
-                    </button>
+                    </button>}
                 </div>
             </form>
         </div>
