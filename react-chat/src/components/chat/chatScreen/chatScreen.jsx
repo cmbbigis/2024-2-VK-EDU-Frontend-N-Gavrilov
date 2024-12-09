@@ -7,11 +7,13 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
-import {useRecorder} from "../../../utils/useRecorder";
+import { useRecorder } from "../../../utils/useRecorder";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [hideTimeout, setHideTimeout] = useState(null);
     const messagesEndRef = useRef();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const centrifugoRef = useRef(null);
@@ -76,6 +78,21 @@ export const ChatScreen = ({ chatId }) => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    const handleMouseEnter = () => {
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            setHideTimeout(null);
+        }
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        const timeout = setTimeout(() => {
+            setIsDropdownOpen(false);
+        }, 300); // Delay in milliseconds
+        setHideTimeout(timeout);
+    };
+
     return (
         <div className="chat-screen">
             <div className="messages">
@@ -101,51 +118,65 @@ export const ChatScreen = ({ chatId }) => {
                 }
                 <div ref={messagesEndRef}/>
             </div>
-            <form className="form" id="message-form" encType="multipart/form-data" onSubmit={handleSubmit}>
-                <div className="message-input-container">
-                    <button className="footer-button attach-file-button" type="button">
-                        <AttachFileIcon/>
-                    </button>
-                    {isRecording ? <div className="recording-div">Идёт запись...</div> : <input
-                        className="message-input"
-                        name="text"
-                        placeholder="Сообщение"
-                        type="text"
-                        value={messageText}
-                        onChange={handleInput}
-                    />
-                    }
-                    {!(messageText.trim()) && !isRecording && <button
-                        className="footer-button voice-button"
-                        type="button"
-                        onClick={startRecording}
-                    >
-                        <MicIcon className="micIcon"/>
-                    </button>}
-                    {!(messageText.trim()) && isRecording && <div className='recording-buttons'>
-                        <button
+            <div className="footer">
+                {isDropdownOpen && (
+                    <div className="dropdown-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                        <label className="dropdown-item">
+                            Upload File
+                        </label>
+                        <label className="dropdown-item">
+                            Location
+                        </label>
+                    </div>
+                )}
+                <form className="form" id="message-form" encType="multipart/form-data" onSubmit={handleSubmit}>
+                    <div className="message-input-container">
+                        <button className="footer-button attach-file-button" type="button"
+                                onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                            <AttachFileIcon/>
+                        </button>
+                        {isRecording ? <div className="recording-div">Идёт запись...</div> : <input
+                            className="message-input"
+                            name="text"
+                            placeholder="Сообщение"
+                            type="text"
+                            value={messageText}
+                            onChange={handleInput}
+                        />
+                        }
+                        {!(messageText.trim()) && !isRecording && <button
                             className="footer-button voice-button"
                             type="button"
-                            onClick={cancelRecording}
+                            onClick={startRecording}
                         >
-                            <CancelIcon className="cancelIcon"/>
-                        </button>
-                        <button
+                            <MicIcon className="micIcon"/>
+                        </button>}
+                        {!(messageText.trim()) && isRecording && <div className='recording-buttons'>
+                            <button
+                                className="footer-button voice-button"
+                                type="button"
+                                onClick={cancelRecording}
+                            >
+                                <CancelIcon className="cancelIcon"/>
+                            </button>
+                            <button
+                                className="footer-button send-button"
+                                type="button"
+                                onClick={stopRecording}
+                            >
+                                <SendIcon className="sendIcon"/>
+                            </button>
+                        </div>}
+                        {messageText.trim() && <button
                             className="footer-button send-button"
-                            type="button"
-                            onClick={stopRecording}
+                            type="submit"
                         >
                             <SendIcon className="sendIcon"/>
-                        </button>
-                    </div>}
-                    {messageText.trim() && <button
-                        className="footer-button send-button"
-                        type="submit"
-                    >
-                        <SendIcon className="sendIcon"/>
-                    </button>}
-                </div>
-            </form>
+                        </button>}
+                    </div>
+                </form>
+            </div>
+
         </div>
     );
 }
