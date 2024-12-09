@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.58b46992.css",
-    "main.js": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.350ead54.js",
+    "main.css": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.5e4b5222.css",
+    "main.js": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.d192d181.js",
     "static/js/453.6a81d3e2.chunk.js": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/453.6a81d3e2.chunk.js",
     "index.html": "/2024-2-VK-EDU-Frontend-N-Gavrilov/index.html",
-    "main.58b46992.css.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.58b46992.css.map",
-    "main.350ead54.js.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.350ead54.js.map",
+    "main.5e4b5222.css.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/css/main.5e4b5222.css.map",
+    "main.d192d181.js.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/main.d192d181.js.map",
     "453.6a81d3e2.chunk.js.map": "/2024-2-VK-EDU-Frontend-N-Gavrilov/static/js/453.6a81d3e2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.58b46992.css",
-    "static/js/main.350ead54.js"
+    "static/css/main.5e4b5222.css",
+    "static/js/main.d192d181.js"
   ]
 }
