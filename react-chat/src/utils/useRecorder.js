@@ -11,17 +11,10 @@ export const useRecorder = () => {
         setIsRecording(true);
         if (navigator.mediaDevices) {
             const constraints = {audio: true};
-            audioChunksRef.current = [];
-
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
             try {
                 let mediaRecorder = new MediaRecorder(stream);
                 mediaRecorderRef.current = mediaRecorder;
-
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunksRef.current, {type: "audio/ogg"})
-                    setAudio(blob);
-                };
 
                 mediaRecorder.ondataavailable = (e) => {
                     audioChunksRef.current.push(e.data);
@@ -36,8 +29,25 @@ export const useRecorder = () => {
 
     const stopRecording = () => {
         setIsRecording(false);
+
+        mediaRecorderRef.current.onstop = () => {
+            const blob = new Blob(audioChunksRef.current, {type: "audio/ogg"})
+            audioChunksRef.current = [];
+            setAudio(blob);
+        };
+
         mediaRecorderRef.current.stop();
     }
 
-    return [startRecording, stopRecording, isRecording, audio]
+    const cancelRecording = () => {
+        setIsRecording(false);
+
+        mediaRecorderRef.current.onstop = () => {
+            audioChunksRef.current = [];
+        };
+
+        mediaRecorderRef.current.stop();
+    }
+
+    return [startRecording, stopRecording, cancelRecording, isRecording, audio]
 }

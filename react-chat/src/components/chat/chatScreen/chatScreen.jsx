@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
-import StopCircleIcon from "@mui/icons-material/StopCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
@@ -15,7 +15,7 @@ export const ChatScreen = ({ chatId }) => {
     const messagesEndRef = useRef();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const centrifugoRef = useRef(null);
-    const [startRecording, stopRecording, isRecording, audio] = useRecorder();
+    const [startRecording, stopRecording, cancelRecording, isRecording, audio] = useRecorder();
 
     useEffect(() => {
         loadMessages(chatId);
@@ -26,6 +26,20 @@ export const ChatScreen = ({ chatId }) => {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    const sendVoice = useCallback(async () => {
+        let formData = new FormData();
+        formData.append("chat", chatId);
+        formData.append("voice", audio, 'voice.ogg');
+        await BackendClient.sendMessage(formData);
+        await loadMessages(chatId);
+    }, [audio, chatId]);
+
+    useEffect(() => {
+        if (audio) {
+            sendVoice();
+        }
+    }, [audio, sendVoice]);
 
     const handleInput = (event) => {
         setMessageText(event.target.value);
@@ -38,23 +52,6 @@ export const ChatScreen = ({ chatId }) => {
             await loadMessages(chatId);
             setMessageText('');
         }
-    };
-
-    const handleMicClick = async () => {
-        if (isRecording) {
-            stopRecording();
-            await sendVoice();
-        } else {
-            await startRecording();
-        }
-    };
-
-    const sendVoice = async () => {
-        let formData = new FormData();
-        formData.append("chat", chatId);
-        formData.append("voice", audio, 'voice.ogg');
-        await BackendClient.sendMessage(formData);
-        await loadMessages(chatId);
     };
 
     const loadMessages = async (chatId) => {
@@ -99,8 +96,8 @@ export const ChatScreen = ({ chatId }) => {
                                         className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
                                 </div>
                             )
-                    }
-                )
+                        }
+                    )
                 }
                 <div ref={messagesEndRef}/>
             </div>
@@ -118,13 +115,29 @@ export const ChatScreen = ({ chatId }) => {
                         onChange={handleInput}
                     />
                     }
-                    {!(messageText.trim()) && <button
+                    {!(messageText.trim()) && !isRecording && <button
                         className="footer-button voice-button"
                         type="button"
-                        onClick={handleMicClick}
+                        onClick={startRecording}
                     >
-                        {isRecording ? <StopCircleIcon className="stopCircleIcon"/> : <MicIcon className="micIcon"/>}
+                        <MicIcon className="micIcon"/>
                     </button>}
+                    {!(messageText.trim()) && isRecording && <div className='recording-buttons'>
+                        <button
+                            className="footer-button voice-button"
+                            type="button"
+                            onClick={cancelRecording}
+                        >
+                            <CancelIcon className="cancelIcon"/>
+                        </button>
+                        <button
+                            className="footer-button send-button"
+                            type="button"
+                            onClick={stopRecording}
+                        >
+                            <SendIcon className="sendIcon"/>
+                        </button>
+                    </div>}
                     {messageText.trim() && <button
                         className="footer-button send-button"
                         type="submit"
