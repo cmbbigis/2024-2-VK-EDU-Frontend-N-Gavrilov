@@ -7,14 +7,15 @@ import StopCircleIcon from "@mui/icons-material/StopCircle";
 import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
+import {useRecorder} from "../../../utils/useRecorder";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
-    const [isRecording, setIsRecording] = useState(false);
     const messagesEndRef = useRef();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const centrifugoRef = useRef(null);
+    const [startRecording, stopRecording, isRecording, audio] = useRecorder();
 
     useEffect(() => {
         loadMessages(chatId);
@@ -39,8 +40,21 @@ export const ChatScreen = ({ chatId }) => {
         }
     };
 
-    const handleMicClick = () => {
-        setIsRecording(!isRecording);
+    const handleMicClick = async () => {
+        if (isRecording) {
+            stopRecording();
+            await sendVoice();
+        } else {
+            await startRecording();
+        }
+    };
+
+    const sendVoice = async () => {
+        let formData = new FormData();
+        formData.append("chat", chatId);
+        formData.append("voice", audio, 'voice.ogg');
+        await BackendClient.sendMessage(formData);
+        await loadMessages(chatId);
     };
 
     const loadMessages = async (chatId) => {
@@ -77,12 +91,16 @@ export const ChatScreen = ({ chatId }) => {
                                     className={`message ${senderUsername === currentUser['username'] ? 'my-message' : 'interlocutor-message'} new-message`}
                                 >
                                     <span className="message-sender">{senderFirstName}</span>
-                                    <span className="message-text">{message['text']}</span>
-                                    <span className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
+                                    {message['text'] && <span className="message-text">{message['text']}</span>}
+                                    {message['voice'] && <audio controls>
+                                        <source src={message['voice']} type="audio/ogg"/>
+                                    </audio>}
+                                    <span
+                                        className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
                                 </div>
                             )
-                        }
-                    )
+                    }
+                )
                 }
                 <div ref={messagesEndRef}/>
             </div>
@@ -105,8 +123,7 @@ export const ChatScreen = ({ chatId }) => {
                         type="button"
                         onClick={handleMicClick}
                     >
-                        {!isRecording && <MicIcon className="micIcon"/>}
-                        {isRecording && <StopCircleIcon className="stopCircleIcon"/>}
+                        {isRecording ? <StopCircleIcon className="stopCircleIcon"/> : <MicIcon className="micIcon"/>}
                     </button>}
                     {messageText.trim() && <button
                         className="footer-button send-button"
