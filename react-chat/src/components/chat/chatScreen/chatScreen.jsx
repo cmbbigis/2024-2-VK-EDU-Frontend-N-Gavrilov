@@ -8,6 +8,8 @@ import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 import { useRecorder } from "../../../utils/useRecorder";
+import { toast } from "react-toastify";
+import {MapComponent} from "../mapComponent/mapComponent";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
@@ -18,6 +20,7 @@ export const ChatScreen = ({ chatId }) => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const centrifugoRef = useRef(null);
     const [startRecording, stopRecording, cancelRecording, isRecording, audio] = useRecorder();
+    const geoRegex = /https:\/\/www\.openstreetmap\.org\/#map=18\/(\d+\.\d+)\/(\d+\.\d+)/;
 
     useEffect(() => {
         loadMessages(chatId);
@@ -50,7 +53,7 @@ export const ChatScreen = ({ chatId }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (messageText.trim()) {
-            await saveMessage(chatId, messageText.trim(), 'Я');
+            await saveMessage(chatId, messageText.trim());
             await loadMessages(chatId);
             setMessageText('');
         }
@@ -68,9 +71,10 @@ export const ChatScreen = ({ chatId }) => {
         setMessages(messages);
     };
 
-    const saveMessage = async (chatId) => {
-        let formData = new FormData(document.getElementById("message-form"));
+    const saveMessage = async (chatId, messageText) => {
+        let formData = new FormData();
         formData.append("chat", chatId);
+        formData.append("text", messageText);
         await BackendClient.sendMessage(formData);
     };
 
@@ -89,9 +93,25 @@ export const ChatScreen = ({ chatId }) => {
     const handleMouseLeave = () => {
         const timeout = setTimeout(() => {
             setIsDropdownOpen(false);
-        }, 300); // Delay in milliseconds
+        }, 300);
         setHideTimeout(timeout);
     };
+
+    async function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const link = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+        await saveMessage(chatId, link);
+    }
+
+    const handleGeoClick = () => {
+        if (!navigator.geolocation) {
+            toast.error("Geolocation is not supported by your browser");
+        } else {
+            navigator.geolocation.getCurrentPosition(success, () => toast.error("Unable to retrieve your location"));
+        }
+    }
 
     return (
         <div className="chat-screen">
@@ -99,13 +119,17 @@ export const ChatScreen = ({ chatId }) => {
                 {messages.slice().reverse().map((message, index) => {
                             const senderUsername = message['sender']['username'];
                             const senderFirstName = message['sender']['first_name'];
+                            const geoRegexMatch = message['text'] ? message['text'].match(geoRegex) : null;
                             return (
                                 <div
                                     key={index}
                                     className={`message ${senderUsername === currentUser['username'] ? 'my-message' : 'interlocutor-message'} new-message`}
                                 >
                                     <span className="message-sender">{senderFirstName}</span>
-                                    {message['text'] && <span className="message-text">{message['text']}</span>}
+                                    {message['text'] && geoRegexMatch &&
+                                        <MapComponent latitude={parseFloat(geoRegexMatch[1])} longitude={parseFloat(geoRegexMatch[2])}/>
+                                    }
+                                    {message['text'] && !geoRegexMatch && <span className="message-text">{message['text']}</span>}
                                     {message['voice'] && <audio controls>
                                         <source src={message['voice']} type="audio/ogg"/>
                                     </audio>}
@@ -124,7 +148,7 @@ export const ChatScreen = ({ chatId }) => {
                         <label className="dropdown-item">
                             Upload File
                         </label>
-                        <label className="dropdown-item">
+                        <label className="dropdown-item" onClick={handleGeoClick}>
                             Location
                         </label>
                     </div>
@@ -176,7 +200,6 @@ export const ChatScreen = ({ chatId }) => {
                     </div>
                 </form>
             </div>
-
         </div>
     );
 }
