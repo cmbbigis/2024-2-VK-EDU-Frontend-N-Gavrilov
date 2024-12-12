@@ -7,10 +7,23 @@ import './chat.scss';
 
 export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     const [latestMessage, setLatestMessage] = useState(lastMessage);
+    const geoRegex = /https:\/\/www\.openstreetmap\.org\/#map=18\/(\d+\.\d+)\/(\d+\.\d+)/;
 
     useEffect(() => {
         return () => Centrifugo(id, null, setLatestMessage);
     }, [id, lastMessage]);
+
+    const getLatestMessageText = () => {
+        if (latestMessage && latestMessage['text']) {
+            if (latestMessage['text'].match(geoRegex)) {
+                return 'Геолокация';
+            } else {
+                return latestMessage['text'];
+            }
+        } else {
+            return '';
+        }
+    }
 
     return (
         <Link to={`/chat/${id}`} key={id} className={"chat-link"}>
@@ -18,7 +31,7 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
                 <img className="avatar" alt="Avatar" src={avatar} />
                 <div className="chat-info">
                     <h2 className="chat-title">{interlocutor}</h2>
-                    <p className="chat-last-message">{latestMessage && latestMessage['text']}</p>
+                    <p className="chat-last-message">{getLatestMessageText()}</p>
                 </div>
                 <div className="chat-meta">
                     <span className="last-message-time">{latestMessage && new Date(latestMessage['created_at']).toLocaleString()}</span>
