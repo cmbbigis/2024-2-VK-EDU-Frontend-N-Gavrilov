@@ -14,11 +14,15 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     }, [id, lastMessage]);
 
     const getLatestMessageText = () => {
-        if (latestMessage && latestMessage['text']) {
-            if (latestMessage['text'].match(geoRegex)) {
-                return 'Геолокация';
-            } else {
-                return latestMessage['text'];
+        if (latestMessage) {
+            if (latestMessage['text']) {
+                if (latestMessage['text'].match(geoRegex)) {
+                    return 'Геолокация';
+                } else {
+                    return latestMessage['text'];
+                }
+            } else if (latestMessage['files']) {
+                return 'Файл(-ы)';
             }
         } else {
             return '';

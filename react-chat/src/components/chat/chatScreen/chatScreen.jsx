@@ -3,6 +3,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import CancelIcon from "@mui/icons-material/Cancel";
+import CloseIcon from "@mui/icons-material/Close";
 
 import './chatScreen.scss';
 import { BackendClient } from "../../../utils/backendClient";
@@ -16,9 +17,11 @@ export const ChatScreen = ({ chatId }) => {
     const [messageText, setMessageText] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [hideTimeout, setHideTimeout] = useState(null);
-    const messagesEndRef = useRef();
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const [uploadedImages, setUploadedImages] = useState([]);
     const centrifugoRef = useRef(null);
+    const messagesEndRef = useRef();
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const [startRecording, stopRecording, cancelRecording, isRecording, audio] = useRecorder();
     const geoRegex = /https:\/\/www\.openstreetmap\.org\/#map=18\/(\d+\.\d+)\/(\d+\.\d+)/;
 
@@ -52,7 +55,7 @@ export const ChatScreen = ({ chatId }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (messageText.trim()) {
+        if (messageText.trim() || uploadedImages) {
             await saveMessage(chatId, messageText.trim());
             await loadMessages(chatId);
             setMessageText('');
@@ -74,8 +77,19 @@ export const ChatScreen = ({ chatId }) => {
     const saveMessage = async (chatId, messageText) => {
         let formData = new FormData();
         formData.append("chat", chatId);
-        formData.append("text", messageText);
+        if (messageText) {
+            formData.append("text", messageText);
+        }
+        if (uploadedImages) {
+            uploadedImages.forEach((image) => {
+                formData.append("files", image.file);
+            });
+        }
+        console.log('uploadedImages');
+        console.log(uploadedImages);
         await BackendClient.sendMessage(formData);
+        setUploadedImages([]);
+        setTimeout(updatePaddingBottom, 0);
     };
 
     const scrollToBottom = () => {
@@ -113,8 +127,52 @@ export const ChatScreen = ({ chatId }) => {
         }
     }
 
+    const handleFileChange = (fileList) => {
+        const files = Array.from(fileList);
+        if (uploadedImages.length + files.length > 10) {
+            toast.warn("Нельзя прикрепить больше 10 файлов");
+            return;
+        }
+        const newImages = files.map(file => ({
+            file,
+            preview: URL.createObjectURL(file),
+        }));
+        setUploadedImages([...uploadedImages, ...newImages]);
+        setTimeout(() => {
+            updatePaddingBottom();
+            scrollToBottom();
+        }, 0);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.currentTarget.classList.add('drag-over');
+    };
+
+    const handleDragLeave = (e) => {
+        e.currentTarget.classList.remove('drag-over');
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.currentTarget.classList.remove('drag-over');
+        handleFileChange(e.dataTransfer.files);
+    };
+
+    const handleRemoveImage = (index) => {
+        setUploadedImages(uploadedImages.filter((_, i) => i !== index));
+        setTimeout(updatePaddingBottom, 0);
+    };
+
+    function updatePaddingBottom() {
+        const chatScreen = document.getElementById('chat-screen');
+        const footer = document.getElementById('footer');
+        const newPadding = footer.offsetHeight - 10;
+        chatScreen.style.paddingBottom = `${newPadding}px`;
+    }
+
     return (
-        <div className="chat-screen">
+        <div className="chat-screen" id='chat-screen'>
             <div className="messages">
                 {messages.slice().reverse().map((message, index) => {
                             const senderUsername = message['sender']['username'];
@@ -133,6 +191,9 @@ export const ChatScreen = ({ chatId }) => {
                                     {message['voice'] && <audio controls>
                                         <source src={message['voice']} type="audio/ogg"/>
                                     </audio>}
+                                    {message['files'] && message['files'].map((image, imgIndex) => (
+                                        <img key={imgIndex} src={image.item} alt={`${imgIndex}`} className="message-image"/>
+                                    ))}
                                     <span
                                         className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
                                 </div>
@@ -142,11 +203,14 @@ export const ChatScreen = ({ chatId }) => {
                 }
                 <div ref={messagesEndRef}/>
             </div>
-            <div className="footer">
+            <div className="footer" id='footer' onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
                 {isDropdownOpen && (
                     <div className="dropdown-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                         <label className="dropdown-item">
                             Upload File
+                            <input type="file" multiple
+                                   onChange={(event) => handleFileChange(event.target.files)}
+                                   style={{display: 'none'}}/>
                         </label>
                         <label className="dropdown-item" onClick={handleGeoClick}>
                             Location
@@ -168,14 +232,14 @@ export const ChatScreen = ({ chatId }) => {
                             onChange={handleInput}
                         />
                         }
-                        {!(messageText.trim()) && !isRecording && <button
+                        {!(messageText.trim() || uploadedImages) && !isRecording && <button
                             className="footer-button voice-button"
                             type="button"
                             onClick={startRecording}
                         >
                             <MicIcon className="micIcon"/>
                         </button>}
-                        {!(messageText.trim()) && isRecording && <div className='recording-buttons'>
+                        {!(messageText.trim() || uploadedImages) && isRecording && <div className='recording-buttons'>
                             <button
                                 className="footer-button voice-button"
                                 type="button"
@@ -191,13 +255,23 @@ export const ChatScreen = ({ chatId }) => {
                                 <SendIcon className="sendIcon"/>
                             </button>
                         </div>}
-                        {messageText.trim() && <button
+                        {(messageText.trim() || uploadedImages) && <button
                             className="footer-button send-button"
                             type="submit"
                         >
                             <SendIcon className="sendIcon"/>
                         </button>}
                     </div>
+                    {uploadedImages.length > 0 && <div className="image-previews">
+                        {uploadedImages.map((image, index) => (
+                            <div key={index} className="image-preview-container">
+                                <img src={image.preview} alt={`preview ${index}`} className="image-preview" />
+                                <button type="button" className="remove-image-button" onClick={() => handleRemoveImage(index)}>
+                                    <CloseIcon />
+                                </button>
+                            </div>
+                        ))}
+                    </div>}
                 </form>
             </div>
         </div>
