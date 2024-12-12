@@ -205,7 +205,11 @@ export const ChatScreen = ({ chatId }) => {
             </div>
             <div className="footer" id='footer' onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
                 {isDropdownOpen && (
-                    <div className="dropdown-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <div className="dropdown-menu"
+                         onMouseEnter={handleMouseEnter}
+                         onMouseLeave={handleMouseLeave}
+                         style={{bottom: `${document.getElementById('footer').offsetHeight - 5}px`}}
+                    >
                         <label className="dropdown-item">
                             Upload File
                             <input type="file" multiple
