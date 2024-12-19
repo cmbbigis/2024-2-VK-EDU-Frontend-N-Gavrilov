@@ -55,10 +55,11 @@ export const ChatScreen = ({ chatId }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (messageText.trim() || uploadedImages) {
-            await saveMessage(chatId, messageText.trim());
-            await loadMessages(chatId);
+        if (messageText.trim() || uploadedImages.length > 0) {
+            const texToSend = messageText.trim();
             setMessageText('');
+            await saveMessage(chatId, texToSend);
+            await loadMessages(chatId);
         }
     };
 
