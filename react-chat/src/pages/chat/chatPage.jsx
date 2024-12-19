@@ -1,20 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useParams } from "react-router-dom";
 
 import './chatPage.scss';
 import { ChatHeader, ChatScreen } from '../../components/chat';
 
-export const ChatPage = () => {
+export const ChatPage = ({ setCurrentChatId }) => {
     const { chatId } = useParams();
-    // const chats = JSON.parse(localStorage.getItem('chats')) || [];
-    // if (!chats) {
-    //     return <NotFoundPage />;
-    // }
-    // const chat = chats.find(chat => chat.id === +chatId);
-    //
-    // if (!chat) {
-    //     return <NotFoundPage />;
-    // }
+
+    useEffect(() => {
+        setCurrentChatId(chatId);
+    }, [chatId, setCurrentChatId]);
 
     return (
         <div id="chatPage">
