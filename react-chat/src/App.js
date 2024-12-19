@@ -10,6 +10,7 @@ function App() {
     const [currentChatId, setCurrentChatId] = useState(null);
     const [messageToNotify, setMessageToNotify] = useState(null);
     const centrifugoRef = useRef(null);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     useEffect(() => {
         centrifugoRef.current = Centrifugo(currentChatId, null, null, null, setMessageToNotify);
@@ -17,11 +18,11 @@ function App() {
     }, [currentChatId]);
 
     useEffect(() => {
-        if (messageToNotify && messageToNotify.chat !== currentChatId) {
-            toast.info(`Новое сообщение от ${messageToNotify.sender.first_name}`);
+        if (messageToNotify && messageToNotify.chat !== currentChatId && messageToNotify.sender.id !== currentUser.id) {
+            toast.info(`Новое сообщение от ${messageToNotify.sender.first_name} ${messageToNotify.sender.last_name}`);
             setMessageToNotify(null);
         }
-    }, [messageToNotify, currentChatId]);
+    }, [messageToNotify, currentChatId, currentUser]);
 
     return (
         <div className="App">
