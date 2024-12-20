@@ -41,7 +41,11 @@ export function AppRoutes() {
                 ? <Navigate to="/chats/" />
                 : <AuthPage />
             }/>
-            <Route path='/register/' Component={RegisterPage}/>
+            <Route path='/register/' element={
+                isAuthorized || JSON.parse(sessionStorage.getItem('isAuthorized'))
+                    ? <Navigate to="/chats/" />
+                    : <RegisterPage />
+            }/>
             <Route path='/profile/' element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
             <Route path='/editProfile/' element={<PrivateRoute><EditProfilePage /></PrivateRoute>}/>
             <Route path='*' Component={NotFoundPage}/>
