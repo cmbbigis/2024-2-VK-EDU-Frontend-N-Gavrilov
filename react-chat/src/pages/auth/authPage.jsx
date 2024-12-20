@@ -4,7 +4,7 @@ import { BackendClient } from "../../utils/backendClient";
 
 import './authPage.scss';
 import {useDispatch} from "react-redux";
-import {setCurrentUser} from "../../redux/slice";
+import {login, setCurrentUser} from "../../redux/slice";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
@@ -20,6 +20,7 @@ export const AuthPage = () => {
     async function onSubmit(event) {
         event.preventDefault();
 
+        debugger
         const form = event.target;
         if (!form.checkValidity()) {
             form.reportValidity();
@@ -35,6 +36,7 @@ export const AuthPage = () => {
             localStorage.setItem("refresh", response["refresh"]);
             const currentUser = await BackendClient.getUser('current');
             dispatch(setCurrentUser(currentUser));
+            dispatch(login());
             navigate("/chats/");
         } catch (error) {
             setErrors(error);
