@@ -1,4 +1,4 @@
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef, useState} from "react";
 import {setCurrentChatId} from "../../redux/slice";
@@ -12,7 +12,7 @@ export function AppRoutes() {
     const dispatch = useDispatch();
     const [messageToNotify, setMessageToNotify] = useState(null);
     const centrifugoRef = useRef(null);
-    const { currentChatId, currentUser } = useSelector((state) => state.slice)
+    const { currentChatId, currentUser, isAuthorized } = useSelector((state) => state.slice)
 
     useEffect(() => {
         if (!location.pathname.includes('/chat/')) {
@@ -36,7 +36,11 @@ export function AppRoutes() {
         <Routes>
             <Route path='/chat/:chatId' element={<PrivateRoute><ChatPage /></PrivateRoute>}/>
             <Route path='/chats/' element={<PrivateRoute><ChatListPage /></PrivateRoute>}/>
-            <Route path='/' Component={AuthPage}/>
+            <Route path='/' element={
+                isAuthorized || JSON.parse(sessionStorage.getItem('isAuthorized'))
+                ? <Navigate to="/chats/" />
+                : <AuthPage />
+            }/>
             <Route path='/register/' Component={RegisterPage}/>
             <Route path='/profile/' element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
             <Route path='/editProfile/' element={<PrivateRoute><EditProfilePage /></PrivateRoute>}/>
