@@ -11,6 +11,7 @@ import { Centrifugo } from "../../../utils/Centrifugo";
 import { useRecorder } from "../../../utils/useRecorder";
 import { toast } from "react-toastify";
 import {MapComponent} from "../mapComponent/mapComponent";
+import {useSelector} from "react-redux";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
@@ -21,7 +22,7 @@ export const ChatScreen = ({ chatId }) => {
     const centrifugoRef = useRef(null);
     const messagesEndRef = useRef();
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const { currentUser } = useSelector((state) => state.slice)
     const [startRecording, stopRecording, cancelRecording, isRecording, audio] = useRecorder();
     const geoRegex = /https:\/\/www\.openstreetmap\.org\/#map=18\/(\d+\.\d+)\/(\d+\.\d+)/;
 
