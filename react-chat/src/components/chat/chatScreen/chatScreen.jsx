@@ -87,8 +87,6 @@ export const ChatScreen = ({ chatId }) => {
                 formData.append("files", image.file);
             });
         }
-        console.log('uploadedImages');
-        console.log(uploadedImages);
         await BackendClient.sendMessage(formData);
         setUploadedImages([]);
         setTimeout(updatePaddingBottom, 0);

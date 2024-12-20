@@ -34,7 +34,6 @@ export const AuthPage = () => {
             localStorage.setItem("access", response["access"]);
             localStorage.setItem("refresh", response["refresh"]);
             const currentUser = await BackendClient.getUser('current');
-            debugger
             dispatch(setCurrentUser(currentUser));
             navigate("/chats/");
         } catch (error) {
