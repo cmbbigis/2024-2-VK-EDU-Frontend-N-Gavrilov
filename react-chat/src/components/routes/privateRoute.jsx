@@ -1,8 +1,16 @@
-import { Navigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import {useEffect} from "react";
 
 export const PrivateRoute = ({ children }) => {
     const isAuthorized = useSelector((state) => state.slice.isAuthorized) || JSON.parse(sessionStorage.getItem('isAuthorized'));
+    const navigate = useNavigate();
 
-    return isAuthorized ? children : <Navigate to="/" />;
+    useEffect(() => {
+        if (!isAuthorized) {
+            navigate('/');
+        }
+    }, [isAuthorized, navigate]);
+
+    return (isAuthorized && children);
 };

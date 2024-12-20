@@ -1,10 +1,12 @@
 import React from 'react';
 
 import './profileInfo.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../../redux/slice";
 
 export const ProfileInfo = () => {
     const { currentUser } = useSelector((state) => state.slice)
+    const dispatch = useDispatch();
 
     return (
         <div className="profile-info">
@@ -25,6 +27,7 @@ export const ProfileInfo = () => {
                 <label className="info-label profile-bio-label">Описание профиля</label>
                 <span className="profile-bio">{currentUser['bio']}</span>
             </div>
+            <button className="logoutButton" onClick={() => dispatch(logout())}>Выйти</button>
         </div>
     );
 }
