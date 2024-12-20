@@ -1,23 +1,73 @@
 .registerPage {
   display: flex;
-  margin-top: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #8e24aa;
 }
 
 .registerForm {
   display: flex;
-  margin-top: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: min(15px, var(--gap-size, 15px));
   color: black;
+  width: 15%;
+}
+
+.registerForm .errorContainer {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #ededed;
+}
+
+.registerForm .backToAuthButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.backToAuthButtonLabel {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.backToAuth {
+  width: 100%;
+  background-color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.backToAuth:hover {
+  transition: background-color 0.2s;
+  background-color: #9e9e9e;
+}
+
+.registerButton {
+  width: 100%;
+  background-color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  transition: background-color 0.2s;
+  background-color: #9e9e9e;
 }
 
 .formInput {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.registerLabel {
+  color: #ffffff;
 }

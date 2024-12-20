@@ -33,9 +33,9 @@ export const RegisterPage = () => {
 
     return (
         <div className="registerPage">
-            <button className="back-to-auth" onClick={() => navigate("/")}>Назад к авторизации</button>
             <form className="registerForm" id="registerForm" encType="multipart/form-data" onSubmit={onSubmit}>
-                <div>
+                <h1 className="registerLabel">Регистрация</h1>
+                <div className="errorContainer">
                     <div className="formInput">
                         <label htmlFor="login">Логин</label>
                         <input
@@ -46,10 +46,11 @@ export const RegisterPage = () => {
                             required
                         />
                     </div>
-                    {errors["username"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["username"]}</div>}
+                    {errors["username"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["username"]}</div>}
                 </div>
 
-                <div>
+                <div className="errorContainer">
                     <div className="formInput">
                         <label htmlFor="password">Пароль</label>
                         <input
@@ -60,12 +61,13 @@ export const RegisterPage = () => {
                             required
                         />
                     </div>
-                    {errors["password"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["password"]}</div>}
+                    {errors["password"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["password"]}</div>}
                 </div>
 
-                <div>
+                <div className="errorContainer">
                     <div className="formInput">
-                        <label htmlFor="first_name">имя</label>
+                        <label htmlFor="first_name">Имя</label>
                         <input
                             type="text"
                             className="firstNameInput"
@@ -74,12 +76,13 @@ export const RegisterPage = () => {
                             required
                         />
                     </div>
-                    {errors["first_name"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["first_name"]}</div>}
+                    {errors["first_name"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["first_name"]}</div>}
                 </div>
 
-                <div>
+                <div className="errorContainer">
                     <div className="formInput">
-                        <label htmlFor="last_name">фамилия</label>
+                        <label htmlFor="last_name">Фамилия</label>
                         <input
                             type="text"
                             className="lastNameInput"
@@ -88,20 +91,8 @@ export const RegisterPage = () => {
                             required
                         />
                     </div>
-                    {errors["last_name"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["last_name"]}</div>}
-                </div>
-
-                <div>
-                    <div className="formInput">
-                        <label htmlFor="bio">био</label>
-                        <input
-                            type="text"
-                            className="bioInput"
-                            name="bio"
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    {errors["bio"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["bio"]}</div>}
+                    {errors["last_name"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["last_name"]}</div>}
                 </div>
 
                 <button
@@ -110,6 +101,13 @@ export const RegisterPage = () => {
                 >
                     Зарегистрироваться
                 </button>
+
+
+                <div className="backToAuthButtonContainer">
+                    <label className="backToAuthButtonLabel" htmlFor="backToAuth">Уже есть аккаунт?</label>
+                    <button className="backToAuth" type='button' onClick={() => navigate("/")}>Авторизация</button>
+                </div>
+
             </form>
         </div>
     );
