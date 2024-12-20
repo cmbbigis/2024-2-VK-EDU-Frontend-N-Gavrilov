@@ -237,14 +237,14 @@ export const ChatScreen = ({ chatId }) => {
                             onChange={handleInput}
                         />
                         }
-                        {!(messageText.trim() || uploadedImages) && !isRecording && <button
+                        {!messageText.trim() && uploadedImages.length === 0 && !isRecording && <button
                             className="footer-button voice-button"
                             type="button"
                             onClick={startRecording}
                         >
                             <MicIcon className="micIcon"/>
                         </button>}
-                        {!(messageText.trim() || uploadedImages) && isRecording && <div className='recording-buttons'>
+                        {!messageText.trim() && uploadedImages.length === 0 && isRecording && <div className='recording-buttons'>
                             <button
                                 className="footer-button voice-button"
                                 type="button"
@@ -260,7 +260,7 @@ export const ChatScreen = ({ chatId }) => {
                                 <SendIcon className="sendIcon"/>
                             </button>
                         </div>}
-                        {(messageText.trim() || uploadedImages) && <button
+                        {(messageText.trim() || uploadedImages.length > 0) && <button
                             className="footer-button send-button"
                             type="submit"
                         >
