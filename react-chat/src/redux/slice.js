@@ -21,11 +21,11 @@ export const slice = createSlice({
         setChats(state, action) {
             state.chats = action.payload;
         },
-        login: (state, action) => {
+        login: (state) => {
             state.isAuthorized = true;
             sessionStorage.setItem('isAuthorized', 'true');
         },
-        logout: (state, action) => {
+        logout: (state) => {
             state.isAuthorized = false;
             sessionStorage.removeItem('isAuthorized');
             localStorage.removeItem('currentUser');

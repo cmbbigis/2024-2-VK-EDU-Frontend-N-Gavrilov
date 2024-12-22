@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import {MapComponent} from "../mapComponent/mapComponent";
 import {useSelector} from "react-redux";
 import {LazyImage} from "../../LazyImage";
+import PropTypes from "prop-types";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
@@ -282,3 +283,7 @@ export const ChatScreen = ({ chatId }) => {
         </div>
     );
 }
+
+ChatScreen.propTypes = {
+    chatId: PropTypes.string.isRequired
+};

@@ -7,6 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './chatHeader.scss';
 import {BackendClient} from "../../../utils/backendClient";
 import {LazyImage} from "../../LazyImage";
+import PropTypes from "prop-types";
 
 export const ChatHeader = ({chatId}) => {
     const [chat, setChat] = useState([]);
@@ -42,3 +43,7 @@ export const ChatHeader = ({chatId}) => {
         </div>
     );
 }
+
+ChatHeader.propTypes = {
+    chatId: PropTypes.string.isRequired
+};

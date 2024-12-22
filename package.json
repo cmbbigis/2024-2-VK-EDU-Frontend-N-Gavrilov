@@ -25,9 +25,5 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
     "material-design-icons": "^3.0.1"
-  },
-  "lint-staged": {
-    "*.js": "eslint ./react-chat --fix",
-    "*.jsx": "eslint ./react-chat --fix"
   }
 }

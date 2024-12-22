@@ -1,1 +1,4 @@
-npx lint-staged react-chat
+#!/usr/bin/env sh
+cd react-chat
+
+npx lint-staged

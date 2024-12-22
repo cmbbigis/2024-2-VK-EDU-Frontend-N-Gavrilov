@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 import './mapComponent.scss';
+import PropTypes from "prop-types";
 
 // Fix for default marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -23,4 +24,9 @@ export const MapComponent = ({ latitude, longitude }) => {
             <Marker position={[latitude, longitude]} />
         </MapContainer>
     );
+};
+
+MapComponent.propTypes = {
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
 };

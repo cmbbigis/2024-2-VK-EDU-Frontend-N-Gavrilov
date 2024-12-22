@@ -5,6 +5,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import './chat.scss';
 import {LazyImage} from "../../LazyImage";
+import PropTypes from "prop-types";
 
 export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     const [latestMessage, setLatestMessage] = useState(lastMessage);
@@ -46,3 +47,18 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
         </Link>
     );
 }
+
+Chat.propTypes = {
+    id: PropTypes.string.isRequired,
+    interlocutor: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    lastMessage: PropTypes.shape({
+        text: PropTypes.string,
+        files: PropTypes.arrayOf(
+            PropTypes.shape({
+                item: PropTypes.string.isRequired
+            })
+        ),
+        created_at: PropTypes.string.isRequired
+    })
+};

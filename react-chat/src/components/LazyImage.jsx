@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from "prop-types";
 
 export const LazyImage = ({ src, alt, ...props }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -43,4 +44,9 @@ export const LazyImage = ({ src, alt, ...props }) => {
             loading="lazy"
         />
     );
+};
+
+LazyImage.propTypes = {
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
 };
