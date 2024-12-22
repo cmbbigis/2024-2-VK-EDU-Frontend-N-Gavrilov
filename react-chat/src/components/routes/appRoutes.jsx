@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef, useState} from "react";
 import {setCurrentChatId} from "../../redux/slice";
