@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {useEffect} from "react";
 
@@ -12,5 +12,5 @@ export const PrivateRoute = ({ children }) => {
         }
     }, [isAuthorized, navigate]);
 
-    return (isAuthorized && children);
+    return isAuthorized ? children : <Navigate to="/" />;
 };
