@@ -21,9 +21,11 @@ export function AppRoutes() {
     }, [location, dispatch]);
 
     useEffect(() => {
-        centrifugoRef.current = Centrifugo(currentChatId, null, null, null, setMessageToNotify);
-        return () => centrifugoRef.current;
-    }, [currentChatId]);
+        if (currentUser) {
+            centrifugoRef.current = Centrifugo(currentChatId, null, null, null, setMessageToNotify);
+            return () => centrifugoRef.current;
+        }
+    }, [currentChatId, currentUser]);
 
     useEffect(() => {
         if (messageToNotify && messageToNotify.chat !== currentChatId && messageToNotify.sender.id !== currentUser.id) {
