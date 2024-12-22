@@ -6,13 +6,14 @@ import {Centrifugo} from "../../utils/Centrifugo";
 import {toast} from "react-toastify";
 import {AuthPage, ChatListPage, ChatPage, EditProfilePage, NotFoundPage, ProfilePage, RegisterPage} from "../../pages";
 import {PrivateRoute} from "./privateRoute";
+import {PublicRoute} from "./publicRoute";
 
 export function AppRoutes() {
     const location = useLocation();
     const dispatch = useDispatch();
     const [messageToNotify, setMessageToNotify] = useState(null);
     const centrifugoRef = useRef(null);
-    const { currentChatId, currentUser, isAuthorized } = useSelector((state) => state.slice)
+    const { currentChatId, currentUser } = useSelector((state) => state.slice)
 
     useEffect(() => {
         if (!location.pathname.includes('/chat/')) {
@@ -38,16 +39,8 @@ export function AppRoutes() {
         <Routes>
             <Route path='/chat/:chatId' element={<PrivateRoute><ChatPage /></PrivateRoute>}/>
             <Route path='/chats/' element={<PrivateRoute><ChatListPage /></PrivateRoute>}/>
-            <Route path='/' element={
-                isAuthorized || JSON.parse(sessionStorage.getItem('isAuthorized'))
-                ? <Navigate to="/chats/" />
-                : <AuthPage />
-            }/>
-            <Route path='/register/' element={
-                isAuthorized || JSON.parse(sessionStorage.getItem('isAuthorized'))
-                    ? <Navigate to="/chats/" />
-                    : <RegisterPage />
-            }/>
+            <Route path='/' element={<PublicRoute><AuthPage /></PublicRoute>}/>
+            <Route path='/register/' element={<PublicRoute><RegisterPage /></PublicRoute>}/>
             <Route path='/profile/' element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
             <Route path='/editProfile/' element={<PrivateRoute><EditProfilePage /></PrivateRoute>}/>
             <Route path='*' Component={NotFoundPage}/>
