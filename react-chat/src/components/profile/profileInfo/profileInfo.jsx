@@ -3,6 +3,7 @@ import React from 'react';
 import './profileInfo.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../redux/slice";
+import {LazyImage} from "../../LazyImage";
 
 export const ProfileInfo = () => {
     const { currentUser } = useSelector((state) => state.slice)
@@ -10,7 +11,7 @@ export const ProfileInfo = () => {
 
     return (
         <div className="profile-info">
-            <img className="profile-avatar" alt="Avatar" src={currentUser['avatar']}/>
+            <LazyImage className="profile-avatar" alt="Avatar" src={currentUser['avatar']}/>
             <div className="container profile-first-name">
                 <label className="info-label profile-first-name-label">Имя</label>
                 <span className="profile-first-name">{`${currentUser['first_name']}`}</span>

@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import './chatHeader.scss';
 import {BackendClient} from "../../../utils/backendClient";
+import {LazyImage} from "../../LazyImage";
 
 export const ChatHeader = ({chatId}) => {
     const [chat, setChat] = useState([]);
@@ -23,7 +24,7 @@ export const ChatHeader = ({chatId}) => {
             <Link to={"/chats/"} className="header-button back-to-chat-list-link">
                 <ArrowBackIcon/>
             </Link>
-            <img className="avatar" alt="Avatar" src={chat['avatar']}/>
+            <LazyImage className="avatar" alt="Avatar" src={chat['avatar']}/>
             <div className="header-text">
                 <span className="name">{chat['title']}</span>
                 <span className="status">была 2 часа назад</span>
