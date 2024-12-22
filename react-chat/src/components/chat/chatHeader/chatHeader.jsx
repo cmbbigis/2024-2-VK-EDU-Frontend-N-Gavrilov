@@ -19,6 +19,10 @@ export const ChatHeader = ({chatId}) => {
         setChat((await BackendClient.getChats())['results'].find(chat => chat['id'] === chatId));
     };
 
+    if (!chat) {
+        return null;
+    }
+
     return (
         <div className="header">
             <Link to={"/chats/"} className="header-button back-to-chat-list-link">
