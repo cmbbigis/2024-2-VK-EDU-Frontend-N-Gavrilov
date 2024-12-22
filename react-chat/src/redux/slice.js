@@ -28,6 +28,9 @@ export const slice = createSlice({
         logout: (state, action) => {
             state.isAuthorized = false;
             sessionStorage.removeItem('isAuthorized');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
         },
     }
 });
