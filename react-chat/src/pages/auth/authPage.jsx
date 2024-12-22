@@ -20,7 +20,6 @@ export const AuthPage = () => {
     async function onSubmit(event) {
         event.preventDefault();
 
-        debugger
         const form = event.target;
         if (!form.checkValidity()) {
             form.reportValidity();
