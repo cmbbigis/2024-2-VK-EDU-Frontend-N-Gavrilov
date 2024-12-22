@@ -4,7 +4,7 @@ export interface ITranslateRequest {
     toLanguage: string;
 }
 
-export interface IApiResponse {
+export interface ITranslateResponse {
     responseData: {
         translatedText: string;
     }
