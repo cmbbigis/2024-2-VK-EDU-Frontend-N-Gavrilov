@@ -16,7 +16,7 @@ export const ChatHeader = ({chatId}) => {
     }, [chatId]);
 
     const getChat = async (chatId) => {
-        setChat((await BackendClient.getChats())['results'].find(chat => chat['id'] === chatId));
+        setChat((await BackendClient.getChat(chatId)));
     };
 
     if (!chat) {
