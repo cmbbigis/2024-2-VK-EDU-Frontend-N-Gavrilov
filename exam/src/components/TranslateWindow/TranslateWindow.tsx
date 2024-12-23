@@ -23,6 +23,15 @@ export const TranslateWindow: React.FC = ()  => {
         dispatch(setTranslatedText(response));
     };
 
+    const handleSwitchClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if (translateFrom !== 'Autodetect') {
+            const tmp = translateFrom;
+            dispatch(setTranslateFrom(translateTo));
+            dispatch(setTranslateTo(tmp));
+        }
+    };
+
     const handleTranslateToChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(setTranslateTo(event.target.value));
     };
@@ -50,7 +59,7 @@ export const TranslateWindow: React.FC = ()  => {
                         }
                     </select>
                 </div>
-                <span className="switch-button">
+                <span className="switch-button" onClick={handleSwitchClick}>
                     <SwapHorizIcon/>
                 </span>
                 <div className="translate-window-header-right">

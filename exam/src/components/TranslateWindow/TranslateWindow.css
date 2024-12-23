@@ -18,6 +18,7 @@
 
 .switch-button {
     width: 5%;
+    cursor: pointer;
 }
 
 .translate-window-header-right {
