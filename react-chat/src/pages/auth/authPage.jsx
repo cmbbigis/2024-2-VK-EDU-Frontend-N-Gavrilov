@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { BackendClient } from "../../utils/backendClient";
 
 import './authPage.scss';
+import {useDispatch} from "react-redux";
+import {setCurrentUser} from "../../redux/slice";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const dispatch = useDispatch();
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -31,7 +34,7 @@ export const AuthPage = () => {
             localStorage.setItem("access", response["access"]);
             localStorage.setItem("refresh", response["refresh"]);
             const currentUser = await BackendClient.getUser('current');
-            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            dispatch(setCurrentUser(currentUser));
             navigate("/chats/");
         } catch (error) {
             setErrors(error);

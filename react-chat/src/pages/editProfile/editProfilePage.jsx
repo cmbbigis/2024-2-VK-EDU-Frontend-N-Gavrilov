@@ -5,9 +5,12 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import './editProfilePage.scss';
 import { EditProfileHeader } from "../../components/editProfile";
 import {BackendClient} from "../../utils/backendClient";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentUser} from "../../redux/slice";
 
 export const EditProfilePage = () => {
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
+    const dispatch = useDispatch();
+    const { currentUser } = useSelector((state) => state.slice)
     const [isBioChanged, setIsBioChanged] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -84,8 +87,7 @@ export const EditProfilePage = () => {
             currentUser['last_name'] = currentUserInfo["last_name"];
             currentUser['username'] = currentUserInfo["username"];
             currentUser['bio'] = currentUserInfo["bio"];
-            setCurrentUser(currentUser);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            dispatch(setCurrentUser(currentUser));
 
             navigate('/profile/');
         } catch (error) {

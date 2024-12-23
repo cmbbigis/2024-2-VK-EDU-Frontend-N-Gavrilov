@@ -1,9 +1,10 @@
 import React from 'react';
 
 import './profileInfo.scss';
+import {useSelector} from "react-redux";
 
 export const ProfileInfo = () => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const { currentUser } = useSelector((state) => state.slice)
 
     return (
         <div className="profile-info">
