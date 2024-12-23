@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     translateFrom: 'Autodetect',
-    translateTo: '',
+    translateTo: 'en-GB',
     textToTranslate: '',
     translatedText: '',
 };
