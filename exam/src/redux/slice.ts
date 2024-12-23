@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     translateFrom: 'Autodetect',
     translateTo: '',
+    textToTranslate: '',
+    translatedText: '',
 };
 
 export const slice = createSlice({
@@ -15,7 +17,13 @@ export const slice = createSlice({
         setTranslateTo(state, action) {
             state.translateTo = action.payload;
         },
+        setTextToTranslate(state, action) {
+            state.textToTranslate = action.payload;
+        },
+        setTranslatedText(state, action) {
+            state.translatedText = action.payload;
+        },
     }
 });
 
-export const { setTranslateFrom, setTranslateTo } = slice.actions;
+export const { setTranslateFrom, setTranslateTo, setTextToTranslate, setTranslatedText } = slice.actions;

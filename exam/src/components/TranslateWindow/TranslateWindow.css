@@ -1,0 +1,62 @@
+.translate-window {
+    background: #ffffff;
+    width: 95%;
+    margin: 50px;
+    border: 1px #000000 solid;
+    padding-bottom: 0;
+    border-radius: 15px;
+}
+
+.translate-window-header {
+    display: flex;
+    border-bottom: 1px #000000 solid;
+}
+
+.translate-window-header-left {
+    width: 47.5%;
+}
+
+.switch-button {
+    width: 5%;
+}
+
+.translate-window-header-right {
+    width: 47.5%;
+}
+
+.translate-window-body {
+    display: flex;
+    padding: 5px;
+}
+
+.translate-window-body-left {
+    width: 50%;
+}
+
+.translate-window-body-right {
+    width: 50%;
+}
+
+.translate-input {
+    width: 99%;
+    height: 20vh;
+    max-height: 50vh;
+    resize: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-size: 20px;
+    color: #5e5e5f;
+}
+
+.translated-textarea {
+    width: 99%;
+    height: 20vh;
+    max-height: 50vh;
+    resize: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    font-size: 20px;
+    color: #5e5e5f;
+}
