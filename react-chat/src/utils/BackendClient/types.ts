@@ -38,9 +38,9 @@ export interface IRefreshResponse {
 }
 
 export interface IGetChatsRequest {
-    page: number,
-    page_size: number,
-    search: string,
+    page?: number,
+    page_size?: number,
+    search?: string,
 }
 
 export interface IGetChatsResponse {
@@ -89,9 +89,9 @@ export interface ICreateChatResponse {
 
 export interface IGetMessagesRequest {
     chat: string,
-    page: number,
-    page_size: number,
-    search: string,
+    page?: number,
+    page_size?: number,
+    search?: string,
 }
 
 export interface IGetMessagesResponse {
@@ -119,9 +119,9 @@ export interface ICreateMessageResponse {
 }
 
 export interface IGetUsersRequest {
-    page: number,
-    page_size: number,
-    search: string,
+    page?: number,
+    page_size?: number,
+    search?: string,
 }
 
 export interface IGetUsersResponse {
