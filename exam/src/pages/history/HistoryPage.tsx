@@ -1,3 +1,10 @@
+import {Header} from "../../components/Header/Header.tsx";
+
 export const HistoryPage = () => {
-    return <div>HistoryPage</div>;
+    return (
+        <>
+            <Header title="История" />
+            <div>HistoryPage</div>
+        </>
+    );
 }

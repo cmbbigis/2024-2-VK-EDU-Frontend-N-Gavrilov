@@ -1,3 +1,10 @@
+import {Header} from "../../components/Header/Header.tsx";
+
 export const TranslatePage = () => {
-    return <div>TranslatePage</div>;
+    return (
+        <>
+            <Header title="VK Translate" />
+            <div>TranslatePage</div>
+        </>
+    );
 }
