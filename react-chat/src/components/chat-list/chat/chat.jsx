@@ -4,6 +4,7 @@ import { Centrifugo } from "../../../utils/Centrifugo";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import './chat.scss';
+import {LazyImage} from "../../LazyImage";
 
 export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     const [latestMessage, setLatestMessage] = useState(lastMessage);
@@ -32,7 +33,7 @@ export const Chat = ({ id, interlocutor, avatar, lastMessage }) => {
     return (
         <Link to={`/chat/${id}`} key={id} className={"chat-link"}>
             <div className="chat">
-                <img className="avatar" alt="Avatar" src={avatar} />
+                <LazyImage className="avatar" alt="Avatar" src={avatar} />
                 <div className="chat-info">
                     <h2 className="chat-title">{interlocutor}</h2>
                     <p className="chat-last-message">{getLatestMessageText()}</p>

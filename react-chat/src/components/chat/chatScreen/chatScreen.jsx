@@ -12,6 +12,7 @@ import { useRecorder } from "../../../utils/useRecorder";
 import { toast } from "react-toastify";
 import {MapComponent} from "../mapComponent/mapComponent";
 import {useSelector} from "react-redux";
+import {LazyImage} from "../../LazyImage";
 
 export const ChatScreen = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
@@ -192,7 +193,7 @@ export const ChatScreen = ({ chatId }) => {
                                         <source src={message['voice']} type="audio/ogg"/>
                                     </audio>}
                                     {message['files'] && message['files'].map((image, imgIndex) => (
-                                        <img key={imgIndex} src={image.item} alt={`${imgIndex}`} className="message-image"/>
+                                        <LazyImage key={imgIndex} src={image.item} alt={`${imgIndex}`} className="message-image"/>
                                     ))}
                                     <span
                                         className="message-time">{new Date(message['created_at']).toLocaleString()}</span>
@@ -269,7 +270,7 @@ export const ChatScreen = ({ chatId }) => {
                     {uploadedImages.length > 0 && <div className="image-previews">
                         {uploadedImages.map((image, index) => (
                             <div key={index} className="image-preview-container">
-                                <img src={image.preview} alt={`preview ${index}`} className="image-preview" />
+                                <LazyImage src={image.preview} alt={`preview ${index}`} className="image-preview" />
                                 <button type="button" className="remove-image-button" onClick={() => handleRemoveImage(index)}>
                                     <CloseIcon />
                                 </button>

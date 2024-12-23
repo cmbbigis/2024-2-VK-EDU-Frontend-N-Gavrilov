@@ -8,6 +8,7 @@ import {BackendClient} from "../../utils/backendClient";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentUser} from "../../redux/slice";
 import {toast} from "react-toastify";
+import {LazyImage} from "../../components/LazyImage";
 
 export const EditProfilePage = () => {
     const dispatch = useDispatch();
@@ -103,7 +104,7 @@ export const EditProfilePage = () => {
             <form className="edit-profile-info" id="edit-profile-form" encType="multipart/form-data">
                 <div>
                     <div className="profile-avatar-input-container" onClick={handleImageClick}>
-                        <img className="profile-avatar-input"
+                        <LazyImage className="profile-avatar-input"
                              alt="Avatar"
                              src={data["avatarURL"] || currentUser['avatar']}
                         />
