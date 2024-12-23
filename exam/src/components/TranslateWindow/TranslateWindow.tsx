@@ -76,6 +76,7 @@ export const TranslateWindow: React.FC = ()  => {
                     <select
                         className="interlocutors-select"
                         name="members"
+                        defaultValue={'en-GB'}
                         onChange={handleTranslateToChange}
                     >
                         {
