@@ -19,7 +19,7 @@ export const TranslateWindow: React.FC = ()  => {
 
     const handleTranslateClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const response = await TranslateUtils.translate(textToTranslate, 'ru', 'en');
+        const response = await TranslateUtils.translate(textToTranslate, translateFrom, translateTo);
         dispatch(setTranslatedText(response));
     };
 
