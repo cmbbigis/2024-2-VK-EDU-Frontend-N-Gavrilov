@@ -67,7 +67,7 @@ export interface IGetChatResponse {
     unread_messages_count: number
 }
 
-export interface ICreateChatRequest{
+export interface ICreateChatRequest {
     members: string[],
     is_private: boolean,
     title?: string,

@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef} from 'react';
 
 import './chatList.scss';
 import { Chat } from "../chat";
-import { BackendClient } from "../../../utils/backendClient";
+import BackendClient from "../../../utils/BackendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 import {useDispatch, useSelector} from "react-redux";
 import {setChats} from "../../../redux/slice";
@@ -19,7 +19,7 @@ export const ChatList = ({ reload }) => {
         let chats = [];
         let response = { 'next': '' };
         while (response['next'] !== null) {
-            response = await BackendClient.getChats(pageNumber++, pageSize)
+            response = await BackendClient.getChats({page: pageNumber++, page_size: pageSize})
             chats = chats.concat(response['results']);
         }
         dispatch(setChats(chats));

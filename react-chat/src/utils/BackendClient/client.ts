@@ -1,4 +1,5 @@
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {
     IAuthRequest,
     IAuthResponse,
@@ -46,7 +47,12 @@ export class BackendClient {
     }
 
     public static async auth(request: IAuthRequest): Promise<IAuthResponse> {
+        console.log(`${request.username}: ${request.password}`);
         const formData = this.toFormData(request);
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+        debugger
         return await fetch(`https://vkedu-fullstack-div2.ru/api/auth/`, {
             method: 'POST',
             body: formData
@@ -153,8 +159,8 @@ export class BackendClient {
             const value = request[key];
             if (value !== undefined && value !== null) {
                 if (Array.isArray(value)) {
-                    value.forEach((item, index) => {
-                        formData.append(`${key}[${index}]`, item);
+                    value.forEach((item) => {
+                        formData.append(key, item);
                     });
                 } else {
                     formData.append(key, value);
@@ -164,7 +170,7 @@ export class BackendClient {
         return formData;
     }
 
-    private static async fetchWithAuth(url: string, options: IOptions = {}, retryCount: number = 1) {
+    private static async fetchWithAuth<T>(url: string, options: IOptions = {}, retryCount: number = 1): Promise<T> {
         let access = localStorage.getItem("access");
         if (!access) {
             toast.error("No access token available");
@@ -188,7 +194,7 @@ export class BackendClient {
                 }
                 return res;
             })
-            .then(async res => await this.aggregateResponse(res));
+            .then(async res => await this.aggregateResponse(res as Response));
     }
 
     private static async aggregateResponse(res: Response) {
