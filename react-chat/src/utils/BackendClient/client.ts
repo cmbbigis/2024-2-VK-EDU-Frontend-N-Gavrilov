@@ -1,16 +1,26 @@
 import {toast} from "react-toastify";
 import {
+    IAuthRequest,
     IAuthResponse,
+    ICreateChatRequest,
     ICreateChatResponse,
+    ICreateMessageRequest,
     ICreateMessageResponse,
+    IEditProfileRequest,
     IEditProfileResponse,
+    IGetChatRequest,
     IGetChatResponse,
+    IGetChatsRequest,
     IGetChatsResponse,
+    IGetMessagesRequest,
     IGetMessagesResponse,
+    IGetUserRequest,
     IGetUserResponse,
+    IGetUsersRequest,
     IGetUsersResponse,
     IOptions,
     IRefreshResponse,
+    IRegisterRequest,
     IRegisterResponse
 } from "./types";
 
@@ -35,104 +45,123 @@ export class BackendClient {
             });
     }
 
-    public static async auth(formData: FormData): Promise<IAuthResponse> {
+    public static async auth(request: IAuthRequest): Promise<IAuthResponse> {
+        const formData = this.toFormData(request);
         return await fetch(`https://vkedu-fullstack-div2.ru/api/auth/`, {
             method: 'POST',
             body: formData
         }).then(async res => await this.aggregateResponse(res));
     }
 
-    public static async register(formData: FormData): Promise<IRegisterResponse> {
+    public static async register(request: IRegisterRequest): Promise<IRegisterResponse> {
+        const formData = this.toFormData(request);
         return await fetch("https://vkedu-fullstack-div2.ru/api/register/", {
             method: 'POST',
             body: formData
         }).then(async res => await this.aggregateResponse(res));
     }
 
-    public static async getChats(page: number, page_size: number, search: string): Promise<IGetChatsResponse> {
+    public static async getChats(request: IGetChatsRequest): Promise<IGetChatsResponse> {
         let query = new URLSearchParams();
-        if (page != null) {
-            query.append('page', `${page}`);
+        if (request.page != null) {
+            query.append('page', `${request.page}`);
         }
-        if (page_size != null) {
-            query.append('page_size', `${page_size}`);
+        if (request.page_size != null) {
+            query.append('page_size', `${request.page_size}`);
         }
-        if (search != null) {
-            query.append('search', search);
+        if (request.search != null) {
+            query.append('search', request.search);
         }
         return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/chats/?" + query.toString(), {
             method: 'GET'
         });
     }
 
-    public static async getChat(id: string): Promise<IGetChatResponse> {
-        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/chat/${id}/`, {
+    public static async getChat(request: IGetChatRequest): Promise<IGetChatResponse> {
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/chat/${request.id}/`, {
             method: 'GET'
         });
     }
 
-    public static async createChat(formData: FormData): Promise<ICreateChatResponse> {
+    public static async createChat(request: ICreateChatRequest): Promise<ICreateChatResponse> {
+        const formData = this.toFormData(request);
         return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/chats/", {
             method: 'POST',
             body: formData
         });
     }
 
-    public static async getChatMessages(chat: string, page: number, page_size: number, search: string): Promise<IGetMessagesResponse> {
+    public static async getChatMessages(request: IGetMessagesRequest): Promise<IGetMessagesResponse> {
         let query = new URLSearchParams();
-        if (chat != null) {
-            query.append('chat', chat);
-        } else {
-            return;
+        query.append('chat', request.chat);
+        if (request.page != null) {
+            query.append('page', `${request.page}`);
         }
-        if (page != null) {
-            query.append('page', `${page}`);
+        if (request.page_size != null) {
+            query.append('page_size', `${request.page_size}`);
         }
-        if (page_size != null) {
-            query.append('page_size', `${page_size}`);
-        }
-        if (search != null) {
-            query.append('search', search);
+        if (request.search != null) {
+            query.append('search', request.search);
         }
         return await this.fetchWithAuth('https://vkedu-fullstack-div2.ru/api/messages/?' + query.toString(), {
             method: 'GET'
         });
     }
 
-    public static async sendMessage(formData: FormData): Promise<ICreateMessageResponse> {
+    public static async sendMessage(request: ICreateMessageRequest): Promise<ICreateMessageResponse> {
+        const formData = this.toFormData(request);
         return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/messages/", {
             method: 'POST',
             body: formData
         });
     }
 
-    public static async getUsers(page: number, page_size: number, search: string): Promise<IGetUsersResponse> {
+    public static async getUsers(request: IGetUsersRequest): Promise<IGetUsersResponse> {
         let query = new URLSearchParams();
-        if (page != null) {
-            query.append('page', `${page}`);
+        if (request.page) {
+            query.append('page', `${request.page}`);
         }
-        if (page_size != null) {
-            query.append('page_size', `${page_size}`);
+        if (request.page_size) {
+            query.append('page_size', `${request.page_size}`);
         }
-        if (search != null) {
-            query.append('search', search);
+        if (request.search) {
+            query.append('search', request.search);
         }
         return await this.fetchWithAuth("https://vkedu-fullstack-div2.ru/api/users/?" + query.toString(), {
             method: 'GET'
         });
     }
 
-    public static async getUser(id: string): Promise<IGetUserResponse> {
-        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
+    public static async getUser(request: IGetUserRequest): Promise<IGetUserResponse> {
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${request.id}/`, {
             method: 'GET'
         });
     }
 
-    public static async editProfile(id: string, formData: FormData): Promise<IEditProfileResponse> {
-        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${id}/`, {
+    public static async editProfile(request: IEditProfileRequest): Promise<IEditProfileResponse> {
+        const formData = this.toFormData(request);
+        formData.delete('id');
+        return await this.fetchWithAuth(`https://vkedu-fullstack-div2.ru/api/user/${request.id}/`, {
             method: 'PATCH',
             body: formData
         });
+    }
+
+    private static toFormData<T extends Record<string, any>>(request: T): FormData {
+        const formData = new FormData();
+        Object.keys(request).forEach(key => {
+            const value = request[key];
+            if (value !== undefined && value !== null) {
+                if (Array.isArray(value)) {
+                    value.forEach((item, index) => {
+                        formData.append(`${key}[${index}]`, item);
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            }
+        });
+        return formData;
     }
 
     private static async fetchWithAuth(url: string, options: IOptions = {}, retryCount: number = 1) {
