@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
 import { BackendClient } from "../../../utils/backendClient";
+import PropTypes from "prop-types";
 
 export const CreateChatModal = ({ onClose, onChatCreated }) => {
     const [comboboxOptions, setComboboxOptions] = useState([]);
@@ -133,3 +134,7 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     );
 }
 
+CreateChatModal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    onChatCreated: PropTypes.func.isRequired
+};

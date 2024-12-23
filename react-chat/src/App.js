@@ -1,4 +1,5 @@
 import {HashRouter} from 'react-router-dom';
+import React from "react";
 
 import './App.scss';
 import {Bounce, ToastContainer} from "react-toastify";

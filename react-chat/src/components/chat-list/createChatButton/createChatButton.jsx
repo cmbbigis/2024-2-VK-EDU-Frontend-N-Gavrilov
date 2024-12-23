@@ -2,6 +2,7 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 
 import './createChatButton.scss';
+import PropTypes from "prop-types";
 
 export const CreateChatButton = ({ onClick }) => {
     return (
@@ -10,3 +11,7 @@ export const CreateChatButton = ({ onClick }) => {
         </button>
     );
 }
+
+CreateChatButton.propTypes = {
+    onClick: PropTypes.func.isRequired
+};

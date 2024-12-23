@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky"
   },
   "jest": {
     "transform": {
@@ -21,6 +22,8 @@
   },
   "dependencies": {
     "centrifuge": "^5.2.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
     "material-design-icons": "^3.0.1"
   }
 }

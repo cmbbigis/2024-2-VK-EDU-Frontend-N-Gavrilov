@@ -1,6 +1,6 @@
 import {Route, Routes, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {setCurrentChatId} from "../../redux/slice";
 import {Centrifugo} from "../../utils/Centrifugo";
 import {toast} from "react-toastify";

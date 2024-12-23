@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DoneIcon from '@mui/icons-material/Done';
 
 import './editProfileHeader.scss';
+import PropTypes from "prop-types";
 
 export const EditProfileHeader = ({ onSave }) => {
     return (
@@ -21,3 +22,6 @@ export const EditProfileHeader = ({ onSave }) => {
     );
 }
 
+EditProfileHeader.propTypes = {
+    onSave: PropTypes.func.isRequired
+};

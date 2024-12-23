@@ -6,6 +6,7 @@ import { BackendClient } from "../../../utils/backendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 import {useDispatch, useSelector} from "react-redux";
 import {setChats} from "../../../redux/slice";
+import PropTypes from "prop-types";
 
 export const ChatList = ({ reload }) => {
     const dispatch = useDispatch();
@@ -41,3 +42,7 @@ export const ChatList = ({ reload }) => {
         </div>
     );
 }
+
+ChatList.propTypes = {
+    reload: PropTypes.bool.isRequired
+};
