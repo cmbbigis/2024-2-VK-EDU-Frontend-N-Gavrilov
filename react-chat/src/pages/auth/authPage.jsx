@@ -4,7 +4,7 @@ import { BackendClient } from "../../utils/backendClient";
 
 import './authPage.scss';
 import {useDispatch} from "react-redux";
-import {setCurrentUser} from "../../redux/slice";
+import {login, setCurrentUser} from "../../redux/slice";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
@@ -35,6 +35,7 @@ export const AuthPage = () => {
             localStorage.setItem("refresh", response["refresh"]);
             const currentUser = await BackendClient.getUser('current');
             dispatch(setCurrentUser(currentUser));
+            dispatch(login());
             navigate("/chats/");
         } catch (error) {
             setErrors(error);
@@ -44,7 +45,8 @@ export const AuthPage = () => {
     return (
         <div className="authPage">
             <form className="authForm" id="authForm" encType="multipart/form-data" onSubmit={onSubmit}>
-                <div>
+                <h1 className="messengerLabel">Messenger</h1>
+                <div className="errorContainer">
                     <div className="formInput">
                         <label htmlFor="loginInput">Логин</label>
                         <input
@@ -55,10 +57,11 @@ export const AuthPage = () => {
                             required
                         />
                     </div>
-                    {errors["username"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["username"]}</div>}
+                    {errors["username"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["username"]}</div>}
                 </div>
 
-                <div>
+                <div className="errorContainer">
                     <div className="formInput">
                         <label htmlFor="passwordInput">Пароль</label>
                         <input
@@ -69,12 +72,17 @@ export const AuthPage = () => {
                             required
                         />
                     </div>
-                    {errors["password"] && <div className="error" style={{ maxWidth: "175px" }}>{errors["password"]}</div>}
+                    {errors["password"] &&
+                        <div className="error" style={{maxWidth: "175px"}}>{errors["password"]}</div>}
                 </div>
 
                 <button type='submit' className="loginButton">Войти</button>
+
+                <div className="registerButtonContainer">
+                    <label className="registerButtonLabel" htmlFor="registerButton">Нет аккаунта?</label>
+                    <button className="registerButton" type='button' onClick={() => navigate("/register/")}>Зарегистрироваться</button>
+                </div>
             </form>
-            <button onClick={() => navigate("/register/")}>Нет аккаунта? Зарегистрироваться</button>
         </div>
     );
 }

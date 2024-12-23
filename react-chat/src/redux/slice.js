@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     currentChatId: null,
     currentUser: JSON.parse(localStorage.getItem("currentUser")),
-    chats: []
+    chats: [],
+    isAuthorized: JSON.parse(sessionStorage.getItem('isAuthenticated')) || false,
 };
 
 export const slice = createSlice({
@@ -20,7 +21,18 @@ export const slice = createSlice({
         setChats(state, action) {
             state.chats = action.payload;
         },
+        login: (state, action) => {
+            state.isAuthorized = true;
+            sessionStorage.setItem('isAuthorized', 'true');
+        },
+        logout: (state, action) => {
+            state.isAuthorized = false;
+            sessionStorage.removeItem('isAuthorized');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+        },
     }
 });
 
-export const { setCurrentChatId, setCurrentUser, setChats } = slice.actions;
+export const { setCurrentChatId, setCurrentUser, setChats, login, logout } = slice.actions;

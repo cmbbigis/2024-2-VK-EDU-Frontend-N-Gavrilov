@@ -1,23 +1,83 @@
 .authPage {
   display: flex;
-  margin-top: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #8e24aa;
 }
 
 .authForm {
   display: flex;
-  margin-top: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: min(15px, var(--gap-size, 15px));
   color: black;
+  width: 15%;
+}
+
+.authForm .errorContainer {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #ededed;
+}
+
+.authForm .registerButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerButtonLabel {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.loginButton {
+  width: 100%;
+  background-color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  transition: background-color 0.2s;
+  background-color: #9e9e9e;
+}
+
+.registerButton {
+  width: 100%;
+  background-color: #ededed;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  transition: background-color 0.2s;
+  background-color: #9e9e9e;
 }
 
 .formInput {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.formInput input{
+  width: 100%;
+  border-radius: 3px;
+}
+
+.formInput label{
+  color: #9a9a9a;
+  font-size: 14px;
+}
+
+.messengerLabel {
+  color: #ffffff;
 }

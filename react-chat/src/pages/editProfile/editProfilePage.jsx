@@ -7,6 +7,7 @@ import { EditProfileHeader } from "../../components/editProfile";
 import {BackendClient} from "../../utils/backendClient";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentUser} from "../../redux/slice";
+import {toast} from "react-toastify";
 
 export const EditProfilePage = () => {
     const dispatch = useDispatch();
@@ -88,6 +89,7 @@ export const EditProfilePage = () => {
             currentUser['username'] = currentUserInfo["username"];
             currentUser['bio'] = currentUserInfo["bio"];
             dispatch(setCurrentUser(currentUser));
+            toast('Профиль успешно изменён');
 
             navigate('/profile/');
         } catch (error) {

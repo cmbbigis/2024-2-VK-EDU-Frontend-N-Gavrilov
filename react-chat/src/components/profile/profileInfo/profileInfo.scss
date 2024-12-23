@@ -68,3 +68,15 @@
 .profile-username-about {
   background-color: #ffffff;
 }
+
+.logoutButton {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  color: red;
+  font-weight: bold;
+  margin: 50px;
+}
