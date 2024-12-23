@@ -1,5 +1,6 @@
 import {useRef, useState} from "react";
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const useRecorder = () => {
     const [isRecording, setIsRecording] = useState(false);
