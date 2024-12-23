@@ -21,6 +21,15 @@ export const TranslateWindow: React.FC = ()  => {
         event.preventDefault();
         const response = await TranslateUtils.translate(textToTranslate, translateFrom, translateTo);
         dispatch(setTranslatedText(response));
+        const historyAsString: string = localStorage.getItem("history") || '';
+        let history: string[];
+        if (!historyAsString.trim()) {
+            history = [];
+        } else {
+            history = JSON.parse(historyAsString);
+        }
+        history.push(`${textToTranslate}/${translateFrom}/${translateTo}`)
+        localStorage.setItem("history", JSON.stringify(history));
     };
 
     const handleSwitchClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
