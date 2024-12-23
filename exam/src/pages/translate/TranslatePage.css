@@ -4,3 +4,21 @@
     align-items: center;
     min-height: 100%;
 }
+
+.history-link {
+    align-self: flex-start;
+    margin: 20px;
+    color: #3173d0;
+}
+
+.history-link-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history-link-label {
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -10,7 +10,10 @@ export const TranslatePage = () => {
         <div className='translate-page'>
             <Header title="VK Translate" />
             <Link to={"/history/"} className="history-link">
-                <RestoreIcon />
+                <div className="history-link-body">
+                    <RestoreIcon />
+                    <label className="history-link-label">История</label>
+                </div>
             </Link>
             <TranslateWindow />
         </div>
