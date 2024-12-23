@@ -9,13 +9,13 @@ export const TranslatePage = () => {
     return (
         <div className='translate-page'>
             <Header title="VK Translate" />
-            <Link to={"/history/"} className="history-link">
-                <div className="history-link-body">
-                    <RestoreIcon />
-                    <label className="history-link-label">История</label>
-                </div>
-            </Link>
-            <TranslateWindow />
+            <div className="history-link-div">
+                <Link to={"/history/"} className="history-link">
+                    <RestoreIcon className="history-link-icon"/>
+                </Link>
+                <label className="history-link-label">История</label>
+            </div>
+            <TranslateWindow/>
         </div>
     );
 }
