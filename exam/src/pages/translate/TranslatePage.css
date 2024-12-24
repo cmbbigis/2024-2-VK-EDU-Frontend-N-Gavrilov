@@ -1,0 +1,35 @@
+.translate-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+}
+
+.history-link {
+    color: #3173d0;
+    margin-bottom: 5px;
+}
+
+.history-link-div {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.history-link-label {
+    font-size: 14px;
+    color: #3173d0;
+}
+
+.history-link-icon {
+    border-radius: 50%;
+}
+
+.history-link-icon:hover {
+    background-color: #eaf0fc;
+    box-shadow: #eaf0fc 0 0 0 5px;
+    transition: box-shadow 0.5s;
+}

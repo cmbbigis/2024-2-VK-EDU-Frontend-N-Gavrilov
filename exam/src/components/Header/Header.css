@@ -1,0 +1,15 @@
+.header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    display: flex;
+    align-self: flex-start;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+.title {
+    font-size: 24px;
+    color: #5e5e5f;
+}
