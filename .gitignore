@@ -2,3 +2,4 @@
 /.idea
 package-lock.json
 /backend/
+/ts/utils/*.js
