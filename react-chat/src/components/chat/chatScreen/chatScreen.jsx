@@ -6,10 +6,11 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CloseIcon from "@mui/icons-material/Close";
 
 import './chatScreen.scss';
-import { BackendClient } from "../../../utils/backendClient";
+import BackendClient from "../../../utils/BackendClient";
 import { Centrifugo } from "../../../utils/Centrifugo";
 import { useRecorder } from "../../../utils/useRecorder";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {MapComponent} from "../mapComponent/mapComponent";
 import {useSelector} from "react-redux";
 import {LazyImage} from "../../LazyImage";
@@ -39,10 +40,15 @@ export const ChatScreen = ({ chatId }) => {
     }, [messages]);
 
     const sendVoice = useCallback(async () => {
-        let formData = new FormData();
-        formData.append("chat", chatId);
-        formData.append("voice", audio, 'voice.ogg');
-        await BackendClient.sendMessage(formData);
+        const blob = new Blob([audio], { type: 'audio/ogg' });
+        const file = new File([blob], 'voice.ogg', { type: 'audio/ogg' });
+
+        const request = {
+            chat: chatId,
+            voice: file
+        };
+
+        await BackendClient.sendMessage(request);
         await loadMessages(chatId);
     }, [audio, chatId]);
 
@@ -72,24 +78,20 @@ export const ChatScreen = ({ chatId }) => {
         let messages = [];
         let response = { 'next': '' };
         while (response['next'] !== null) {
-            response = await BackendClient.getChatMessages(chatId, pageNumber++, pageSize)
+            response = await BackendClient.getChatMessages({chat: chatId, page: pageNumber++, page_size: pageSize})
             messages = messages.concat(response['results']);
         }
         setMessages(messages);
     };
 
     const saveMessage = async (chatId, messageText) => {
-        let formData = new FormData();
-        formData.append("chat", chatId);
-        if (messageText) {
-            formData.append("text", messageText);
+        const request = {
+            chat: chatId,
+            text: messageText ? messageText : null,
+            files: uploadedImages ? uploadedImages.map((image) => image.file) : null
         }
-        if (uploadedImages) {
-            uploadedImages.forEach((image) => {
-                formData.append("files", image.file);
-            });
-        }
-        await BackendClient.sendMessage(formData);
+
+        await BackendClient.sendMessage(request);
         setUploadedImages([]);
         setTimeout(updatePaddingBottom, 0);
     };

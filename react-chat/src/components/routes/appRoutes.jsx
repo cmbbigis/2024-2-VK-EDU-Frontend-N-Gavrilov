@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {setCurrentChatId} from "../../redux/slice";
 import {Centrifugo} from "../../utils/Centrifugo";
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {AuthPage, ChatListPage, ChatPage, EditProfilePage, NotFoundPage, ProfilePage, RegisterPage} from "../../pages";
 import {PrivateRoute} from "./privateRoute";
 import {PublicRoute} from "./publicRoute";

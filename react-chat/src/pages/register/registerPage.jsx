@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { BackendClient } from "../../utils/backendClient";
+import BackendClient from "../../utils/BackendClient";
 
 import './registerPage.scss';
 
@@ -24,7 +24,15 @@ export const RegisterPage = () => {
         }
 
         try {
-            await BackendClient.register(new FormData(document.getElementById("registerForm")));
+            const formData = new FormData(document.getElementById("registerForm"));
+            const request = {
+                username: `${formData.get('username')}`,
+                password: `${formData.get('password')}`,
+                first_name: `${formData.get('first_name')}`,
+                last_name: `${formData.get('last_name')}`,
+            }
+
+            await BackendClient.register(request);
             navigate("/");
         } catch (error) {
             setErrors(error);
