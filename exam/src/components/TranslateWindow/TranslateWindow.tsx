@@ -3,14 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 
 import './TranslateWindow.css';
 import React from "react";
-import {setTextToTranslate, setTranslatedText, setTranslateFrom, setTranslateTo} from "../../redux/slice.ts";
+import {setTextToTranslate, setTranslatedText, setTranslateFrom, setTranslateTo, setHistory} from "../../redux/slice.ts";
 import {RootState} from "../../redux/RootState.ts";
 import * as TranslateUtils from "../../ts/utils/translate.ts";
 import {languages} from "../../languages.ts";
 
 export const TranslateWindow: React.FC = ()  => {
     const dispatch = useDispatch();
-    const { translateTo, translateFrom, textToTranslate, translatedText } = useSelector((state: RootState) => state.slice)
+    const { translateTo, translateFrom, textToTranslate, translatedText, history } = useSelector((state: RootState) => state.slice)
     const languageMap = new Map<string, string>(Object.entries(languages));
 
     const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,15 +21,9 @@ export const TranslateWindow: React.FC = ()  => {
         event.preventDefault();
         const response = await TranslateUtils.translate(textToTranslate, translateFrom, translateTo);
         dispatch(setTranslatedText(response));
-        const historyAsString: string = localStorage.getItem("history") || '';
-        let history: string[];
-        if (!historyAsString.trim()) {
-            history = [];
-        } else {
-            history = JSON.parse(historyAsString);
-        }
-        history.push(`${textToTranslate}/${translateFrom}/${translateTo}`)
-        localStorage.setItem("history", JSON.stringify(history));
+        const tempHistory = history;
+        tempHistory.push(`${textToTranslate}/${translateFrom}/${translateTo}`)
+        dispatch(setHistory(tempHistory));
     };
 
     const handleSwitchClick = async (event: React.MouseEvent<HTMLButtonElement>) => {

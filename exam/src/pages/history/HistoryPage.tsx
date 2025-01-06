@@ -1,26 +1,20 @@
 import {Header} from "../../components/Header/Header.tsx";
+import {setHistory} from "../../redux/slice.ts";
+import {RootState} from "../../redux/RootState.ts";
 import {languages} from "../../languages.ts";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 export const HistoryPage = () => {
+    const dispatch = useDispatch();
+    const { history } = useSelector((state: RootState) => state.slice)
     const languageMap = new Map<string, string>(Object.entries(languages));
-    const initializeHistory = (): string[] => {
-        const historyAsString: string = localStorage.getItem("history") || '';
-        if (!historyAsString.trim()) {
-            return [];
-        } else {
-            return JSON.parse(historyAsString);
-        }
-    };
-
-    const [history, setHistory] = useState<string[]>(initializeHistory);
 
     return (
         <>
             <Header title="История" />
             <button onClick={() => {
                 localStorage.removeItem('history');
-                setHistory([]);
+                dispatch(setHistory([]));
             }}>Очистить историю</button>
             <div id="chat-list" className="chat-list">
                 {

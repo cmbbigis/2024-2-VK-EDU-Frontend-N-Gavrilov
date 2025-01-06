@@ -3,6 +3,7 @@ export type RootState = {
         translateFrom: string,
         translateTo: string,
         textToTranslate: string,
-        translatedText: string
+        translatedText: string,
+        history: string[],
     },
 };

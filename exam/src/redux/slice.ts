@@ -5,6 +5,7 @@ const initialState = {
     translateTo: 'en-GB',
     textToTranslate: '',
     translatedText: '',
+    history: JSON.parse(localStorage.getItem('history') || '[]'),
 };
 
 export const slice = createSlice({
@@ -23,7 +24,11 @@ export const slice = createSlice({
         setTranslatedText(state, action) {
             state.translatedText = action.payload;
         },
+        setHistory(state, action) {
+            state.history = action.payload;
+            localStorage.setItem('history', JSON.stringify(state.history));
+        },
     }
 });
 
-export const { setTranslateFrom, setTranslateTo, setTextToTranslate, setTranslatedText } = slice.actions;
+export const { setTranslateFrom, setTranslateTo, setTextToTranslate, setTranslatedText, setHistory } = slice.actions;
