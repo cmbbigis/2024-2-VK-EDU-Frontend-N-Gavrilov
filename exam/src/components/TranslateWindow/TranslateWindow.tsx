@@ -23,7 +23,7 @@ export const TranslateWindow: React.FC = ()  => {
         const response = await TranslateUtils.translate(textToTranslate, translateFrom, translateTo);
         if (response !== null) {
             setTranslatedText(response);
-            addToHistory(`${textToTranslate}/${translateFrom}/${translateTo}`);
+            addToHistory(`${textToTranslate}/${translateFrom}/${translateTo}/${response}`);
         }
     };
 

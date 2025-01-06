@@ -1,0 +1,34 @@
+.controls {
+    background-color: #ffffff;
+    border-bottom: 1px solid #EBEBEB;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.history-item {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 5px 5px 5px 50px;
+}
+
+.delete-history {
+    color: #1e73e7;
+    cursor: pointer;
+}
+
+.back-to-translate-link {
+    text-decoration: none;
+    color: #1e73e7;
+}
+
+.translated-text {
+    color: #5e5e5f;
+}
+
+.languages {
+    margin-bottom: 15px;
+}
