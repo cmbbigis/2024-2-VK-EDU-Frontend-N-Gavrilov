@@ -3,42 +3,42 @@
     width: 95%;
     margin: 30px;
     border: 1px #000000 solid;
-    padding-bottom: 0;
+    padding: 5px;
     border-radius: 15px;
-}
-
-.translate-window-header {
-    display: flex;
-    border-bottom: 1px #000000 solid;
-}
-
-.translate-window-header-left {
-    width: 47.5%;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: 40px auto;
 }
 
 .switch-button {
+    position: absolute;
     width: 5%;
+    left: 48.5%;
     cursor: pointer;
 }
 
-.translate-window-header-right {
-    width: 47.5%;
+.language-select {
+    margin-left: 20px;
 }
 
-.translate-window-body {
-    display: flex;
-    padding: 5px;
+.language-span {
+    color: #1e73e7;
 }
 
-.translate-window-body-left {
-    width: 50%;
+.translate-button {
+    background-color: #1e73e7;
+    box-shadow: 0 0 2px 0 #333333;
+    padding: 10px 15px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
 }
 
-.translate-window-body-right {
-    width: 50%;
+.translate-button:hover {
+    background-color: #183e75;
 }
 
-.translate-input {
+.translate-textarea {
     width: 99%;
     height: 20vh;
     max-height: 50vh;
@@ -48,16 +48,10 @@
     sans-serif;
     font-size: 20px;
     color: #5e5e5f;
+    border: none;
 }
 
-.translated-textarea {
-    width: 99%;
-    height: 20vh;
-    max-height: 50vh;
-    resize: none;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    font-size: 20px;
-    color: #5e5e5f;
+.translate-textarea:focus {
+    outline: none;
+    border: none;
 }

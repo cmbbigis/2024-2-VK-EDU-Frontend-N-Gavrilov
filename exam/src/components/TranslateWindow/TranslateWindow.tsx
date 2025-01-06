@@ -45,13 +45,12 @@ export const TranslateWindow: React.FC = ()  => {
     };
 
     return (
-        <div className="translate-window">
-            <div className="translate-window-header">
-                <div className="translate-window-header-left">
-                    <span>{languageMap.get(translateFrom)}</span>
+        <>
+            <div className="translate-window">
+                <div>
+                    <span className='language-span'>{languageMap.get(translateFrom)}</span>
                     <select
-                        className="interlocutors-select"
-                        name="members"
+                        className="language-select"
                         onChange={handleTranslateFromChange}
                     >
                         {
@@ -63,37 +62,34 @@ export const TranslateWindow: React.FC = ()  => {
                         }
                     </select>
                 </div>
-                <span className="switch-button" onClick={handleSwitchClick}>
-                    <SwapHorizIcon/>
-                </span>
-                <div className="translate-window-header-right">
-                    <span>{languageMap.get(translateTo)}</span>
+                <div>
+                    <span className='language-span'>{languageMap.get(translateTo)}</span>
                     <select
-                        className="interlocutors-select"
-                        name="members"
+                        className="language-select"
                         defaultValue={'en-GB'}
                         onChange={handleTranslateToChange}
                     >
                         {
                             Object.entries(languages).map(([code, name]) => (
                                 code !== 'Autodetect' && (
-                                <option key={code} value={code}>
-                                    {name}
-                                </option>
-                            )))
+                                    <option key={code} value={code}>
+                                        {name}
+                                    </option>
+                                )))
                         }
                     </select>
                 </div>
-            </div>
-            <div className="translate-window-body">
-                <div className="translate-window-body-left">
-                    <textarea className="translate-input" onChange={handleInput} value={textToTranslate}></textarea>
+                <div>
+                    <textarea className="translate-textarea" onChange={handleInput} value={textToTranslate}></textarea>
                 </div>
-                <div className="translate-window-body-right">
-                    <textarea className="translated-textarea" defaultValue={translatedText}></textarea>
+                <div>
+                    <textarea className="translate-textarea" value={translatedText} placeholder={'Перевод'}></textarea>
                 </div>
+                <span className="switch-button" onClick={handleSwitchClick}>
+                    <SwapHorizIcon/>
+                </span>
             </div>
-            <button onClick={handleTranslateClick}>Перевести</button>
-        </div>
+            <button className='translate-button' onClick={handleTranslateClick}>Перевести</button>
+        </>
     );
 }
