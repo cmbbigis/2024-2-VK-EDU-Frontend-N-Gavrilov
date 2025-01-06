@@ -1,3 +1,2 @@
-import * as TranslateUtils from './translate';
-
-export default TranslateUtils;
+export {TranslateUtils} from './translate';
+export {useHistoryUtils} from './history';
