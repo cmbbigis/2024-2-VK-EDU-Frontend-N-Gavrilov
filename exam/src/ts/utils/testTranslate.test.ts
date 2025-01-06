@@ -1,4 +1,4 @@
-import TranslateUtils from './index';
+import {TranslateUtils} from './index';
 import {ITranslateRequest} from "./types";
 
 const testImTooTired: ITranslateRequest = {
