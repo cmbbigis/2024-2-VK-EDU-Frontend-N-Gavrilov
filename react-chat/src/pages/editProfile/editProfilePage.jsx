@@ -4,7 +4,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 import './editProfilePage.scss';
 import { EditProfileHeader } from "../../components/editProfile";
-import {BackendClient} from "../../utils/backendClient";
+import BackendClient from "../../utils/BackendClient";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentUser} from "../../redux/slice";
 import {toast} from "react-toastify";
@@ -64,32 +64,20 @@ export const EditProfilePage = () => {
             return;
         }
 
-        let formData = new FormData(form);
+        const checkAvatarCondition = typeof(data["avatar"]) === "object" && data["avatar"] !== null && data["avatar"] !== undefined;
 
-        if (typeof(data["avatar"]) === "object" && data["avatar"] !== null && data["avatar"] !== undefined) {
-            formData.set('avatar', data["avatar"]);
-        } else {
-            formData.delete("avatar");
-        }
-
-        formData.set('first_name', data["first_name"]);
-
-        formData.set('last_name', data["last_name"]);
-
-        formData.set('username', data["username"]);
-
-        if (isBioChanged) {
-            formData.set('bio', data["bio"]);
+        const request = {
+            id: currentUser['id'],
+            first_name: data["first_name"],
+            last_name: data["last_name"],
+            username: data["username"],
+            bio: isBioChanged ? data["bio"] : null,
+            avatar: checkAvatarCondition ? data["avatar"] : null
         }
 
         try {
-            const currentUserInfo = await BackendClient.editProfile(currentUser['id'], formData);
-            currentUser['avatar'] = currentUserInfo["avatar"];
-            currentUser['first_name'] = currentUserInfo["first_name"];
-            currentUser['last_name'] = currentUserInfo["last_name"];
-            currentUser['username'] = currentUserInfo["username"];
-            currentUser['bio'] = currentUserInfo["bio"];
-            dispatch(setCurrentUser(currentUser));
+            const currentUserInfo = await BackendClient.editProfile(request);
+            dispatch(setCurrentUser(currentUserInfo));
             toast('Профиль успешно изменён');
 
             navigate('/profile/');

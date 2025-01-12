@@ -5,19 +5,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import './chatHeader.scss';
-import {BackendClient} from "../../../utils/backendClient";
+import BackendClient from "../../../utils/BackendClient";
 import {LazyImage} from "../../LazyImage";
 import PropTypes from "prop-types";
 
 export const ChatHeader = ({chatId}) => {
-    const [chat, setChat] = useState([]);
+    const [chat, setChat] = useState(null);
 
     useEffect(() => {
         getChat(chatId);
     }, [chatId]);
 
     const getChat = async (chatId) => {
-        setChat((await BackendClient.getChat(chatId)));
+        setChat((await BackendClient.getChat({id: chatId})));
     };
 
     if (!chat) {

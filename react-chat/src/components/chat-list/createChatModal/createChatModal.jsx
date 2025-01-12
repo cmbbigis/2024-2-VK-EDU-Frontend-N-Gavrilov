@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './createChatModal.scss';
-import { BackendClient } from "../../../utils/backendClient";
+import BackendClient from "../../../utils/BackendClient";
 import PropTypes from "prop-types";
 
 export const CreateChatModal = ({ onClose, onChatCreated }) => {
@@ -24,7 +24,7 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     };
 
     const loadPossibleInterlocutors = useCallback(async () => {
-        const response = await BackendClient.getUsers(1, 100, filter);
+        const response = await BackendClient.getUsers({page: 1, page_size: 100, search: filter});
         const possibleInterlocutors = response.results.map(interlocutor => ({
             value: interlocutor.id,
             label: `${interlocutor.first_name} ${interlocutor.last_name} (@${interlocutor.username})`
@@ -47,17 +47,22 @@ export const CreateChatModal = ({ onClose, onChatCreated }) => {
     };
 
     const saveChat = async () => {
-        let chatFormData = new FormData(document.getElementById("chat-form"));
-        const creator = await BackendClient.getUser('current');
-        chatFormData.append('creator', JSON.stringify({
-            "username": creator["username"],
-            "first_name": creator["first_name"],
-            "last_name": creator["last_name"],
-            "bio": creator["bio"],
-            "avatar": creator["avatar"]
-        }))
-        chatFormData.append('is_private', selectedInterlocutors.length <= 1);
-        await BackendClient.createChat(chatFormData);
+        const creator = await BackendClient.getUser({id: 'current'});
+
+        const request = {
+            title: data["title"],
+            members: selectedInterlocutors,
+            creator: {
+                username: creator["username"],
+                first_name: creator["first_name"],
+                last_name: creator["last_name"],
+                bio: creator["bio"],
+                avatar: creator["avatar"]
+            },
+            is_private: selectedInterlocutors.length <= 1
+        }
+
+        await BackendClient.createChat(request);
     };
 
     const resetForm = () => {

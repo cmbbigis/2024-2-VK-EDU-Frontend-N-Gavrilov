@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { BackendClient } from "../../utils/backendClient";
+import BackendClient from "../../utils/BackendClient";
 
 import './authPage.scss';
 import {useDispatch} from "react-redux";
@@ -27,13 +27,19 @@ export const AuthPage = () => {
         }
 
         try {
-            const response = await BackendClient.auth(new FormData(document.getElementById("authForm")));
+            const formData = new FormData(document.getElementById("authForm"));
+            const request = {
+                username: `${formData.get('username')}`,
+                password: `${formData.get('password')}`,
+            }
+
+            const response = await BackendClient.auth(request);
             if (!response) {
                 return;
             }
             localStorage.setItem("access", response["access"]);
             localStorage.setItem("refresh", response["refresh"]);
-            const currentUser = await BackendClient.getUser('current');
+            const currentUser = await BackendClient.getUser({id: 'current'});
             dispatch(setCurrentUser(currentUser));
             dispatch(login());
             navigate("/chats/");
